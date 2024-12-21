@@ -1,5 +1,5 @@
 <script lang="ts">
-import { isArray } from 'lodash-es'
+import { isArray, isString } from 'lodash-es'
 import type { PropType, VNode } from 'vue'
 import { computed, createVNode, defineComponent, reactive, resolveComponent } from 'vue'
 import { getArea } from '/@/api/common'
@@ -242,7 +242,7 @@ export default defineComponent({
                                 class: 'w100',
                                 'controls-position': 'right',
                                 ...attrs.value,
-                                modelValue: Number(props.modelValue),
+                                modelValue: isString(props.modelValue) ? Number(props.modelValue) : props.modelValue,
                                 'onUpdate:modelValue': onValueUpdate,
                             },
                             slots
