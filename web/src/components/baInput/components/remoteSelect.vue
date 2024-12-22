@@ -74,7 +74,7 @@ import { shortUuid } from '/@/utils/random'
 
 const config = useConfig()
 const selectRef = ref<InstanceType<typeof ElSelect> | undefined>()
-type ElSelectProps = Partial<InstanceType<typeof ElSelect>['$props']>
+type ElSelectProps = Omit<Partial<InstanceType<typeof ElSelect>['$props']>, 'modelValue'>
 type valueTypes = string | number | string[] | number[]
 
 interface Props extends /* @vue-ignore */ ElSelectProps {
@@ -82,7 +82,7 @@ interface Props extends /* @vue-ignore */ ElSelectProps {
     field?: string
     params?: anyObj
     remoteUrl: string
-    modelValue: valueTypes
+    modelValue: valueTypes | null
     pagination?: boolean
     tooltipParams?: anyObj
     paginationLayout?: string
@@ -145,19 +145,21 @@ const emits = defineEmits<{
 }>()
 
 const onChangeSelect = (val: valueTypes) => {
-    if (!val) {
-        state.value = val = props.multiple ? [] : ''
+    if (!val && props.multiple) {
+        state.value = val = []
     }
     emits('update:modelValue', val)
     if (typeof instance?.vnode.props?.onRow == 'function') {
         if (typeof val == 'number' || typeof val == 'string') {
             const dataKey = getArrayKey(state.options, state.primaryKey, '' + val)
-            emits('row', dataKey ? toRaw(state.options[dataKey]) : {})
+            emits('row', dataKey !== false ? toRaw(state.options[dataKey]) : {})
         } else {
             const valueArr = []
             for (const key in val) {
-                let dataKey = getArrayKey(state.options, state.primaryKey, '' + val[key])
-                if (dataKey) valueArr.push(toRaw(state.options[dataKey]))
+                const dataKey = getArrayKey(state.options, state.primaryKey, '' + val[key])
+                if (dataKey !== false) {
+                    valueArr.push(toRaw(state.options[dataKey]))
+                }
             }
             emits('row', valueArr)
         }
@@ -168,9 +170,6 @@ const onKeyDownEsc = (e: KeyboardEvent) => {
     if (props.escBlur) {
         e.stopPropagation()
         selectRef.value?.blur()
-
-        // 以上的 blur 与预期不符，额外找到内部的 input 再执行一次（element-plus 2.7.4）
-        selectRef.value?.inputRef?.blur()
     }
 }
 
@@ -182,12 +181,10 @@ const onFocus = () => {
 }
 
 const onClear = () => {
-    // 点击清理按钮后，内部 input 呈聚焦状态，但选项面板不会展开，特此处理（element-plus 2.7.4）
+    // 点击清理按钮后，内部 input 呈聚焦状态，但选项面板不会展开，特此处理（element-plus@2.9.1）
     nextTick(() => {
+        selectRef.value?.blur()
         selectRef.value?.focus()
-
-        // 以上的 focus 任然与预期不符，直接触发一次点击事件
-        selectRef.value?.$el.click()
     })
 }
 
@@ -196,15 +193,15 @@ const onBlur = () => {
     state.focusStatus = false
 }
 
-const onRemoteMethod = debounce((q: string) => {
+const onRemoteMethod = (q: string) => {
     if (state.keyword != q) {
         state.keyword = q
         state.currentPage = 1
         getData()
     }
-}, 300)
+}
 
-const getData = (initValue: valueTypes = '') => {
+const getData = debounce((initValue: valueTypes = '') => {
     state.loading = true
     state.params.page = state.currentPage
     state.params.initKey = props.pk
@@ -225,7 +222,7 @@ const getData = (initValue: valueTypes = '') => {
             state.loading = false
             state.initializeFlag = true
         })
-}
+}, 100)
 
 const onSelectCurrentPageChange = (val: number) => {
     state.currentPage = val

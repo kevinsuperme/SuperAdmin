@@ -204,10 +204,11 @@ export function getSelectData(remoteUrl: string, q: string, params: anyObj = {})
     return createAxios({
         url: remoteUrl,
         method: 'get',
-        params: Object.assign(params, {
+        params: {
             select: true,
             quickSearch: q,
-        }),
+            ...params,
+        },
     })
 }
 
