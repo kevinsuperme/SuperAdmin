@@ -3,7 +3,7 @@
         <template v-if="isArray(cellValue)">
             <template v-for="(tag, idx) in cellValue" :key="idx">
                 <el-tag
-                    v-if="tag !== ''"
+                    v-if="![null, undefined, ''].includes(tag)"
                     class="m-4"
                     :type="getTagType(tag, field.custom)"
                     :effect="field.effect ?? 'light'"
@@ -15,7 +15,7 @@
         </template>
         <template v-else>
             <el-tag
-                v-if="cellValue !== ''"
+                v-if="![null, undefined, ''].includes(cellValue)"
                 :type="getTagType(cellValue, field.custom)"
                 :effect="field.effect ?? 'light'"
                 :size="field.size ?? 'default'"
