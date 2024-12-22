@@ -191,10 +191,6 @@ export default class baTable {
 
         if (this.runBefore('onSubmit', { formEl: formEl, operate: operate, items: this.form.items! }) === false) return
 
-        Object.keys(this.form.items!).forEach((item) => {
-            if (this.form.items![item] === null) delete this.form.items![item]
-        })
-
         // 表单验证通过后执行的api请求操作
         const submitCallback = () => {
             this.form.submitLoading = true
