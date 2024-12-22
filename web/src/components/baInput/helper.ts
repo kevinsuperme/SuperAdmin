@@ -31,9 +31,9 @@ export const fieldData: FieldData = {
         type: 'int',
         length: 10,
         precision: 0,
-        default: '0',
-        defaultType: 'INPUT',
+        defaultType: 'NULL',
         ...npuaFalse(),
+        null: true,
     },
     radio: {
         type: 'enum',
@@ -41,6 +41,7 @@ export const fieldData: FieldData = {
         precision: 0,
         defaultType: 'NULL',
         ...npuaFalse(),
+        null: true,
     },
     checkbox: {
         type: 'set',
@@ -48,6 +49,7 @@ export const fieldData: FieldData = {
         precision: 0,
         defaultType: 'NULL',
         ...npuaFalse(),
+        null: true,
     },
     switch: {
         type: 'tinyint',
@@ -111,6 +113,7 @@ export const fieldData: FieldData = {
         precision: 0,
         defaultType: 'NULL',
         ...npuaFalse(),
+        null: true,
     },
     selects: {
         type: 'varchar',
@@ -123,9 +126,9 @@ export const fieldData: FieldData = {
         type: 'int',
         length: 10,
         precision: 0,
-        default: '0',
-        defaultType: 'INPUT',
+        defaultType: 'NULL',
         ...npuaFalse(),
+        null: true,
         unsigned: true,
     },
     remoteSelects: {
