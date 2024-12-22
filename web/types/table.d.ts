@@ -154,7 +154,7 @@ declare global {
         target?: aTarget
         // 渲染为 datetime 时的格式化方式，字母可以自由组合:y=年,m=月,d=日,h=时,M=分,s=秒，默认：yyyy-mm-dd hh:MM:ss
         timeFormat?: string
-        // 默认值（单元格值为 undefined 或 null 时取默认值，仅使用了 render 时有效）
+        // 默认值（单元格值为 undefined,null,'' 时取默认值，仅使用了 render 时有效）
         default?: any
         // 值替换数据，如 { open: '开', close: '已关闭' }
         replaceValue?: any

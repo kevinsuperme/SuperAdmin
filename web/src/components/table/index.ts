@@ -20,7 +20,7 @@ export const getCellValue = (row: TableRow, field: TableColumn, column: TableCol
     }
 
     // 若无值，尝试取默认值
-    if (cellValue === undefined || cellValue === null) {
+    if ([undefined, null, ''].includes(cellValue) && field.default !== undefined) {
         cellValue = field.default
     }
 
