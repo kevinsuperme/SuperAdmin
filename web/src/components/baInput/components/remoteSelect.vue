@@ -66,12 +66,14 @@
 <script lang="ts" setup>
 import type { ElSelect } from 'element-plus'
 import { debounce, isEmpty } from 'lodash-es'
-import { getCurrentInstance, nextTick, onMounted, onUnmounted, reactive, ref, toRaw, watch } from 'vue'
+import { computed, getCurrentInstance, nextTick, onMounted, onUnmounted, reactive, ref, toRaw, useAttrs, watch } from 'vue'
+import { InputAttr } from '../index'
 import { getSelectData } from '/@/api/common'
 import { useConfig } from '/@/stores/config'
 import { getArrayKey } from '/@/utils/common'
 import { shortUuid } from '/@/utils/random'
 
+const attrs = useAttrs()
 const config = useConfig()
 const selectRef = ref<InstanceType<typeof ElSelect> | undefined>()
 type ElSelectProps = Omit<Partial<InstanceType<typeof ElSelect>['$props']>, 'modelValue'>
@@ -107,6 +109,22 @@ const props = withDefaults(defineProps<Props>(), {
     escBlur: true,
 })
 
+/**
+ * 点击清空按钮后的值，同时也是缺省值‌
+ */
+const valueOnClear = computed(() => {
+    let valueOnClear = attrs.valueOnClear as InputAttr['valueOnClear']
+    if (valueOnClear === undefined) {
+        valueOnClear = attrs.multiple ? () => [] : () => null
+    }
+    return typeof valueOnClear == 'function' ? valueOnClear() : valueOnClear
+})
+
+/**
+ * 被认为是空值的值列表
+ */
+const emptyValues = computed(() => (attrs.emptyValues as InputAttr['emptyValues']) || [null, undefined, ''])
+
 const state: {
     // 主表字段名(不带表别名)
     primaryKey: string
@@ -130,7 +148,7 @@ const state: {
     pageSize: 10,
     params: props.params,
     keyword: '',
-    value: props.modelValue ? props.modelValue : '',
+    value: valueOnClear.value,
     initializeFlag: false,
     optionValidityFlag: false,
     focusStatus: false,
@@ -145,10 +163,7 @@ const emits = defineEmits<{
 }>()
 
 const onChangeSelect = (val: valueTypes) => {
-    if (!val && props.multiple) {
-        state.value = val = []
-    }
-    emits('update:modelValue', val)
+    val = updateValue(val)
     if (typeof instance?.vnode.props?.onRow == 'function') {
         if (typeof val == 'number' || typeof val == 'string') {
             const dataKey = getArrayKey(state.options, state.primaryKey, '' + val)
@@ -229,11 +244,12 @@ const onSelectCurrentPageChange = (val: number) => {
     getData()
 }
 
-/**
- * 初始化默认值
- */
-const initDefaultValue = () => {
-    if (state.value) {
+const updateValue = (newVal: any) => {
+    if (emptyValues.value.includes(newVal)) {
+        state.value = valueOnClear.value
+    } else {
+        state.value = newVal
+
         // number[] 转 string[] 确保默认值能够选中
         if (typeof state.value === 'object') {
             for (const key in state.value) {
@@ -243,8 +259,8 @@ const initDefaultValue = () => {
             state.value = '' + state.value
         }
     }
-
-    getData(state.value)
+    emits('update:modelValue', state.value)
+    return state.value
 }
 
 onMounted(() => {
@@ -254,7 +270,10 @@ onMounted(() => {
     // 去除主键中的表名
     let pkArr = props.pk.split('.')
     state.primaryKey = pkArr[pkArr.length - 1]
-    initDefaultValue()
+
+    // 初始化值
+    updateValue(props.modelValue)
+    getData(state.value)
 
     setTimeout(() => {
         if (window?.IntersectionObserver) {
@@ -278,15 +297,20 @@ watch(
     () => props.modelValue,
     (newVal) => {
         /**
-         * 1. 防止 number 到 string 的类型转换触发默认值多次初始化
-         * 2. 排除默认值的 null、undefined 等假值
+         * 防止 number 到 string 的类型转换触发默认值多次初始化
+         * 相当于忽略数据类型进行比较 [1, 2] == ['1', '2']
          */
-        if (String(state.value) != String(newVal)) {
-            state.value = newVal ? newVal : ''
-            initDefaultValue()
+        if (getString(state.value) != getString(newVal)) {
+            updateValue(newVal)
+            getData(state.value)
         }
     }
 )
+
+const getString = (val: valueTypes | null) => {
+    // 确保 [] 和 '' 的返回值不一样
+    return `${typeof val}:${String(val)}`
+}
 
 const getRef = () => {
     return selectRef.value
