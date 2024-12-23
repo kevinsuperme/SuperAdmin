@@ -37,6 +37,8 @@
                             field: 'name',
                             remoteUrl: baTable.api.actionUrl.get('index'),
                             placeholder: t('Click select'),
+                            emptyValues: ['', null, undefined, 0],
+                            valueOnClear: 0,
                         }"
                     />
 

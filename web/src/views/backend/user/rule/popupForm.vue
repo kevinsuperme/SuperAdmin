@@ -38,6 +38,8 @@
                             params: { isTree: true },
                             field: 'title',
                             remoteUrl: baTable.api.actionUrl.get('index'),
+                            emptyValues: ['', null, undefined, 0],
+                            valueOnClear: 0,
                         }"
                     />
                     <el-form-item :label="t('auth.rule.Rule type')">
