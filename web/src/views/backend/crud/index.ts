@@ -773,6 +773,14 @@ export const designTypes: anyObj = {
                 value: '',
                 placeholder: i18n.global.t('crud.state.If it is not input, it will be automatically analyzed by the controller'),
             },
+            'remote-primary-table-alias': {
+                type: 'string',
+                value: '',
+            },
+            'remote-source-config-type': {
+                type: 'hidden',
+                value: '',
+            },
         },
     },
     remoteSelects: {
@@ -814,6 +822,14 @@ export const designTypes: anyObj = {
                 type: 'string',
                 value: '',
                 placeholder: i18n.global.t('crud.state.If it is not input, it will be automatically analyzed by the controller'),
+            },
+            'remote-primary-table-alias': {
+                type: 'string',
+                value: '',
+            },
+            'remote-source-config-type': {
+                type: 'hidden',
+                value: '',
             },
         },
     },

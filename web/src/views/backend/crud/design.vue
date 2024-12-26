@@ -387,6 +387,7 @@
                                 <el-divider content-position="left">{{ t('crud.crud.Field Form Properties') }}</el-divider>
                                 <template v-for="(item, idx) in state.fields[state.activateField].form" :key="idx">
                                     <FormItem
+                                        v-if="item.type != 'hidden'"
                                         :label="$t('crud.crud.' + idx)"
                                         :type="item.type"
                                         v-model="state.fields[state.activateField].form[idx].value"
@@ -486,6 +487,19 @@
                                 }"
                             />
                             <FormItem
+                                :label="t('crud.crud.Data source configuration type')"
+                                v-model="state.remoteSelectPre.form.sourceConfigType"
+                                type="radio"
+                                :input-attr="{
+                                    border: true,
+                                    content: {
+                                        crud: t('crud.crud.Fast configuration with generated controllers and models'),
+                                        custom: t('crud.crud.Custom configuration'),
+                                    },
+                                }"
+                            />
+                            <FormItem
+                                v-if="state.remoteSelectPre.form.sourceConfigType == 'crud'"
                                 prop="controllerFile"
                                 type="select"
                                 :label="t('crud.crud.Controller position')"
@@ -501,7 +515,10 @@
                                     )
                                 "
                             />
+
+                            <!-- 数据源配置类型为CRUD时，模型位置必填 -->
                             <FormItem
+                                :prop="state.remoteSelectPre.form.sourceConfigType == 'crud' ? 'modelFile' : ''"
                                 type="select"
                                 :label="t('crud.crud.Data Model Location')"
                                 v-model="state.remoteSelectPre.form.modelFile"
@@ -511,9 +528,11 @@
                                     content: state.remoteSelectPre.modelFileList,
                                 }"
                                 :block-help="
-                                    t(
-                                        'crud.crud.If it is left blank, the model of the associated table will be generated automatically If the table already has a model, it is recommended to select it to avoid repeated generation'
-                                    )
+                                    state.remoteSelectPre.form.sourceConfigType == 'crud'
+                                        ? ''
+                                        : t(
+                                              'crud.crud.If it is left blank, the model of the associated table will be generated automatically If the table already has a model, it is recommended to select it to avoid repeated generation'
+                                          )
                                 "
                             />
                             <el-form-item
@@ -526,6 +545,27 @@
                                     <div>{{ t('crud.crud.There is no connection attribute in model class') }}</div>
                                 </div>
                             </el-form-item>
+                            <FormItem
+                                v-if="state.remoteSelectPre.form.sourceConfigType == 'custom'"
+                                prop="remoteUrl"
+                                :label="t('crud.crud.api url')"
+                                type="string"
+                                v-model="state.remoteSelectPre.form.remoteUrl"
+                                :placeholder="t('crud.crud.api url example')"
+                            />
+                            <FormItem
+                                v-if="state.remoteSelectPre.form.sourceConfigType == 'custom'"
+                                :label="t('crud.crud.remote-primary-table-alias')"
+                                type="string"
+                                v-model="state.remoteSelectPre.form.primaryTableAlias"
+                                :block-help="
+                                    t(
+                                        'crud.crud.If the remote interface query involves associated query of multiple tables, enter the alias of the primary data table here'
+                                    )
+                                "
+                            >
+                                <template #append>.{{ state.remoteSelectPre.form.pk }}</template>
+                            </FormItem>
                             <el-form-item :label="t('Reminder')">
                                 <div class="block-help">
                                     {{ t('crud.crud.Design remote select tips') }}
@@ -689,8 +729,11 @@ const state: {
             pk: string
             label: string
             joinField: string[]
+            sourceConfigType: 'crud' | 'custom'
+            remoteUrl: string
             modelFile: string
             controllerFile: string
+            primaryTableAlias: string
         }
     }
     showHeaderSeniorConfig: boolean
@@ -746,8 +789,11 @@ const state: {
             pk: '',
             label: '',
             joinField: [],
+            sourceConfigType: 'crud',
+            remoteUrl: '',
             modelFile: '',
             controllerFile: '',
+            primaryTableAlias: '',
         },
     },
     showHeaderSeniorConfig: false,
@@ -1032,6 +1078,9 @@ const showRemoteSelectPre = (index: number, hideDelField = false) => {
         state.remoteSelectPre.form.label = state.fields[index].form['remote-field'].value
         state.remoteSelectPre.form.controllerFile = state.fields[index].form['remote-controller'].value
         state.remoteSelectPre.form.modelFile = state.fields[index].form['remote-model'].value
+        state.remoteSelectPre.form.remoteUrl = state.fields[index].form['remote-url'].value
+        state.remoteSelectPre.form.sourceConfigType = state.fields[index].form['remote-source-config-type'].value
+        state.remoteSelectPre.form.primaryTableAlias = state.fields[index].form['remote-primary-table-alias'].value
         state.remoteSelectPre.form.joinField = state.fields[index].form['relation-fields'].value.split(',')
         getTableFieldList(state.fields[index].form['remote-table'].value, true, state.table.databaseConnection).then((res) => {
             const fieldSelect: anyObj = {}
@@ -1514,6 +1563,9 @@ const onSaveRemoteSelect = () => {
         state.fields[state.remoteSelectPre.index].form['remote-field'].value = state.remoteSelectPre.form.label
         state.fields[state.remoteSelectPre.index].form['remote-controller'].value = state.remoteSelectPre.form.controllerFile
         state.fields[state.remoteSelectPre.index].form['remote-model'].value = state.remoteSelectPre.form.modelFile
+        state.fields[state.remoteSelectPre.index].form['remote-url'].value = state.remoteSelectPre.form.remoteUrl
+        state.fields[state.remoteSelectPre.index].form['remote-source-config-type'].value = state.remoteSelectPre.form.sourceConfigType
+        state.fields[state.remoteSelectPre.index].form['remote-primary-table-alias'].value = state.remoteSelectPre.form.primaryTableAlias
 
         state.fields[state.remoteSelectPre.index].form['relation-fields'].value =
             state.fields[state.remoteSelectPre.index].designType == 'remoteSelect'
@@ -1547,6 +1599,8 @@ const resetRemoteSelectForm = (excludes: string[] = []) => {
         if (excludes.includes(key)) continue
         if (key == 'joinField') {
             state.remoteSelectPre.form[key] = []
+        } else if (key == 'sourceConfigType') {
+            state.remoteSelectPre.form[key] = 'crud'
         } else {
             ;(state.remoteSelectPre.form[key as keyof typeof state.remoteSelectPre.form] as string) = ''
         }
@@ -1559,6 +1613,8 @@ const remoteSelectPreFormRules: Partial<Record<string, FormItemRule[]>> = reacti
     label: [buildValidatorData({ name: 'required', title: t('crud.crud.Drop down label field') })],
     joinField: [buildValidatorData({ name: 'required', title: t('crud.crud.Fields displayed in the table') })],
     controllerFile: [buildValidatorData({ name: 'required', title: t('crud.crud.Controller position') })],
+    modelFile: [buildValidatorData({ name: 'required', title: t('crud.crud.Data Model Location') })],
+    remoteUrl: [buildValidatorData({ name: 'required', title: t('crud.crud.remote-url') })],
 })
 
 const logTableDesignChange = (data: TableDesignChange) => {
