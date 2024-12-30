@@ -297,7 +297,7 @@
                                     <FormItem
                                         :label="t('crud.crud.length')"
                                         type="number"
-                                        v-model.number="state.fields[state.activateField].length"
+                                        v-model="state.fields[state.activateField].length"
                                         :input-attr="{
                                             onChange: onFieldAttrChange,
                                         }"
@@ -305,7 +305,7 @@
                                     <FormItem
                                         :label="t('crud.crud.decimal point')"
                                         type="number"
-                                        v-model.number="state.fields[state.activateField].precision"
+                                        v-model="state.fields[state.activateField].precision"
                                         :input-attr="{
                                             onChange: onFieldAttrChange,
                                         }"

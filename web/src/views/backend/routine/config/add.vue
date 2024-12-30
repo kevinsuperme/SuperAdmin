@@ -23,7 +23,7 @@
                         :input-attr="{ content: configGroup }"
                     />
                     <CreateFormItemData v-model="state.formItemData" />
-                    <FormItem :label="t('Weigh')" type="number" v-model.number="state.addConfig.weigh" prop="weigh" />
+                    <FormItem :label="t('Weigh')" type="number" v-model="state.addConfig.weigh" prop="weigh" />
                 </el-form>
             </div>
         </el-scrollbar>

@@ -20,7 +20,7 @@
                                         v-if="item.type == 'number'"
                                         :label="item.title"
                                         :type="item.type"
-                                        v-model.number="state.form[item.name]"
+                                        v-model="state.form[item.name]"
                                         :attr="{ prop: item.name, ...item.extend }"
                                         :input-attr="{ ...item.input_extend }"
                                         :tip="item.tip"
