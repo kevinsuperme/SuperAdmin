@@ -174,9 +174,8 @@ class Date
             'minute' => $position ? mktime($hour, $minute + $offset, 0, $month, $day, $year) : mktime($hour, $minute + $offset, 59, $month, $day, $year),
             'hour' => $position ? mktime($hour + $offset, 0, 0, $month, $day, $year) : mktime($hour + $offset, 59, 59, $month, $day, $year),
             'day' => $position ? mktime(0, 0, 0, $month, $day + $offset, $year) : mktime(23, 59, 59, $month, $day + $offset, $year),
-            'week' => $position ?
-                mktime(0, 0, 0, $month, $day - date("w", mktime(0, 0, 0, $month, $day, $year)) + 1 - 7 * (-$offset), $year) :
-                mktime(23, 59, 59, $month, $day - date("w", mktime(0, 0, 0, $month, $day, $year)) + 7 - 7 * (-$offset), $year),
+            // 使用固定的 this week monday 而不是 $offset weeks monday 的语法才能确保准确性
+            'week' => $position ? strtotime('this week monday', mktime(0, 0, 0, $month, $day + ($offset * 7), $year)) : strtotime('this week sunday 23:59:59', mktime(0, 0, 0, $month, $day + ($offset * 7), $year)),
             'month' => $position ? mktime(0, 0, 0, $month + $offset, 1, $year) : mktime(23, 59, 59, $month + $offset, self::daysInMonth($month + $offset, $year), $year),
             'quarter' => $position ?
                 mktime(0, 0, 0, 1 + ((ceil(date('n', mktime(0, 0, 0, $month, $day, $year)) / 3) + $offset) - 1) * 3, 1, $year) :
