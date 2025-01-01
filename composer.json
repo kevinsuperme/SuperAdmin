@@ -26,7 +26,6 @@
         "guzzlehttp/guzzle": "^7.8.1",
         "voku/anti-xss": "^4.1",
         "nelexa/zip": "^4.0.0",
-        "ext-calendar": "*",
         "ext-bcmath": "*",
         "ext-iconv": "*",
         "ext-json": "*",
