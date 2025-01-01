@@ -118,12 +118,14 @@ class Date
      * 格式化 UNIX 时间戳为人易读的字符串
      *
      * @param int  $remote Unix 时间戳
-     * @param ?int $local  本地时间
+     * @param ?int $local  本地时间戳
      * @return string 格式化的日期字符串
      */
     public static function human(int $remote, ?int $local = null): string
     {
         $timeDiff = (is_null($local) ? time() : $local) - $remote;
+        $tense    = $timeDiff < 0 ? 'after' : 'ago';
+        $timeDiff = abs($timeDiff);
         $chunks   = [
             [60 * 60 * 24 * 365, 'year'],
             [60 * 60 * 24 * 30, 'month'],
@@ -143,7 +145,7 @@ class Date
                 break;
             }
         }
-        return __("%d $name%s ago", [$count, $count > 1 ? 's' : '']);
+        return __("%d $name%s $tense", [$count, $count > 1 ? 's' : '']);
     }
 
     /**
