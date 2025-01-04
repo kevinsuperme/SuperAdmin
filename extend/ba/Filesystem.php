@@ -209,7 +209,7 @@ class Filesystem
      * @param array  $suffix 要获取的文件列表的后缀
      * @return array
      */
-    public static function getDirFiles(string $dir, array $suffix = ['php']): array
+    public static function getDirFiles(string $dir, array $suffix = []): array
     {
         $files = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::LEAVES_ONLY
