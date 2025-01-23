@@ -128,6 +128,8 @@ export default {
         'The data table already exists Continuing to generate will automatically delete the original table and create a new one!',
     'The controller already exists Continuing to generate will automatically overwrite the existing code!':
         'The controller already exists Continuing to generate will automatically overwrite the existing code!',
+    'The menu rule with the same name already exists The menu and permission node will not be created in this generation':
+        'The menu rule with the same name already exists The menu and permission node will not be created in this generation',
     'For example: `user table` will be generated into `user management`': 'For example: `user table` will be generated into `user management`',
     'The remote pull-down will request the corresponding controller to obtain data, so it is recommended that you create the CRUD of the associated table':
         'The remote pull-down will request the corresponding controller to obtain data, so it is recommended that you create the CRUD of the associated table',

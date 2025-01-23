@@ -126,6 +126,8 @@ export default {
         '数据表已经存在，继续生成将自动删除原表并建立新的数据表！',
     'The controller already exists Continuing to generate will automatically overwrite the existing code!':
         '控制器已经存在，继续生成将自动覆盖已有代码！',
+    'The menu rule with the same name already exists The menu and permission node will not be created in this generation':
+        '同名菜单规则已经存在，本次生成将不会创建菜单和权限节点！',
     'For example: `user table` will be generated into `user management`': '如：`会员表`将生成为`会员管理`',
     'The remote pull-down will request the corresponding controller to obtain data, so it is recommended that you create the CRUD of the associated table':
         '远程下拉将请求该控制器的 index 方法来获取 value 和 label 字段数据，所以请先生成好被关联表的CRUD',

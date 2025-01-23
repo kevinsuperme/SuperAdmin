@@ -10,6 +10,7 @@ use ba\TableManager;
 use app\admin\model\CrudLog;
 use app\common\library\Menu;
 use app\admin\model\AdminLog;
+use app\admin\model\AdminRule;
 use app\common\controller\Backend;
 use app\admin\library\crud\Helper;
 
@@ -509,8 +510,9 @@ class Crud extends Backend
     public function generateCheck(): void
     {
         $table          = $this->request->post('table');
-        $controllerFile = $this->request->post('controllerFile', '');
         $connection     = $this->request->post('connection');
+        $webViewsDir    = $this->request->post('webViewsDir', '');
+        $controllerFile = $this->request->post('controllerFile', '');
 
         if (!$table) {
             $this->error(__('Parameter error'));
@@ -519,19 +521,26 @@ class Crud extends Backend
         AdminLog::instance()->setTitle(__('Generate check'));
 
         try {
-            if (!$controllerFile) {
-                $controllerFile = Helper::parseNameData('admin', $table, 'controller')['rootFileName'];
-            }
+            $webViewsDir    = Helper::parseWebDirNameData($table, 'views', $webViewsDir);
+            $controllerFile = Helper::parseNameData('admin', $table, 'controller', $controllerFile)['rootFileName'];
         } catch (Throwable $e) {
             $this->error($e->getMessage());
         }
 
-        $tableList       = TableManager::getTableList($connection);
-        $tableExist      = array_key_exists(TableManager::tableName($table, true, $connection), $tableList);
+        // 数据表是否存在
+        $tableList  = TableManager::getTableList($connection);
+        $tableExist = array_key_exists(TableManager::tableName($table, true, $connection), $tableList);
+
+        // 控制器是否存在
         $controllerExist = file_exists(root_path() . $controllerFile);
 
-        if ($controllerExist || $tableExist) {
+        // 菜单规则是否存在
+        $menuName  = Helper::getMenuName($webViewsDir);
+        $menuExist = AdminRule::where('name', $menuName)->value('id');
+
+        if ($controllerExist || $tableExist || $menuExist) {
             $this->error('', [
+                'menu'       => $menuExist,
                 'table'      => $tableExist,
                 'controller' => $controllerExist,
             ], -1);

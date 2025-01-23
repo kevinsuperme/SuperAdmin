@@ -597,7 +597,6 @@
                     center
                     type="error"
                 />
-                <br />
                 <el-alert
                     v-if="showTableConflictConfirmGenerate()"
                     :title="
@@ -605,6 +604,18 @@
                             'crud.crud.The data table already exists Continuing to generate will automatically delete the original table and create a new one!'
                         )
                     "
+                    class="mt-10"
+                    center
+                    type="error"
+                />
+                <el-alert
+                    v-if="state.confirmGenerate.menu"
+                    :title="
+                        t(
+                            'crud.crud.The menu rule with the same name already exists The menu and permission node will not be created in this generation'
+                        )
+                    "
+                    class="mt-10"
                     center
                     type="error"
                 />
@@ -739,6 +750,7 @@ const state: {
     showHeaderSeniorConfig: boolean
     confirmGenerate: {
         show: boolean
+        menu: boolean
         table: boolean
         controller: boolean
     }
@@ -799,6 +811,7 @@ const state: {
     showHeaderSeniorConfig: false,
     confirmGenerate: {
         show: false,
+        menu: false,
         table: false,
         controller: false,
     },
@@ -1174,6 +1187,7 @@ const onGenerate = () => {
     generateCheck({
         table: state.table.name,
         connection: state.table.databaseConnection,
+        webViewsDir: state.table.webViewsDir,
         controllerFile: state.table.controllerFile,
     })
         .then(() => {
@@ -1182,9 +1196,10 @@ const onGenerate = () => {
         .catch((res) => {
             state.loading.generate = false
             if (res.code == -1) {
+                state.confirmGenerate.menu = res.data.menu
                 state.confirmGenerate.table = res.data.table
                 state.confirmGenerate.controller = res.data.controller
-                if (showTableConflictConfirmGenerate() || state.confirmGenerate.controller) {
+                if (showTableConflictConfirmGenerate() || state.confirmGenerate.controller || state.confirmGenerate.menu) {
                     state.confirmGenerate.show = true
                 } else {
                     startGenerate()
@@ -1777,6 +1792,9 @@ const getTableDesignTimelineType = (type: TableDesignChangeType): TimelineItemPr
 }
 .default-main {
     margin-bottom: 0;
+}
+.mt-10 {
+    margin-top: 10px;
 }
 .mr-20 {
     margin-right: 20px;
