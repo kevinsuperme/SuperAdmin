@@ -22,6 +22,7 @@ import { useConfig } from '/@/stores/config'
 import { useNavTabs } from '/@/stores/navTabs'
 import { layoutMenuRef, layoutMenuScrollbarRef } from '/@/stores/refs'
 import horizontalScroll from '/@/utils/horizontalScroll'
+import { getMenuKey } from '/@/utils/router'
 
 const config = useConfig()
 const navTabs = useNavTabs()
@@ -51,10 +52,10 @@ const verticalMenusScrollbarHeight = computed(() => {
  * 激活当前路由的菜单
  */
 const currentRouteActive = (currentRoute: RouteLocationNormalizedLoaded) => {
+    // 以路由 fullPath 匹配的菜单优先，且 fullPath 无匹配时，回退到 path 的匹配菜单
     const tabView = navTabs.getTabsViewDataByRoute(currentRoute)
     if (tabView) {
-        // 以路由 fullPath 匹配的菜单优先，且 fullPath 无匹配时，回退到 path 的匹配菜单
-        state.defaultActive = tabView.meta!.matched as string
+        state.defaultActive = getMenuKey(tabView, tabView.meta!.matched as string)
     }
 
     let routeChildren = navTabs.getTabsViewDataByRoute(currentRoute, 'above')
