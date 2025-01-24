@@ -920,43 +920,43 @@ class Helper
     public static function createMenu($webViewsDir, $tableComment): void
     {
         $menuName = self::getMenuName($webViewsDir);
-        if (!AdminRule::where('name', $menuName)->value('id')) {
-            $pid = 0;
-            foreach ($webViewsDir['path'] as $item) {
-                $pMenu = AdminRule::where('name', $item)->value('id');
-                if ($pMenu) {
-                    $pid = $pMenu;
-                    continue;
-                }
-                $menu = [
-                    'pid'   => $pid,
-                    'type'  => 'menu_dir',
-                    'title' => $item,
-                    'name'  => $item,
-                    'path'  => $item,
-                ];
-                $menu = AdminRule::create($menu);
-                $pid  = $menu->id;
-            }
-
-            // 建立菜单
-            foreach (self::$menuChildren as &$item) {
-                $item['name'] = $menuName . $item['name'];
-            }
-            $componentPath = str_replace(['\\', 'web/src'], ['/', '/src'], $webViewsDir['views'] . '/' . 'index.vue');
-            Menu::create([
-                [
-                    'type'      => 'menu',
-                    'title'     => $tableComment ?: $webViewsDir['originalLastName'],
-                    'name'      => $menuName,
-                    'path'      => $menuName,
-                    'menu_type' => 'tab',
-                    'keepalive' => '1',
-                    'component' => $componentPath,
-                    'children'  => self::$menuChildren,
-                ]
-            ], $pid);
+        if (AdminRule::where('name', $menuName)->value('id')) {
+            return;
         }
+
+        // 组装权限节点数据
+        $menuChildren = self::$menuChildren;
+        foreach ($menuChildren as &$item) {
+            $item['name'] = $menuName . $item['name'];
+        }
+
+        // 组件路径
+        $componentPath = str_replace(['\\', 'web/src'], ['/', '/src'], $webViewsDir['views'] . '/' . 'index.vue');
+
+        // 菜单数组
+        $menus = [
+            'type'      => 'menu',
+            'title'     => $tableComment ?: $webViewsDir['originalLastName'],
+            'name'      => $menuName,
+            'path'      => $menuName,
+            'menu_type' => 'tab',
+            'keepalive' => 1,
+            'component' => $componentPath,
+            'children'  => $menuChildren,
+        ];
+        $paths = array_reverse($webViewsDir['path']);
+        foreach ($paths as $path) {
+            $menus = [
+                'type'     => 'menu_dir',
+                'title'    => $path,
+                'name'     => $path,
+                'path'     => $path,
+                'children' => [$menus],
+            ];
+        }
+
+        // 创建菜单
+        Menu::create([$menus], 0, 'ignore');
     }
 
     public static function writeWebLangFile($langData, $webLangDir): void
