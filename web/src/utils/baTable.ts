@@ -1,6 +1,6 @@
 import type { FormInstance, TableColumnCtx } from 'element-plus'
 import { ElNotification, dayjs } from 'element-plus'
-import { cloneDeep, isEmpty } from 'lodash-es'
+import { cloneDeep, isArray, isEmpty } from 'lodash-es'
 import Sortable from 'sortablejs'
 import { reactive } from 'vue'
 import { useRoute } from 'vue-router'
@@ -598,14 +598,15 @@ export default class baTable {
                 val = this.comSearch.form[key]
             }
 
-            if (val !== null) {
-                comSearchData.push({
-                    field: key,
-                    val: val,
-                    operator: fieldDataTemp.operator,
-                    render: fieldDataTemp.render,
-                })
-            }
+            if (val === null) continue
+            if (isArray(val) && !val.length) continue
+
+            comSearchData.push({
+                field: key,
+                val: val,
+                operator: fieldDataTemp.operator,
+                render: fieldDataTemp.render,
+            })
         }
 
         return comSearchData
