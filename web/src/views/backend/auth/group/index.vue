@@ -1,6 +1,12 @@
 <template>
     <div class="default-main ba-table-box">
-        <el-alert class="ba-table-alert" v-if="!adminInfo.super" :title="t('auth.group.Manage subordinate role groups here')" type="info" show-icon />
+        <el-alert
+            class="ba-table-alert group-super-alert"
+            v-if="!adminInfo.super"
+            :title="t('auth.group.Manage subordinate role groups here')"
+            type="info"
+            show-icon
+        />
         <el-alert class="ba-table-alert" v-if="baTable.table.remark" :title="baTable.table.remark" type="info" show-icon />
 
         <!-- 表格顶部菜单 -->
@@ -164,4 +170,8 @@ onMounted(() => {
 })
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.group-super-alert {
+    margin-bottom: 10px;
+}
+</style>
