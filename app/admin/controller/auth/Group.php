@@ -370,7 +370,7 @@ class Group extends Backend
      */
     private function checkAuth($groupId): void
     {
-        $authGroups = $this->auth->getAllAuthGroups($this->authMethod);
+        $authGroups = $this->auth->getAllAuthGroups($this->authMethod, []);
         if (!$this->auth->isSuperAdmin() && !in_array($groupId, $authGroups)) {
             $this->error(__($this->authMethod == 'allAuth' ? 'You need to have all permissions of this group to operate this group~' : 'You need to have all the permissions of the group and have additional permissions before you can operate the group~'));
         }
