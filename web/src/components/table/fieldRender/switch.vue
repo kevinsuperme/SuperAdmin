@@ -35,6 +35,8 @@ const onChange = (value: string | number | boolean) => {
         })
         .then(() => {
             cellValue.value = value
+            // 更新 baTable.table.data 中对应行的数据
+            baTable.table.data![props.index][props.field.prop!] = value
             baTable.onTableAction('field-change', { value: value, ...props })
         })
         .finally(() => {
