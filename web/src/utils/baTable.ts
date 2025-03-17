@@ -287,7 +287,14 @@ export default class baTable {
                     this.postDel([data.row[this.table.pk!]])
                 },
             ],
-            ['field-change', () => {}],
+            [
+                'field-change',
+                () => {
+                    if (data.field && data.field.prop && this.table.data![data.index]) {
+                        this.table.data![data.index][data.field.prop!] = data.value
+                    }
+                },
+            ],
             [
                 'com-search',
                 () => {
