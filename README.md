@@ -7,7 +7,7 @@
     <a href="https://demo.buildadmin.com" target="_blank">演示</a> |
     <a href="https://ask.buildadmin.com" target="_blank">社区</a> |
     <a href="https://doc.buildadmin.com/" target="_blank">文档</a> |
-    <a href="https://jq.qq.com/?_wv=1027&k=c8a7iSk8" target="_blank">加群</a> |
+    <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=paVQA1dlpsVNHTla-ZAts6e4pPK4va9R&authKey=Eto0dq9DOuYldJPl6URFAXXHlG2AFQtPUBxNHEByEiuSg9OraxMniXIaWFt46OKi&noverify=0&group_code=1039646575" target="_blank">加群</a> |
     <a href="https://doc.buildadmin.com/guide/" target="_blank">视频介绍</a> |
     <a href="https://gitee.com/wonderful-code/buildadmin" target="_blank">Gitee仓库</a> |
     <a href="https://github.com/build-admin/BuildAdmin" target="_blank">GitHub仓库</a>
@@ -62,7 +62,7 @@
 一键安装数据导入导出、短信发送、支付、云存储、富文本编辑器，甚至CMS、商城、社区、纯前端技术栈的学习案例项目等，随时随地为系统添砖加瓦，系统能够自动维护 `package.json` 和 `composer.json` 并通过内置终端自动完成模块所需依赖的安装，若您愿意成为模块开发者，模块可以：覆盖系统任何文件或为系统新增文件，您的模块经由官方审核即可上架。
 
 **🔀 前后端分离：**
-项目的 `web` 文件夹内包含： `干净`（不含后端代码）、`完整`（所有前端代码文件均在此内）的前端代码文件，代码和部署均可前后分离，对前端开发者友好，作为纯前端开发者，您可以将BAdmin当做学习与资源的社群，本系统可为您准备好案例和模板等所需要的环境，而您只需专注于学习或工作，不需要会任何后端代码！（邀您：[和我们一起](https://jq.qq.com/?_wv=1027&k=c8a7iSk8) ）
+项目的 `web` 文件夹内包含： `干净`（不含后端代码）、`完整`（所有前端代码文件均在此内）的前端代码文件，代码和部署均可前后分离，对前端开发者友好，作为纯前端开发者，您可以将BAdmin当做学习与资源的社群，本系统可为您准备好案例和模板等所需要的环境，而您只需专注于学习或工作，不需要会任何后端代码！（邀您：[和我们一起](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=paVQA1dlpsVNHTla-ZAts6e4pPK4va9R&authKey=Eto0dq9DOuYldJPl6URFAXXHlG2AFQtPUBxNHEByEiuSg9OraxMniXIaWFt46OKi&noverify=0&group_code=1039646575) ）
 
 **⚡️ 常驻内存：**
 系统内置的功能均可常驻内存运行，享受比传统框架快上数十倍的性能提升！目前 [Workerman模块](https://modules.buildadmin.com/workerman) 可提供框架的常驻内存 `HTTP服务`，同时该模块还提供了开箱即用的 `WebSocket服务`。
@@ -96,7 +96,7 @@
 - [问答社区：ask.buildadmin.com](https://ask.buildadmin.com)
 - [官方网站：uni.buildadmin.com](https://uni.buildadmin.com)
 - [文档：doc.buildadmin.com](https://doc.buildadmin.com/)
-- 加群：[687903819（已满）](https://jq.qq.com/?_wv=1027&k=QwtXa14c)、[751852082](https://jq.qq.com/?_wv=1027&k=c8a7iSk8)
+- 加群：[687903819（>960/1000）](https://jq.qq.com/?_wv=1027&k=QwtXa14c)、[751852082（>1990/2000）](https://jq.qq.com/?_wv=1027&k=c8a7iSk8)、[1039646575](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=paVQA1dlpsVNHTla-ZAts6e4pPK4va9R&authKey=Eto0dq9DOuYldJPl6URFAXXHlG2AFQtPUBxNHEByEiuSg9OraxMniXIaWFt46OKi&noverify=0&group_code=1039646575)
 - [Gitee仓库](https://gitee.com/wonderful-code/buildadmin)、[GitHub仓库](https://github.com/build-admin/BuildAdmin)
 - [官方邮箱 hi@buildadmin.com](mailto:hi@buildadmin.com)
 
