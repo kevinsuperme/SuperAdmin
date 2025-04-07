@@ -1,11 +1,7 @@
 <?php
 return [
-    'username'                                           => 'Username',
     'nickname'                                           => 'Nickname',
     'birthday'                                           => 'Birthday',
-    'email'                                              => 'E-mail',
-    'mobile'                                             => 'Mobile Number',
-    'password'                                           => 'Password',
     'captcha'                                            => 'Captcha',
     'Old password error'                                 => 'Old password error',
     'Data updated successfully~'                         => 'Data updated successfully',

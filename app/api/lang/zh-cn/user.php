@@ -1,9 +1,5 @@
 <?php
 return [
-    'username'                                                                => '用户名',
-    'email'                                                                   => '邮箱',
-    'mobile'                                                                  => '手机号',
-    'password'                                                                => '密码',
     'captcha'                                                                 => '验证码',
     'captchaId'                                                               => '验证码标识',
     'Register type'                                                           => '注册类型',

@@ -167,22 +167,22 @@ class Auth extends \ba\Auth
     }
 
     /**
-     * 会员注册
+     * 会员注册，可使用关键词参数方式调用：$auth->register('u18888888888', email: 'test@qq.com')
      * @param string $username
      * @param string $password
      * @param string $mobile
      * @param string $email
-     * @param int    $group
-     * @param array  $extend
+     * @param int    $group  会员分组 ID 号
+     * @param array  $extend 扩展数据，如 ['status' => 'disable']
      * @return bool
      */
-    public function register(string $username, string $password, string $mobile = '', string $email = '', int $group = 1, array $extend = []): bool
+    public function register(string $username, string $password = '', string $mobile = '', string $email = '', int $group = 1, array $extend = []): bool
     {
         $validate = Validate::rule([
-            'mobile'   => 'mobile|unique:user',
-            'email'    => 'email|unique:user',
-            'username' => 'regex:^[a-zA-Z][a-zA-Z0-9_]{2,15}$|unique:user',
-            'password' => 'regex:^(?!.*[&<>"\'\n\r]).{6,32}$',
+            'email|' . __('Email')       => 'email|unique:user',
+            'mobile|' . __('Mobile')     => 'mobile|unique:user',
+            'username|' . __('Username') => 'require|regex:^[a-zA-Z][a-zA-Z0-9_]{2,15}$|unique:user',
+            'password|' . __('Password') => 'regex:^(?!.*[&<>"\'\n\r]).{6,32}$',
         ]);
         $params   = [
             'username' => $username,
@@ -191,9 +191,21 @@ class Auth extends \ba\Auth
             'email'    => $email,
         ];
         if (!$validate->check($params)) {
-            $this->setError('Registration parameter error');
+            $this->setError($validate->getError());
             return false;
         }
+
+        // 按需生成随机密码
+        if (!$password) {
+            $password = Random::build();
+        }
+
+        // 用户昵称
+        $nickname = preg_replace_callback('/1[3-9]\d{9}/', function ($matches) {
+            // 对 username 中出现的所有手机号进行脱敏处理
+            $mobile = $matches[0];
+            return substr($mobile, 0, 3) . '****' . substr($mobile, 7);
+        }, $username);
 
         $ip   = request()->ip();
         $time = time();
@@ -201,16 +213,17 @@ class Auth extends \ba\Auth
         $data = [
             'password'        => encrypt_password($password, $salt),
             'group_id'        => $group,
-            'nickname'        => preg_match("/^1[3-9]\d{9}$/", $username) ? substr_replace($username, '****', 3, 4) : $username,
+            'nickname'        => $nickname,
             'join_ip'         => $ip,
             'join_time'       => $time,
             'last_login_ip'   => $ip,
             'last_login_time' => $time,
             'salt'            => $salt,
-            'status'          => 'enable',
+            'status'          => 'enable', // 状态:enable=启用,disable=禁用,使用 string 存储可以自定义其他状态
         ];
         $data = array_merge($params, $data);
         $data = array_merge($data, $extend);
+
         Db::startTrans();
         try {
             $this->model = User::create($data);

@@ -1,11 +1,7 @@
 <?php
 return [
-    'username'                                                                 => '用户名',
     'nickname'                                                                 => '昵称',
     'birthday'                                                                 => '生日',
-    'email'                                                                    => '电子邮箱',
-    'mobile'                                                                   => '手机号',
-    'password'                                                                 => '密码',
     'captcha'                                                                  => '验证码',
     'Old password error'                                                       => '旧密码错误',
     'Data updated successfully~'                                               => '资料更新成功~',

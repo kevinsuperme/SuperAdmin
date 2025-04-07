@@ -26,6 +26,10 @@ return [
     'Topic format error'                                                                  => '上传存储子目录格式错误！',
     'Driver %s not supported'                                                             => '不支持的驱动：%s',
     // 文件上传-e
+    'Username'                                                                            => '用户名',
+    'Email'                                                                               => '邮箱',
+    'Mobile'                                                                              => '手机号',
+    'Password'                                                                            => '密码',
     'Login expired, please login again.'                                                  => '登录过期，请重新登录。',
     'Account not exist'                                                                   => '帐户不存在',
     'Account disabled'                                                                    => '帐户已禁用',
