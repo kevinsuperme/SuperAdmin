@@ -231,7 +231,12 @@ export const fullUrl = (relativeUrl: string, domain = '') => {
     if (!domain || regUrl.test(relativeUrl) || regexImg.test(relativeUrl)) {
         return relativeUrl
     }
-    return domain + relativeUrl
+    let url = domain + relativeUrl
+    if (siteConfig.cdnUrl && siteConfig.cdn_url_params) {
+        const separator = url.includes('?') ? '&' : '?'
+        url += separator + siteConfig.cdn_url_params
+    }
+    return url
 }
 
 /**
