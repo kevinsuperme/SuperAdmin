@@ -168,17 +168,27 @@ export interface Terminal {
 }
 
 export interface SiteConfig {
+    // 站点名称
     siteName: string
-    recordNumber?: string
+    // 系统版本号
     version: string
+    // 内容分发网络URL
     cdnUrl: string
-    cdn_url_params: string
+    // 中心接口地址（用于请求模块市场的数据等用途）
     apiUrl: string
+    // 上传配置
     upload: {
         mode: string
         [key: string]: any
     }
+    // 顶部导航菜单数据
     headNav: RouteRecordRaw[]
+    // 备案号
+    recordNumber?: string
+    // 内容分发网络URL的参数，格式如 imageMogr2/format/heif
+    cdnUrlParams: string
+
+    // 初始化状态
     initialize: boolean
     userInitialize: boolean
 }
