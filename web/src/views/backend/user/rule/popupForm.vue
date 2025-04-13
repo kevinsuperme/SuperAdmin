@@ -167,7 +167,7 @@
                         type="radio"
                         :input-attr="{
                             border: true,
-                            content: { '0': t('Disable'), '1': t('Enable') },
+                            content: { 0: t('Disable'), 1: t('Enable') },
                         }"
                     />
                 </el-form>

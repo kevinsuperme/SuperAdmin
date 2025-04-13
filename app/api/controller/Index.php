@@ -57,7 +57,7 @@ class Index extends Frontend
             }
 
             $rules = Db::name('user_rule')
-                ->where('status', '1')
+                ->where('status', 1)
                 ->where('no_login_valid', 1)
                 ->where('type', 'in', ['route', 'nav', 'button'])
                 ->order('weigh', 'desc')

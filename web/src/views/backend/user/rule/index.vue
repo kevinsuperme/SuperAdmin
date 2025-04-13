@@ -71,7 +71,7 @@ const baTable = new baTableClass(
             extend: 'none',
             no_login_valid: '0',
             keepalive: 0,
-            status: '1',
+            status: 1,
             icon: 'fa fa-circle-o',
         },
     },

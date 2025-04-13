@@ -67,8 +67,8 @@ const baTable = new baTableClass(
                 prop: 'status',
                 align: 'center',
                 render: 'tag',
-                custom: { '0': 'danger', '1': 'success' },
-                replaceValue: { '0': t('Disable'), '1': t('Enable') },
+                custom: { disable: 'danger', enable: 'success' },
+                replaceValue: { disable: t('Disable'), enable: t('Enable') },
             },
             {
                 label: t('Operate'),
@@ -83,7 +83,7 @@ const baTable = new baTableClass(
     },
     {
         defaultItems: {
-            status: '1',
+            status: 'enable',
         },
     }
 )

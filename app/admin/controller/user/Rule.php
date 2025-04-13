@@ -219,7 +219,7 @@ class Rule extends Backend
      */
     public function select(): void
     {
-        $data = $this->getRules([['status', '=', '1']]);
+        $data = $this->getRules([['status', '=', 1]]);
 
         if ($this->assembleTree) {
             $data = $this->tree->assembleTree($this->tree->getTreeArray($data, 'title'));

@@ -48,8 +48,8 @@ const baTable = new baTableClass(
                 prop: 'status',
                 align: 'center',
                 render: 'tag',
-                custom: { '0': 'danger', '1': 'success' },
-                replaceValue: { '0': t('Disable'), '1': t('Enable') },
+                custom: { 0: 'danger', 1: 'success' },
+                replaceValue: { 0: t('Disable'), 1: t('Enable') },
             },
             { label: t('Update time'), prop: 'update_time', align: 'center', render: 'datetime', sortable: 'custom', operator: 'RANGE', width: 160 },
             { label: t('Create time'), prop: 'create_time', align: 'center', render: 'datetime', sortable: 'custom', operator: 'RANGE', width: 160 },
@@ -66,7 +66,7 @@ const baTable = new baTableClass(
     },
     {
         defaultItems: {
-            status: '1',
+            status: 1,
         },
     },
     {

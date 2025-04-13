@@ -27,7 +27,7 @@ class Security
         if ($action == 'del') {
             $dataIds = $request->param('ids');
             try {
-                $recycle = DataRecycle::where('status', '1')
+                $recycle = DataRecycle::where('status', 1)
                     ->where('controller_as', $request->controllerPath)
                     ->find();
                 if (!$recycle) {
@@ -70,7 +70,7 @@ class Security
         }
 
         try {
-            $sensitiveData = SensitiveData::where('status', '1')
+            $sensitiveData = SensitiveData::where('status', 1)
                 ->where('controller_as', $request->controllerPath)
                 ->find();
             if (!$sensitiveData) {

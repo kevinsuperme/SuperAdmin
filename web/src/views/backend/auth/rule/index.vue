@@ -69,7 +69,7 @@ const baTable = new baTableClass(
             menu_type: 'tab',
             extend: 'none',
             keepalive: 0,
-            status: '1',
+            status: 1,
             icon: 'fa fa-circle-o',
         },
     },

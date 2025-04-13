@@ -143,7 +143,7 @@ class Auth extends \ba\Auth
                     $this->setError('Account not exist');
                     return false;
                 }
-                if ($this->model['status'] != '1') {
+                if ($this->model['status'] != 'enable') {
                     $this->setError('Account disabled');
                     return false;
                 }
@@ -172,7 +172,7 @@ class Auth extends \ba\Auth
             $this->setError('Username is incorrect');
             return false;
         }
-        if ($this->model->status == '0') {
+        if ($this->model->status == 'disable') {
             $this->setError('Account disabled');
             return false;
         }
@@ -429,7 +429,7 @@ class Auth extends \ba\Auth
     public function getGroupChildGroups(int $groupId, array &$children): void
     {
         $childrenTemp = AdminGroup::where('pid', $groupId)
-            ->where('status', '1')
+            ->where('status', 1)
             ->select();
         foreach ($childrenTemp as $item) {
             $children[] = $item['id'];
