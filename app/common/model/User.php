@@ -2,7 +2,6 @@
 
 namespace app\common\model;
 
-use ba\Random;
 use think\Model;
 
 /**
@@ -33,9 +32,7 @@ class User extends Model
 
     public function resetPassword($uid, $newPassword): int|User
     {
-        $salt   = Random::build('alnum', 16);
-        $passwd = encrypt_password($newPassword, $salt);
-        return $this->where(['id' => $uid])->update(['password' => $passwd, 'salt' => $salt]);
+        return $this->where(['id' => $uid])->update(['password' => hash_password($newPassword), 'salt' => '']);
     }
 
     public function getMoneyAttr($value): string

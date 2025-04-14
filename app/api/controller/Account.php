@@ -122,7 +122,7 @@ class Account extends Frontend
             if (!Token::check($params['accountVerificationToken'], $params['type'] . '-pass', $user->id)) {
                 $this->error(__('You need to verify your account before modifying the binding information'));
             }
-        } elseif (!isset($params['password']) || $user->password != encrypt_password($params['password'], $user->salt)) {
+        } elseif (!isset($params['password']) || !verify_password($params['password'], $user->password, ['salt' => $user->salt])) {
             $this->error(__('Password error'));
         }
 
@@ -159,13 +159,13 @@ class Account extends Frontend
     public function changePassword(): void
     {
         if ($this->request->isPost()) {
+            $model  = $this->auth->getUser();
             $params = $this->request->only(['oldPassword', 'newPassword']);
 
-            if (!$this->auth->checkPassword($params['oldPassword'])) {
+            if (!verify_password($params['oldPassword'], $model->password, ['salt' => $model->salt])) {
                 $this->error(__('Old password error'));
             }
 
-            $model = $this->auth->getUser();
             $model->startTrans();
             try {
                 $validate = new AccountValidate();

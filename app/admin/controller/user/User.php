@@ -3,7 +3,6 @@
 namespace app\admin\controller\user;
 
 use Throwable;
-use ba\Random;
 use app\common\controller\Backend;
 use app\admin\model\User as UserModel;
 
@@ -66,15 +65,12 @@ class User extends Backend
                 $this->error(__('Parameter %s can not be empty', ['']));
             }
 
-            $salt   = Random::build('alnum', 16);
-            $passwd = encrypt_password($data['password'], $salt);
-
-            $data   = $this->excludeFields($data);
             $result = false;
+            $passwd = $data['password']; // 密码将被排除不直接入库
+            $data   = $this->excludeFields($data);
+
             $this->model->startTrans();
             try {
-                $data['salt']     = $salt;
-                $data['password'] = $passwd;
                 // 模型验证
                 if ($this->modelValidate) {
                     $validate = str_replace("\\model\\", "\\validate\\", get_class($this->model));
@@ -86,6 +82,10 @@ class User extends Backend
                 }
                 $result = $this->model->save($data);
                 $this->model->commit();
+
+                if (!empty($passwd)) {
+                    $this->model->resetPassword($this->model->id, $passwd);
+                }
             } catch (Throwable $e) {
                 $this->model->rollback();
                 $this->error($e->getMessage());
