@@ -3,7 +3,7 @@
         <el-card class="user-views-card" shadow="hover">
             <template #header>
                 <div class="card-header">
-                    <span>{{ $t('user.account.profile.personal data') }}</span>
+                    <span>{{ $t('user.account.profile.profile') }}</span>
                     <el-button @click="router.push({ name: 'account/changePassword' })" type="info" v-blur plain>
                         {{ $t('user.account.profile.Change Password') }}
                     </el-button>
@@ -19,7 +19,7 @@
                     @keyup.enter="onSubmit()"
                 >
                     <FormItem
-                        :label="$t('user.account.profile.head portrait')"
+                        :label="$t('user.account.profile.avatar')"
                         :input-attr="{
                             hideSelectFile: true,
                         }"

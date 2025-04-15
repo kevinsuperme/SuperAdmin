@@ -34,8 +34,8 @@ export default {
         'Are you sure you want to restore all configurations to the default values?':
             'Are you sure to restore all configurations to the default values?',
         'Restore default': 'Restore default',
-        'personal data': 'Personal data',
-        cancellation: 'Cancellation',
+        Profile: 'Profile',
+        Logout: 'Logout',
         'Dark mode': 'Dark mode',
         'Exit full screen': 'Exit Full Screen',
         'Full screen is not supported': 'Your browser does not support full screen, please change another browser and try again~',

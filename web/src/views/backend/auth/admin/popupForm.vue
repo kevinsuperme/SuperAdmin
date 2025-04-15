@@ -42,7 +42,7 @@
                         :placeholder="t('Please input field', { field: t('auth.admin.nickname') })"
                     />
                     <FormItem
-                        :label="t('auth.admin.grouping')"
+                        :label="t('auth.admin.group')"
                         v-model="baTable.form.items!.group_arr"
                         prop="group_arr"
                         type="remoteSelect"
@@ -55,13 +55,13 @@
                             placeholder: t('Click select'),
                         }"
                     />
-                    <FormItem :label="t('auth.admin.head portrait')" type="image" v-model="baTable.form.items!.avatar" />
+                    <FormItem :label="t('auth.admin.avatar')" type="image" v-model="baTable.form.items!.avatar" />
                     <FormItem
-                        :label="t('auth.admin.mailbox')"
+                        :label="t('auth.admin.email')"
                         prop="email"
                         v-model="baTable.form.items!.email"
                         type="string"
-                        :placeholder="t('Please input field', { field: t('auth.admin.mailbox') })"
+                        :placeholder="t('Please input field', { field: t('auth.admin.email') })"
                     />
                     <FormItem
                         :label="t('auth.admin.mobile')"
@@ -134,8 +134,8 @@ const { t } = useI18n()
 const rules: Partial<Record<string, FormItemRule[]>> = reactive({
     username: [buildValidatorData({ name: 'required', title: t('auth.admin.username') }), buildValidatorData({ name: 'account' })],
     nickname: [buildValidatorData({ name: 'required', title: t('auth.admin.nickname') })],
-    group_arr: [buildValidatorData({ name: 'required', message: t('Please select field', { field: t('auth.admin.grouping') }) })],
-    email: [buildValidatorData({ name: 'email', message: t('Please enter the correct field', { field: t('auth.admin.mailbox') }) })],
+    group_arr: [buildValidatorData({ name: 'required', message: t('Please select field', { field: t('auth.admin.group') }) })],
+    email: [buildValidatorData({ name: 'email', message: t('Please enter the correct field', { field: t('auth.admin.email') }) })],
     mobile: [buildValidatorData({ name: 'mobile', message: t('Please enter the correct field', { field: t('auth.admin.mobile') }) })],
     password: [
         {

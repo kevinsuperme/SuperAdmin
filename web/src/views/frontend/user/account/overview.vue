@@ -5,7 +5,7 @@
                 <div class="card-header">
                     <span>{{ $t('user.account.overview.Account information') }}</span>
                     <el-button @click="router.push({ name: 'account/profile' })" type="info" v-blur plain>
-                        {{ $t('user.account.overview.personal data') }}
+                        {{ $t('user.account.overview.profile') }}
                     </el-button>
                 </div>
             </template>

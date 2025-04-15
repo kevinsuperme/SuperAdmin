@@ -128,8 +128,8 @@
                     </div>
                 </div>
                 <div class="admin-info-footer">
-                    <el-button @click="onAdminInfo" type="primary" plain>{{ t('layouts.personal data') }}</el-button>
-                    <el-button @click="onLogout" type="danger" plain>{{ t('layouts.cancellation') }}</el-button>
+                    <el-button @click="onAdminInfo" type="primary" plain>{{ t('layouts.Profile') }}</el-button>
+                    <el-button @click="onLogout" type="danger" plain>{{ t('layouts.Logout') }}</el-button>
                 </div>
             </div>
         </el-popover>

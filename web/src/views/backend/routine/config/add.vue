@@ -16,7 +16,7 @@
                     :label-width="160"
                 >
                     <FormItem
-                        :label="t('routine.config.Variable grouping')"
+                        :label="t('routine.config.Variable group')"
                         type="select"
                         v-model="state.addConfig.group"
                         prop="group"
@@ -100,7 +100,7 @@ const rules = reactive<FormRules>({
         buildValidatorData({
             name: 'required',
             trigger: 'change',
-            message: t('Please select field', { field: t('routine.config.Variable grouping') }),
+            message: t('Please select field', { field: t('routine.config.Variable group') }),
         }),
     ],
     name: [

@@ -42,14 +42,14 @@ const baTable = new baTableClass(
             { label: t('user.user.User name'), prop: 'username', align: 'center', operator: 'LIKE', operatorPlaceholder: t('Fuzzy query') },
             { label: t('user.user.nickname'), prop: 'nickname', align: 'center', operator: 'LIKE', operatorPlaceholder: t('Fuzzy query') },
             {
-                label: t('user.user.grouping'),
+                label: t('user.user.group'),
                 prop: 'userGroup.name',
                 align: 'center',
                 operator: 'LIKE',
                 operatorPlaceholder: t('Fuzzy query'),
                 render: 'tag',
             },
-            { label: t('user.user.head portrait'), prop: 'avatar', align: 'center', render: 'image', operator: false },
+            { label: t('user.user.avatar'), prop: 'avatar', align: 'center', render: 'image', operator: false },
             {
                 label: t('user.user.Gender'),
                 prop: 'gender',

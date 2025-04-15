@@ -43,17 +43,17 @@
                     </el-form-item>
                     <FormItem
                         type="remoteSelect"
-                        :label="t('user.user.grouping')"
+                        :label="t('user.user.group')"
                         v-model="baTable.form.items!.group_id"
                         prop="group_id"
-                        :placeholder="t('user.user.grouping')"
+                        :placeholder="t('user.user.group')"
                         :input-attr="{
                             params: { isTree: true, search: [{ field: 'status', val: '1', operator: 'eq' }] },
                             field: 'name',
                             remoteUrl: '/admin/user.Group/index',
                         }"
                     />
-                    <FormItem :label="t('user.user.head portrait')" type="image" v-model="baTable.form.items!.avatar" />
+                    <FormItem :label="t('user.user.avatar')" type="image" v-model="baTable.form.items!.avatar" />
                     <el-form-item prop="email" :label="t('user.user.email')">
                         <el-input
                             v-model="baTable.form.items!.email"
@@ -164,7 +164,7 @@ const { t } = useI18n()
 const rules: Partial<Record<string, FormItemRule[]>> = reactive({
     username: [buildValidatorData({ name: 'required', title: t('user.user.User name') }), buildValidatorData({ name: 'account' })],
     nickname: [buildValidatorData({ name: 'required', title: t('user.user.nickname') })],
-    group_id: [buildValidatorData({ name: 'required', message: t('Please select field', { field: t('user.user.grouping') }) })],
+    group_id: [buildValidatorData({ name: 'required', message: t('Please select field', { field: t('user.user.group') }) })],
     email: [buildValidatorData({ name: 'email', title: t('user.user.email') })],
     mobile: [buildValidatorData({ name: 'mobile' })],
     password: [
