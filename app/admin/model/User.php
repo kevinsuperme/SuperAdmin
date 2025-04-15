@@ -34,6 +34,11 @@ class User extends Model
         return bcmul($value, 100, 2);
     }
 
+    public function userGroup(): BelongsTo
+    {
+        return $this->belongsTo(UserGroup::class, 'group_id');
+    }
+
     /**
      * 重置用户密码
      * @param int|string $uid         用户ID
@@ -43,10 +48,5 @@ class User extends Model
     public function resetPassword(int|string $uid, string $newPassword): int|User
     {
         return $this->where(['id' => $uid])->update(['password' => hash_password($newPassword), 'salt' => '']);
-    }
-
-    public function group(): BelongsTo
-    {
-        return $this->belongsTo(UserGroup::class, 'group_id');
     }
 }
