@@ -258,6 +258,9 @@ const onChoice = (files: string[]) => {
  * 初始化文件/图片的排序功能
  */
 const initSort = () => {
+    if (state.attrs.showFileList === false) {
+        return false
+    }
     nextTick(() => {
         let uploadListEl = upload.value?.$el.querySelector('.el-upload-list')
         let uploadItemEl = uploadListEl.getElementsByClassName('el-upload-list__item')
