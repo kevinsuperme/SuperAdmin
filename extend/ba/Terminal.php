@@ -159,10 +159,7 @@ class Terminal
                 'command' => $command,
             ];
         } else {
-            $command = [
-                'cwd'     => root_path() . $command['cwd'],
-                'command' => $command['command'],
-            ];
+            $command['cwd'] = root_path() . $command['cwd'];
         }
 
         if (str_contains($command['command'], '%')) {
@@ -214,6 +211,10 @@ class Terminal
 
         $this->beforeExecution();
         $this->outputFlag('link-success');
+
+        if (!empty($command['notes'])) {
+            $this->output('> ' . __($command['notes']), false);
+        }
         $this->output('> ' . $command['command'], false);
 
         $this->process = proc_open($command['command'], $this->descriptorsPec, $this->pipes, $command['cwd']);
