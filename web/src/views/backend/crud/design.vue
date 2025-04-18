@@ -694,9 +694,11 @@ import { buildValidatorData, regularVarName } from '/@/utils/validate'
 import { getArrayKey } from '/@/utils/common'
 import { useI18n } from 'vue-i18n'
 import { reloadServer } from '/@/utils/vite'
+import { useTerminal } from '/@/stores/terminal'
 
 const { t } = useI18n()
 const designWindowRef = ref()
+const terminal = useTerminal()
 const formRef = ref<FormInstance>()
 const tabsRefs = useTemplateRefsList<HTMLElement>()
 let nameRepeatCount = 1
@@ -1138,17 +1140,23 @@ const startGenerate = () => {
         fields: fields,
     })
         .then(() => {
-            setTimeout(() => {
-                // 要求 Vite 服务端重启
-                if (import.meta.hot) {
-                    reloadServer('crud')
-                } else {
-                    ElNotification({
-                        type: 'error',
-                        message: t('crud.crud.Vite hot warning'),
-                    })
-                }
-            }, 1000)
+            const webViewsDir = state.table.webViewsDir.replace(/^web/, '.')
+            terminal.toggle(true)
+            terminal.addTask('npx.prettier', false, webViewsDir, () => {
+                terminal.toggle(false)
+                terminal.toggleDot(true)
+                nextTick(() => {
+                    // 要求 Vite 服务端重启
+                    if (import.meta.hot) {
+                        reloadServer('crud')
+                    } else {
+                        ElNotification({
+                            type: 'error',
+                            message: t('crud.crud.Vite hot warning'),
+                        })
+                    }
+                })
+            })
         })
         .finally(() => {
             state.loading.generate = false
