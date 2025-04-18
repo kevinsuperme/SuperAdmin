@@ -1,6 +1,7 @@
 <?php
 // +----------------------------------------------------------------------
-// | BuildAdmin-WEB终端配置
+// | BuildAdmin-WEB 终端配置
+// | 命令中可以使用 %s %f 等占位符，系统将从 request()->param('extend', '') 取值，以 ~~ 分割后使用 sprintf 函数替换
 // +----------------------------------------------------------------------
 
 return [
@@ -134,6 +135,12 @@ return [
             'tencent'  => 'composer config -g repos.packagist composer https://mirrors.cloud.tencent.com/composer/',
             'huawei'   => 'composer config -g repos.packagist composer https://mirrors.huaweicloud.com/repository/php/',
             'kkame'    => 'composer config -g repos.packagist composer https://packagist.kr',
+        ],
+        'npx'                   => [
+            'prettier' => [
+                'cwd'     => 'web',
+                'command' => 'npx prettier --write %s',
+            ],
         ],
         'composer'              => [
             'update' => [
