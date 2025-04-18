@@ -98,6 +98,7 @@
                                 remoteUrl: getDatabaseConnectionListUrl,
                                 onChange: onDatabaseChange,
                             }"
+                            :placeholder="t('Please select field', { field: t('Database connection') })"
                         />
                         <FormItem
                             :label="t('crud.crud.data sheet')"

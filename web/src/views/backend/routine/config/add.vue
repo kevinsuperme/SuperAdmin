@@ -21,6 +21,7 @@
                         v-model="state.addConfig.group"
                         prop="group"
                         :input-attr="{ content: configGroup }"
+                        :placeholder="t('Please select field', { field: t('routine.config.Variable group') })"
                     />
                     <CreateFormItemData v-model="state.formItemData" />
                     <FormItem :label="t('Weigh')" type="number" v-model="state.addConfig.weigh" prop="weigh" />
