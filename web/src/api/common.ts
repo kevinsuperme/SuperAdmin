@@ -216,9 +216,9 @@ export function buildCaptchaUrl() {
     return getUrl() + captchaUrl + '?server=1'
 }
 
-export function getCaptchaData(id: string) {
+export function getCaptchaData(id: string, apiBaseURL: string) {
     return createAxios({
-        url: clickCaptchaUrl,
+        url: apiBaseURL + clickCaptchaUrl,
         method: 'get',
         params: {
             id,
@@ -226,10 +226,10 @@ export function getCaptchaData(id: string) {
     })
 }
 
-export function checkClickCaptcha(id: string, info: string, unset: boolean) {
+export function checkClickCaptcha(id: string, info: string, unset: boolean, apiBaseURL: string) {
     return createAxios(
         {
-            url: checkClickCaptchaUrl,
+            url: apiBaseURL + checkClickCaptchaUrl,
             method: 'post',
             data: {
                 id,
