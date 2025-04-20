@@ -207,7 +207,7 @@ const onAvatarBeforeUpload = (file: any) => {
                 id: state.adminInfo.id,
                 avatar: res.data.file.url,
             }).then(() => {
-                adminInfoStore.dataFill({ ...adminInfoStore.$state, avatar: res.data.file.full_url })
+                adminInfoStore.dataFill({ avatar: res.data.file.full_url })
                 state.adminInfo.avatar = res.data.file.full_url
             })
         }
@@ -225,7 +225,7 @@ const onSubmit = () => {
             state.buttonLoading = true
             postData(data)
                 .then(() => {
-                    adminInfoStore.dataFill({ ...adminInfoStore.$state, nickname: state.adminInfo.nickname })
+                    adminInfoStore.dataFill({ nickname: state.adminInfo.nickname })
                     state.buttonLoading = false
                 })
                 .catch(() => {

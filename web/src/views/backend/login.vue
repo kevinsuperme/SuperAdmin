@@ -161,7 +161,7 @@ const onSubmit = (captchaInfo = '') => {
     form.captchaInfo = captchaInfo
     login('post', form)
         .then((res) => {
-            adminInfo.dataFill(res.data.userInfo)
+            adminInfo.dataFill(res.data.userInfo, false)
             router.push({ path: adminBaseRoutePath })
         })
         .finally(() => {

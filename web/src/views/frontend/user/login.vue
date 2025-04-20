@@ -402,7 +402,7 @@ const onSubmit = (captchaInfo = '') => {
     state.form.captchaInfo = captchaInfo
     checkIn('post', state.form)
         .then((res) => {
-            userInfo.dataFill(res.data.userInfo)
+            userInfo.dataFill(res.data.userInfo, false)
             if (state.to) return (location.href = state.to)
             router.push({ path: res.data.routePath })
         })

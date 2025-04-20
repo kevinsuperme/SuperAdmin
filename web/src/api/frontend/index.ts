@@ -37,7 +37,6 @@ export function initialize(callback?: (res: ApiResponse) => void, requiredLogin?
             memberCenter.setStatus(res.data.openMemberCenter)
 
             if (!isEmpty(res.data.userInfo)) {
-                res.data.userInfo.refresh_token = userInfo.getToken('refresh')
                 userInfo.dataFill(res.data.userInfo)
 
                 // 请求到会员信息才设置会员中心初始化是成功的

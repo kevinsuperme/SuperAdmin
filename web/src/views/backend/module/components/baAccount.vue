@@ -146,7 +146,7 @@ const onBaAccountSubmit = () => {
                 .then((res) => {
                     state.dialog.baAccount = false
                     user.loading = false
-                    baAccount.dataFill(res.data.userInfo)
+                    baAccount.dataFill(res.data.userInfo, false)
                 })
                 .catch(() => {
                     user.loading = false

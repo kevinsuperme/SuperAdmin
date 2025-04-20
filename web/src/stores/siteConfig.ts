@@ -21,6 +21,7 @@ export const useSiteConfig = defineStore('siteConfig', {
     },
     actions: {
         dataFill(state: SiteConfig) {
+            // 使用 this.$patch(state) 时 headNav 的类型异常，直接赋值
             this.$state = state
         },
         setHeadNav(headNav: RouteRecordRaw[]) {
