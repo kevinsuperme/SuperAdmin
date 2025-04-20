@@ -123,7 +123,7 @@ export default {
     'There can only be one primary key field': '只可以有一个主键字段。',
     'Drag the left element here to start designing CRUD': '拖动左侧元素至此处以开始设计CRUD',
     'The data table already exists Continuing to generate will automatically delete the original table and create a new one!':
-        '数据表已经存在，继续生成将自动删除原表并建立新的数据表！',
+        '数据表已经存在，继续生成将自动删除原表并建立新的数据表（数据表是空的或您已勾选删表重建）！',
     'The controller already exists Continuing to generate will automatically overwrite the existing code!':
         '控制器已经存在，继续生成将自动覆盖已有代码！',
     'The menu rule with the same name already exists The menu and permission node will not be created in this generation':
