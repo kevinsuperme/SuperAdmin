@@ -4,6 +4,7 @@ export default {
     table: 'table',
     fields: 'fields',
     status: 'status',
+    delete: 'delete code',
     'status delete': 'status delete',
     'status success': 'status success',
     'status error': 'status error',

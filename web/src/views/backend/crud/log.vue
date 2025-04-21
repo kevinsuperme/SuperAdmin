@@ -81,7 +81,7 @@ const optButtons: OptButton[] = [
     {
         render: 'confirmButton',
         name: 'del',
-        title: 'Delete',
+        title: 'crud.log.delete',
         text: '',
         type: 'danger',
         icon: 'fa fa-trash',
