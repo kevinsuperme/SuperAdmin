@@ -1,6 +1,7 @@
 export default {
     id: 'ID',
     table_name: '数据表名',
+    comment: '表注释',
     table: '数据表数据',
     fields: '字段数据',
     status: '状态',
@@ -10,5 +11,5 @@ export default {
     'status error': '失败',
     'status start': '生成中',
     create_time: '创建时间',
-    'quick Search Fields': 'ID、数据表名',
+    'quick Search Fields': 'ID、表名、注释',
 }

@@ -9,10 +9,7 @@
             :append-to-body="true"
             :destroy-on-close="true"
         >
-            <TableHeader
-                :buttons="['refresh', 'quickSearch', 'columnDisplay']"
-                :quick-search-placeholder="t('Quick search placeholder', { fields: t('crud.log.quick Search Fields') })"
-            />
+            <TableHeader :buttons="['refresh', 'quickSearch', 'columnDisplay']" :quick-search-placeholder="t('crud.log.quick Search Fields')" />
             <Table ref="tableRef">
                 <template #tableName>
                     <el-table-column :show-overflow-tooltip="true" prop="table_name" align="center" :label="t('crud.log.table_name')">
@@ -27,15 +24,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide, onMounted, reactive, watch, nextTick } from 'vue'
-import baTableClass from '/@/utils/baTable'
-import { baTableApi } from '/@/api/common'
+import { nextTick, onMounted, provide, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import Table from '/@/components/table/index.vue'
-import TableHeader from '/@/components/table/header/index.vue'
 import { postDel } from '/@/api/backend/crud'
-import { changeStep, state as crudState } from '/@/views/backend/crud/index'
+import { baTableApi } from '/@/api/common'
+import TableHeader from '/@/components/table/header/index.vue'
+import Table from '/@/components/table/index.vue'
+import baTableClass from '/@/utils/baTable'
 import { auth } from '/@/utils/common'
+import { changeStep, state as crudState } from '/@/views/backend/crud/index'
 
 interface Props {
     modelValue: boolean
@@ -110,13 +107,19 @@ const baTable = new baTableClass(
         pk: 'id',
         column: [
             { type: 'selection', align: 'center', operator: false },
-            { label: t('crud.log.id'), prop: 'id', align: 'center', width: 70, operator: '=', operatorPlaceholder: t('Id'), sortable: 'custom' },
+            { label: t('crud.log.id'), prop: 'id', align: 'center', width: 70, operator: '=', sortable: 'custom' },
             {
                 label: t('crud.log.table_name'),
-                operatorPlaceholder: t('Fuzzy query'),
                 operator: 'LIKE',
                 render: 'slot',
                 slotName: 'tableName',
+            },
+            {
+                label: t('crud.log.comment'),
+                prop: 'comment',
+                align: 'center',
+                showOverflowTooltip: true,
+                operator: 'LIKE',
             },
             {
                 label: t('crud.log.status'),
