@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import router from '../router'
-import { postLogout } from '/@/api/backend/module'
+import { baAccountLogout } from '/@/api/backend/index'
 import { BA_ACCOUNT } from '/@/stores/constant/cacheKey'
 import type { UserInfo } from '/@/stores/interface'
 import { Local } from '/@/utils/storage'
@@ -68,7 +68,7 @@ export const useBaAccount = defineStore('baAccount', {
             return type === 'auth' ? this.token : this.refresh_token
         },
         logout() {
-            postLogout().then((res) => {
+            baAccountLogout().then((res) => {
                 if (res.code == 1) {
                     Local.remove(BA_ACCOUNT)
                     router.go(0)

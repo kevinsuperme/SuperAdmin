@@ -3,6 +3,8 @@
  * 覆盖风险：请避免使用页面语言包的目录名、文件名作为翻译 key
  */
 export default {
+    Balance: '余额',
+    Integral: '积分',
     Connection: '连接标识',
     'Database connection': '数据库连接配置标识',
     'Database connection help': '您可以在 config/database.php 内配置多个数据库连接，然后在此处选择它，留空将使用默认连接配置',
@@ -40,6 +42,15 @@ export default {
         'Dark mode': '暗黑模式',
         'Exit full screen': '退出全屏',
         'Full screen is not supported': '您的浏览器不支持全屏，请更换浏览器再试~',
+        'Member center': '会员中心',
+        'Member information': '会员信息',
+        'Login to the buildadmin': '登录到 BuildAdmin 开源社区',
+        'Please enter buildadmin account name or email': '请输入 BuildAdmin 账户名/邮箱/手机号',
+        'Please enter the buildadmin account password': '请输入 BuildAdmin 账户密码',
+        Login: '登录',
+        Password: '密码',
+        Username: '用户名',
+        Register: '没有账户？去注册',
     },
     terminal: {
         Source: '源',

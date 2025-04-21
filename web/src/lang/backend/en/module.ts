@@ -8,15 +8,6 @@ export default {
     'env devDependencies': 'NPM-dev',
     'env nuxtDependencies': 'Nuxt NPM',
     'env nuxtDevDependencies': 'Nuxt NPM Dev',
-    // user
-    'Member information': 'Member information',
-    'My module': 'My module',
-    'Log in to the buildadmin module marketplace': 'Log in to the buildadmin module marketplace',
-    'Please enter buildadmin account name or email': 'Please enter buildadmin account name / email / mobile number',
-    'Please enter the buildadmin account password': 'Please enter the buildadmin account password',
-    'Sign in': 'Sign in',
-    'Please enter the login verification code': 'Please enter the login verification code',
-    Register: 'No account? Register',
     // buy
     'Module installation warning':
         'Free download and update within one year after purchase. Virtual products do not support 7-day refund without reason',
@@ -135,12 +126,6 @@ export default {
     'No detailed update log': 'No detailed update log',
     'Use WeChat to scan QR code for payment': 'Use WeChat to scan QR code for payment',
     'Use Alipay to scan QR code for payment': 'Use Alipay to scan QR code for payment',
-    'Logout login': 'Logout',
-    Integral: 'Integral',
-    Balance: 'Balance',
-    Password: 'password',
-    'User name': 'User name',
-    'Verification Code': 'Captcha',
     'dependency-installation-fail-tips':
         'If the command is successfully executed manually, click `Make sure dependency is ready` above to change the module to the installed state',
     'New version': 'New version',
@@ -154,7 +139,6 @@ export default {
     'The operation succeeds Please clear the system cache and refresh the browser ~':
         'The operation succeeds. Please clear the system cache and refresh the browser ~',
     'Deal with conflict': 'Deal with conflict',
-    Points: 'points',
     'Wait for installation': 'Wait for installation',
     'Conflict pending': 'Conflict pending',
     'Dependency to be installed': 'Dependency to be installed',

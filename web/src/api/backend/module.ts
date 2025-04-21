@@ -1,9 +1,7 @@
-import createAxios from '/@/utils/axios'
-import { useSiteConfig } from '/@/stores/siteConfig'
 import { useBaAccount } from '/@/stores/baAccount'
+import { useSiteConfig } from '/@/stores/siteConfig'
+import createAxios from '/@/utils/axios'
 
-const userControllerUrl = '/api/user/'
-const captchaUrl = '/api/common/captcha'
 const moduleControllerUrl = '/admin/module/'
 const storeUrl = '/api/v6.store/'
 
@@ -32,51 +30,6 @@ export function info(params: anyObj) {
             url: siteConfig.apiUrl + storeUrl + 'info',
             method: 'get',
             params: params,
-        },
-        {
-            anotherToken: baAccount.getToken('auth'),
-        }
-    )
-}
-
-export function postLogout() {
-    const siteConfig = useSiteConfig()
-    const baAccount = useBaAccount()
-    return createAxios({
-        url: siteConfig.apiUrl + userControllerUrl + 'logout',
-        method: 'POST',
-        data: {
-            refreshToken: baAccount.getToken('refresh'),
-        },
-    })
-}
-
-export function buildCaptchaUrl() {
-    const siteConfig = useSiteConfig()
-    return siteConfig.apiUrl + captchaUrl + '?server=1'
-}
-
-export function checkIn(method: 'get' | 'post', params: object = {}) {
-    const siteConfig = useSiteConfig()
-    return createAxios(
-        {
-            url: siteConfig.apiUrl + userControllerUrl + 'checkIn',
-            data: params,
-            method: method,
-        },
-        {
-            showSuccessMessage: true,
-        }
-    )
-}
-
-export function getUserInfo() {
-    const baAccount = useBaAccount()
-    const siteConfig = useSiteConfig()
-    return createAxios(
-        {
-            url: siteConfig.apiUrl + userControllerUrl + 'info',
-            method: 'get',
         },
         {
             anotherToken: baAccount.getToken('auth'),

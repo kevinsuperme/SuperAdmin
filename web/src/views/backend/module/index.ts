@@ -492,7 +492,7 @@ export const currency = (price: number, val: number) => {
         return '-'
     }
     if (val == 0) {
-        return parseInt(price.toString()) + i18n.global.t('module.Points')
+        return parseInt(price.toString()) + i18n.global.t('Integral')
     } else {
         return '￥' + price
     }
