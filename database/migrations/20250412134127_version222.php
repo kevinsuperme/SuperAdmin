@@ -50,7 +50,7 @@ class Version222 extends Migrator
         if (!$crudLog->hasColumn('comment')) {
             $crudLog
                 ->addColumn('comment', 'string', ['limit' => 255, 'default' => '', 'comment' => '注释', 'null' => false, 'after' => 'table_name'])
-                ->addColumn('sync', 'boolean', ['default' => 0, 'signed' => false, 'comment' => '已同步:0=否,1=是', 'null' => false, 'after' => 'fields'])
+                ->addColumn('sync', 'integer', ['default' => 0, 'signed' => false, 'comment' => '同步记录', 'null' => false, 'after' => 'fields'])
                 ->save();
 
             $logs = CrudLog::select();
