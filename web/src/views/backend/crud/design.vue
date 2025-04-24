@@ -677,27 +677,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, nextTick } from 'vue'
+import { useTemplateRefsList } from '@vueuse/core'
+import type { FormInstance, FormItemRule, MessageHandler, TimelineItemProps } from 'element-plus'
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
+import { cloneDeep, isEmpty, range } from 'lodash-es'
+import type { SortableEvent } from 'sortablejs'
+import Sortable from 'sortablejs'
+import { nextTick, onMounted, reactive, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { generate, generateCheck, getFileData, parseFieldData, postLogStart, uploadCompleted, uploadLog } from '/@/api/backend/crud'
+import { getDatabaseConnectionListUrl, getTableFieldList, getTableListUrl } from '/@/api/common'
 import BaInput from '/@/components/baInput/index.vue'
 import FormItem from '/@/components/formItem/index.vue'
-import type { FieldItem, TableDesignChange, TableDesignChangeType } from '/@/views/backend/crud/index'
-import { cloneDeep, range, isEmpty } from 'lodash-es'
-import Sortable from 'sortablejs'
-import type { SortableEvent } from 'sortablejs'
-import { useTemplateRefsList } from '@vueuse/core'
-import { changeStep, state as crudState, getTableAttr, fieldItem, designTypes, tableFieldsKey } from '/@/views/backend/crud/index'
-import { ElNotification, ElMessageBox, ElMessage } from 'element-plus'
-import type { FormItemRule, FormInstance, TimelineItemProps, MessageHandler } from 'element-plus'
-import { getFileData, generateCheck, generate, parseFieldData, postLogStart } from '/@/api/backend/crud'
-import { getTableFieldList, getTableListUrl, getDatabaseConnectionListUrl } from '/@/api/common'
-import { buildValidatorData, regularVarName } from '/@/utils/validate'
-import { getArrayKey } from '/@/utils/common'
-import { useI18n } from 'vue-i18n'
-import { reloadServer } from '/@/utils/vite'
+import { useConfig } from '/@/stores/config'
 import { useTerminal } from '/@/stores/terminal'
+import { getArrayKey } from '/@/utils/common'
+import { buildValidatorData, regularVarName } from '/@/utils/validate'
+import { reloadServer } from '/@/utils/vite'
+import type { FieldItem, TableDesignChange, TableDesignChangeType } from '/@/views/backend/crud/index'
+import { changeStep, state as crudState, designTypes, fieldItem, getTableAttr, tableFieldsKey } from '/@/views/backend/crud/index'
 
 const { t } = useI18n()
 const designWindowRef = ref()
+const config = useConfig()
 const terminal = useTerminal()
 const formRef = ref<FormInstance>()
 const tabsRefs = useTemplateRefsList<HTMLElement>()
@@ -708,6 +710,7 @@ const state: {
         generate: boolean
         remoteSelect: boolean
     }
+    sync: number
     table: {
         name: string
         comment: string
@@ -769,6 +772,7 @@ const state: {
         generate: false,
         remoteSelect: false,
     },
+    sync: 0,
     table: {
         name: '',
         comment: '',
@@ -1139,24 +1143,49 @@ const startGenerate = () => {
         table: state.table,
         fields: fields,
     })
-        .then(() => {
-            const webViewsDir = state.table.webViewsDir.replace(/^web/, '.')
-            terminal.toggle(true)
-            terminal.addTask('npx.prettier', false, webViewsDir, () => {
-                terminal.toggle(false)
-                terminal.toggleDot(true)
-                nextTick(() => {
-                    // 要求 Vite 服务端重启
-                    if (import.meta.hot) {
-                        reloadServer('crud')
-                    } else {
-                        ElNotification({
-                            type: 'error',
-                            message: t('crud.crud.Vite hot warning'),
-                        })
-                    }
+        .then((res) => {
+            const callback = () => {
+                const webViewsDir = state.table.webViewsDir.replace(/^web/, '.')
+                terminal.toggle(true)
+                terminal.addTask('npx.prettier', false, webViewsDir, () => {
+                    terminal.toggle(false)
+                    terminal.toggleDot(true)
+                    nextTick(() => {
+                        // 要求 Vite 服务端重启
+                        if (import.meta.hot) {
+                            reloadServer('crud')
+                        } else {
+                            ElNotification({
+                                type: 'error',
+                                message: t('crud.crud.Vite hot warning'),
+                            })
+                        }
+                    })
                 })
-            })
+            }
+
+            if ((state.sync > 0 && config.crud.syncedUpdate === 'yes') || (state.sync == 0 && config.crud.syncType == 'automatic')) {
+                uploadLog({
+                    logs: [
+                        {
+                            ...res.data.crudLog,
+                            public: config.crud.syncAutoPublic === 'yes' ? 1 : 0,
+                            newLog: 1,
+                        },
+                    ],
+                    save: 1,
+                })
+                    .then((res) => {
+                        uploadCompleted({ syncIds: res.data.syncIds }).finally(() => {
+                            callback()
+                        })
+                    })
+                    .catch(() => {
+                        callback()
+                    })
+            } else {
+                callback()
+            }
         })
         .finally(() => {
             state.loading.generate = false
@@ -1301,8 +1330,9 @@ const loadData = () => {
 
     // 从历史记录开始
     if (crudState.type == 'log') {
-        postLogStart(parseInt(crudState.startData.logId))
+        postLogStart(crudState.startData.logId, crudState.startData.logType)
             .then((res) => {
+                state.sync = res.data.sync
                 state.table = res.data.table
                 tableDesignChangeInit()
                 if (res.data.table.empty) {

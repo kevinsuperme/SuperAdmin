@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
 import { STORE_CONFIG } from '/@/stores/constant/cacheKey'
-import type { Lang, Layout } from '/@/stores/interface'
+import type { Crud, Lang, Layout } from '/@/stores/interface'
 
 export const useConfig = defineStore(
     'config',
@@ -43,6 +43,12 @@ export const useConfig = defineStore(
             ],
         })
 
+        const crud: Crud = reactive({
+            syncType: 'manual',
+            syncedUpdate: 'yes',
+            syncAutoPublic: 'no',
+        })
+
         function menuWidth() {
             if (layout.shrink) {
                 return layout.menuCollapse ? '0px' : layout.menuWidth + 'px'
@@ -79,7 +85,7 @@ export const useConfig = defineStore(
         }
 
         const setLayout = (name: keyof Layout, value: any) => {
-            layout[name] = value as never
+            ;(layout[name] as any) = value
         }
 
         const getColorVal = function (name: keyof Layout): string {
@@ -91,7 +97,11 @@ export const useConfig = defineStore(
             }
         }
 
-        return { layout, lang, menuWidth, setLang, setLayoutMode, setLayout, getColorVal, onSetLayoutColor }
+        const setCrud = (name: keyof Crud, value: any) => {
+            ;(crud[name] as any) = value
+        }
+
+        return { layout, lang, crud, menuWidth, setLang, setLayoutMode, setLayout, getColorVal, onSetLayoutColor, setCrud }
     },
     {
         persist: {

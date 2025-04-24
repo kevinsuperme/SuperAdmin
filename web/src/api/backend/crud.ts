@@ -1,3 +1,5 @@
+import { useBaAccount } from '/@/stores/baAccount'
+import { useSiteConfig } from '/@/stores/siteConfig'
 import createAxios from '/@/utils/axios'
 
 export const url = '/admin/crud.Crud/'
@@ -47,13 +49,21 @@ export function parseFieldData(data: anyObj) {
     })
 }
 
-export function postLogStart(id: number) {
+export function postLogStart(id: string, type: string) {
+    const data: anyObj = {
+        id,
+        type,
+    }
+
+    if (type == 'Cloud history') {
+        const baAccount = useBaAccount()
+        data['token'] = baAccount.getToken('auth')
+    }
+
     return createAxios({
         url: url + 'logStart',
         method: 'post',
-        data: {
-            id: id,
-        },
+        data: data,
     })
 }
 
@@ -75,5 +85,46 @@ export function checkCrudLog(table: string, connection: string) {
             table: table,
             connection: connection,
         },
+    })
+}
+
+export function uploadLog(data: anyObj) {
+    const baAccount = useBaAccount()
+    const siteConfig = useSiteConfig()
+    data['ba-user-token'] = baAccount.getToken('auth')
+    return createAxios({
+        url: siteConfig.apiUrl + '/api/v6.Crud/uploadLog',
+        data: data,
+        method: 'post',
+    })
+}
+
+export function uploadCompleted(data: anyObj) {
+    return createAxios({
+        url: url + 'uploadCompleted',
+        data: data,
+        method: 'post',
+    })
+}
+
+export function logs(data: anyObj = {}) {
+    const baAccount = useBaAccount()
+    const siteConfig = useSiteConfig()
+    data['ba-user-token'] = baAccount.getToken('auth')
+    return createAxios({
+        url: siteConfig.apiUrl + '/api/v6.Crud/logs',
+        data: data,
+        method: 'post',
+    })
+}
+
+export function delLog(data: anyObj = {}) {
+    const baAccount = useBaAccount()
+    const siteConfig = useSiteConfig()
+    data['ba-user-token'] = baAccount.getToken('auth')
+    return createAxios({
+        url: siteConfig.apiUrl + '/api/v6.Crud/del',
+        data: data,
+        method: 'post',
     })
 }

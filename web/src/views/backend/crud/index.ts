@@ -30,6 +30,7 @@ export const state: {
         sql: string
         table: string
         logId: string
+        logType: string
         databaseConnection: string
     }
 } = reactive({
@@ -39,6 +40,7 @@ export const state: {
         sql: '',
         table: '',
         logId: '',
+        logType: '',
         databaseConnection: '',
     },
 })

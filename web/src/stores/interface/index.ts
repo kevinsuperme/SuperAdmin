@@ -60,6 +60,15 @@ export interface Lang {
     langArray: { name: string; value: string }[]
 }
 
+export interface Crud {
+    // 日志同步方式
+    syncType: 'manual' | 'automatic'
+    // 已同步记录被更新时，是否自动重新同步
+    syncedUpdate: 'no' | 'yes'
+    // 自动同步时是否分享至开源社区
+    syncAutoPublic: 'no' | 'yes'
+}
+
 export interface NavTabs {
     // 激活 tab 的 index
     activeIndex: number
