@@ -43,6 +43,7 @@ import { computed, reactive } from 'vue'
 import { Props } from './index'
 import { checkClickCaptcha, getCaptchaData } from '/@/api/common'
 import { i18n } from '/@/lang'
+import { SYSTEM_ZINDEX } from '/@/stores/constant/common'
 
 const props = withDefaults(defineProps<Props>(), {
     uuid: '',
@@ -135,7 +136,7 @@ load()
     border: 1px solid var(--el-border-color-extra-light);
     background-color: var(--el-color-white);
     position: fixed;
-    z-index: 9999991;
+    z-index: v-bind('SYSTEM_ZINDEX');
     left: calc(50% - v-bind('captchaBoxLeft'));
     top: calc(50% - v-bind('captchaBoxTop'));
     border-radius: 10px;

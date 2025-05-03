@@ -10,6 +10,7 @@ import type { AxiosRequestConfig } from 'axios'
 import { uuid } from '/@/utils/random'
 import { i18n } from '../lang'
 import { adminBaseRoutePath } from '/@/router/static/adminBase'
+import { SYSTEM_ZINDEX } from '/@/stores/constant/common'
 
 /*
  * 公共请求函数和Url定义
@@ -60,7 +61,7 @@ export function fileUpload(fd: FormData, params: anyObj = {}, forceLocal = false
             ElNotification({
                 type: 'error',
                 message: errorMsg,
-                zIndex: 9999,
+                zIndex: SYSTEM_ZINDEX,
             })
             reject(errorMsg)
         })

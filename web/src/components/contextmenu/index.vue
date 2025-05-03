@@ -25,6 +25,7 @@
 import { onMounted, reactive, toRaw } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import type { Axis, ContextMenuItemClickEmitArg, Props } from './interface'
+import { SYSTEM_ZINDEX } from '/@/stores/constant/common'
 
 const props = withDefaults(defineProps<Props>(), {
     width: 150,
@@ -115,7 +116,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .ba-contextmenu {
     position: fixed;
-    z-index: 9999;
+    z-index: v-bind('SYSTEM_ZINDEX');
 }
 .el-popper,
 .el-popper.is-light .el-popper__arrow::before {

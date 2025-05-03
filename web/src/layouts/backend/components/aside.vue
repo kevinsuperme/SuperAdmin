@@ -13,6 +13,7 @@ import MenuVertical from '/@/layouts/backend/components/menus/menuVertical.vue'
 import MenuVerticalChildren from '/@/layouts/backend/components/menus/menuVerticalChildren.vue'
 import { useConfig } from '/@/stores/config'
 import { useNavTabs } from '/@/stores/navTabs'
+import { SYSTEM_ZINDEX } from '/@/stores/constant/common'
 
 defineOptions({
     name: 'layout/aside',
@@ -48,6 +49,6 @@ const menuWidth = computed(() => config.menuWidth())
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9999999;
+    z-index: v-bind('SYSTEM_ZINDEX');
 }
 </style>

@@ -8,6 +8,7 @@ import adminBaseRoute from '/@/router/static/adminBase'
 import { memberCenterBaseRoutePath } from '/@/router/static/memberCenterBase'
 import { useAdminInfo } from '/@/stores/adminInfo'
 import { useConfig } from '/@/stores/config'
+import { SYSTEM_ZINDEX } from '/@/stores/constant/common'
 import { useUserInfo } from '/@/stores/userInfo'
 import { isAdminApp } from '/@/utils/common'
 
@@ -173,7 +174,7 @@ function createAxios<Data = any, T = ApiPromise<Data>>(axiosConfig: AxiosRequest
                         ElNotification({
                             type: 'error',
                             message: response.data.msg,
-                            zIndex: 9999,
+                            zIndex: SYSTEM_ZINDEX,
                         })
                     }
                     // 自动跳转到路由name或path
@@ -201,7 +202,7 @@ function createAxios<Data = any, T = ApiPromise<Data>>(axiosConfig: AxiosRequest
                     ElNotification({
                         message: response.data.msg ? response.data.msg : i18n.global.t('axios.Operation successful'),
                         type: 'success',
-                        zIndex: 9999,
+                        zIndex: SYSTEM_ZINDEX,
                     })
                 }
             }
@@ -281,7 +282,7 @@ function httpErrorStatusHandle(error: any) {
     ElNotification({
         type: 'error',
         message,
-        zIndex: 9999,
+        zIndex: SYSTEM_ZINDEX,
     })
 }
 
