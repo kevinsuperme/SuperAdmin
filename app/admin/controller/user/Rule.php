@@ -21,8 +21,6 @@ class Rule extends Backend
      */
     protected Tree $tree;
 
-    protected array $noNeedLogin = ['index'];
-
     protected string|array $preExcludeFields = ['create_time', 'update_time'];
 
     protected string|array $defaultSortField = ['weigh' => 'desc'];
