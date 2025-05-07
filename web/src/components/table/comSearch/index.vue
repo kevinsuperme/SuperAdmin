@@ -161,11 +161,11 @@ const baTable = inject('baTable') as baTableClass
 const onResetForm = () => {
     /**
      * 封装好的 /utils/common.js/onResetForm 工具在此处不能使用，因为未使用 el-form-item
-     * 改用通用搜索重新初始化函数
+     * 改用公共搜索重新初始化函数
      */
     baTable.initComSearch()
 
-    // 通知 baTable 发起通用搜索
+    // 通知 baTable 发起公共搜索
     baTable.onTableAction('com-search', {})
 }
 </script>

@@ -34,7 +34,7 @@ declare global {
         defaultOrder?: { prop: string; order: string }
         // 拖动排序限位字段，例如拖动行 pid=1，那么拖动目的行 pid 也需要为 1
         dragSortLimitField?: string
-        // 接受 url 的 query 参数并自动触发通用搜索
+        // 接受 url 的 query 参数并自动触发公共搜索
         acceptQuery?: boolean
         // 显示公共搜索
         showComSearch?: boolean
@@ -162,9 +162,9 @@ declare global {
         buttons?: OptButton[]
         // 是否允许动态控制字段是否显示，默认为 true
         enableColumnDisplayControl?: boolean
-        // 通用搜索操作符，默认值为=，值为 false 禁用此字段通用搜索，支持的操作符见下类型定义
+        // 公共搜索操作符，默认值为=，值为 false 禁用此字段公共搜索，支持的操作符见下类型定义
         operator?: boolean | OperatorStr
-        // 通用搜索框的 placeholder
+        // 公共搜索框的 placeholder
         operatorPlaceholder?: string
         // 公共搜索渲染方式，render=tag|switch 时公共搜索也会渲染为下拉，数字会渲染为范围筛选，时间渲染为时间选择器等
         comSearchRender?: 'remoteSelect' | 'select' | 'date' | 'customRender' | 'slot'
@@ -233,7 +233,7 @@ declare global {
     type HeaderOptButton = 'refresh' | 'add' | 'edit' | 'delete' | 'unfold' | 'comSearch' | 'quickSearch' | 'columnDisplay'
 
     /**
-     * 通用搜索操作符支持的值
+     * 公共搜索操作符支持的值
      */
     type OperatorStr =
         | 'eq' // 等于，默认值
@@ -265,7 +265,7 @@ declare global {
     type aTarget = '_blank' | '_self'
 
     /**
-     * 通用搜索事件返回的 Data
+     * 公共搜索事件返回的 Data
      */
     interface comSearchData {
         field: string
