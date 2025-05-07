@@ -64,7 +64,7 @@ const onCloseFullScreen = () => {
 .close-full-screen-on {
     position: fixed;
     top: 0;
-    z-index: v-bind('SYSTEM_ZINDEX');
+    z-index: v-bind('SYSTEM_ZINDEX - 1');
     height: 60px;
     width: 100px;
     left: calc(50% - 50px);
