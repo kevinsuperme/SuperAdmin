@@ -138,23 +138,27 @@ declare global {
      * 表格列
      */
     interface TableColumn extends Partial<TableColumnCtx<TableRow>> {
-        // 是否显示
+        // 是否于表格显示此列
         show?: boolean
-        // 渲染为 \components\table\fieldRender\ 中的组件（单元格渲染器）之一，填写组件名即可
+        // 渲染器组件名，即 \src\components\table\fieldRender\ 中的组件之一，也可以查看 TableRenderer 类型定义
         render?: TableRenderer
-        // 自定义插槽渲染（render: 'slot'）时，slot 的名称
+        // 值替换数据（字典数据），同时用于单元格渲染时和作为公共搜索下拉框数据，格式如：{ open: '开', close: '关', disable: '已禁用' }
+        replaceValue?: Record<string, any>
+
+        // render=slot 时，slot 的名称
         slotName?: string
-        // 自定义组件/函数渲染（render: 'customRender'）时，要渲染的组件或已注册组件名称的字符串
+        // render=customRender 时，要渲染的组件或已注册组件名称的字符串
         customRender?: string | Component
-        // 渲染为 tag 时 el-tag 组件的 effect
-        effect?: TagProps['effect']
-        // 渲染为 tag 时 el-tag 组件的 size
-        size?: TagProps['size']
-        // 单元格渲染器需要的自定义数据，比如（render: 'tag'）时，可以指定不同值时的 tag 的 type 属性 { open: 'success', close: 'info' }
-        custom?: any
-        // 自定义单元格渲染属性（比如单元格渲染器内部的 tag、button 组件的属性，设计上不仅是组件属性，也可以自定义其他渲染相关属性）
+        // render=customTemplate 时，自定义渲染 html，应谨慎使用：请返回 html 内容，务必确保返回内容是 xss 安全的
+        customTemplate?: (row: TableRow, field: TableColumn, value: any, column: TableColumnCtx<TableRow>, index: number) => string
+        // 渲染前对字段值的预处理函数（对 el-table 的 formatter 扩展）
+        formatter?: (row: TableRow, column: TableColumnCtx<TableRow>, cellValue: any, index: number) => any
+
+        /**
+         * 自定义单元格渲染属性（比如单元格渲染器内部的 tag、button 组件的属性，设计上不仅是组件属性，也可以自定义其他渲染相关属性）
+         * 直接定义对应组件的属性 object，或使用一个函数返回组件属性 object
+         */
         customRenderAttr?: {
-            // 直接定义对应组件的属性，或使用一个函数返回组件属性
             tag?: TableContextDataFun<TagProps>
             icon?: TableContextDataFun<InstanceType<typeof Icon>['$props']>
             image?: TableContextDataFun<ImageProps>
@@ -162,19 +166,32 @@ declare global {
             tooltip?: TableContextDataFun<ElTooltipProps>
             [key: string]: any
         }
-        // 渲染为链接时，链接的打开方式
-        target?: aTarget
-        // 渲染为 datetime 时的格式化方式，字母可以自由组合:y=年,m=月,d=日,h=时,M=分,s=秒，默认：yyyy-mm-dd hh:MM:ss
+
+        // render=tag 时，el-tag 组件的 effect
+        effect?: TagProps['effect']
+        // render=tag 时，el-tag 组件的 size
+        size?: TagProps['size']
+        // render=url 时，链接的打开方式
+        target?: '_blank' | '_self'
+        // render=datetime 时，时间日期的格式化方式，字母可以自由组合:y=年,m=月,d=日,h=时,M=分,s=秒，默认：yyyy-mm-dd hh:MM:ss
         timeFormat?: string
+        // render=buttons 时，操作按钮数组
+        buttons?: OptButton[]
+
+        /**
+         * 单元格渲染器需要的其他任意自定义数据
+         * 1. render=tag 时，可单独指定每个不同的值 tag 的 type 属性 { open: 'success', close: 'info', disable: 'danger' }
+         */
+        custom?: any
+
         // 默认值（单元格值为 undefined,null,'' 时取默认值，仅使用了 render 时有效）
         default?: any
-        // 值替换数据，如 { open: '开', close: '已关闭' }
-        replaceValue?: any
-        // 操作按钮组
-        buttons?: OptButton[]
         // 是否允许动态控制字段是否显示，默认为 true
         enableColumnDisplayControl?: boolean
-        // 公共搜索操作符，默认值为=，值为 false 禁用此字段公共搜索，支持的操作符见下类型定义
+        // 单元格渲染组件的 key，默认将根据列配置等属性自动生成（此 key 值改变时单元格将自动重新渲染）
+        getRenderKey?: (row: TableRow, field: TableColumn, column: TableColumnCtx<TableRow>, index: number) => string
+
+        // 公共搜索操作符，默认值为 = ，值为 false 禁用此字段公共搜索，支持的操作符见下类型定义
         operator?: boolean | OperatorStr
         // 公共搜索框的 placeholder
         operatorPlaceholder?: string
@@ -184,11 +201,11 @@ declare global {
         comSearchCustomRender?: string | Component
         // 公共搜索自定义渲染为 slot 时，slot 的名称
         comSearchSlotName?: string
-        // 公共搜索自定义渲染时，外层 el-col 的属性（仅 customRender、slot支持）
+        // 公共搜索自定义渲染时，外层 el-col 的属性（仅 customRender、slot 支持）
         comSearchColAttr?: Partial<ColProps>
-        // 公共搜索，是否显示字段的 label
+        // 公共搜索是否显示字段的 label
         comSearchShowLabel?: boolean
-        // 远程属性
+        // 公共搜索渲染为远程下拉时，远程下拉组件的必要属性
         remote?: {
             pk?: string
             field?: string
@@ -196,12 +213,7 @@ declare global {
             multiple?: boolean
             remoteUrl: string
         }
-        // 谨慎使用：自定义渲染模板，方法可返回 html 内容，请确保返回内容是 xss 安全的
-        customTemplate?: (row: TableRow, field: TableColumn, value: any, column: TableColumnCtx<TableRow>, index: number) => string
-        // 单元格渲染组件的 key，此 key 值改变时单元格将自动重新渲染，默认将根据列配置等属性自动生成
-        getRenderKey?: (row: TableRow, field: TableColumn, column: TableColumnCtx<TableRow>, index: number) => string
-        // 对 el-table 的 formatter 扩展
-        formatter?: (row: TableRow, column: TableColumnCtx<TableRow>, cellValue: any, index: number) => any
+
         // 使用了 render 属性时，渲染前对字段值的预处理方法（即将废弃，请使用兼容 el-table 的 formatter 函数代替）
         renderFormatter?: (row: TableRow, field: TableColumn, value: any, column: TableColumnCtx<TableRow>, index: number) => any
         // 渲染为 url 时的点击事件（即将废弃，请使用 el-table 的 @cell-click 或单元格自定义渲染代替）
@@ -270,11 +282,6 @@ declare global {
         | '>='
         | '<'
         | '<='
-
-    /**
-     * 链接打开方式
-     */
-    type aTarget = '_blank' | '_self'
 
     /**
      * 公共搜索事件返回的 Data
