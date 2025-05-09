@@ -139,7 +139,7 @@ declare global {
         // 是否显示
         show?: boolean
         // 渲染为 \components\table\fieldRender\ 中的组件（单元格渲染器）之一，填写组件名即可
-        render?: tableRenderer
+        render?: TableRenderer
         // 自定义插槽渲染（render: 'slot'）时，slot 的名称
         slotName?: string
         // 自定义组件/函数渲染（render: 'customRender'）时，要渲染的组件或已注册组件名称的字符串

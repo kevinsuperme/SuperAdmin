@@ -23,7 +23,7 @@ const buildTableRendererType = () => {
     tableRenderer = tableRenderer.filter((item) => item !== 'default')
 
     let tableRendererContent =
-        '// 可用的表格单元格渲染器，本文件内容以 ./src/components/table/fieldRender/ 目录中的文件名自动生成\ntype tableRenderer =\n    | '
+        '/** 可用的表格单元格渲染器，以 ./src/components/table/fieldRender/ 目录中的文件名自动生成 */\ntype TableRenderer =\n    | '
     for (const key in tableRenderer) {
         tableRendererContent += `'${tableRenderer[key]}'\n    | `
     }
