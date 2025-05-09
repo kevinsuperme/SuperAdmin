@@ -5,6 +5,7 @@
             :type="getTagType(cellValue, field.custom)"
             :effect="field.effect ?? 'light'"
             :size="field.size ?? 'default'"
+            v-bind="invokeTableContextDataFun(field.customRenderAttr?.tag, { row, field, cellValue, column, index })"
         >
             {{ !isEmpty(field.replaceValue) ? (field.replaceValue[cellValue] ?? cellValue) : cellValue }}
         </el-tag>
@@ -14,7 +15,7 @@
 <script setup lang="ts">
 import { TableColumnCtx, TagProps } from 'element-plus'
 import { isEmpty } from 'lodash-es'
-import { getCellValue } from '/@/components/table/index'
+import { getCellValue, invokeTableContextDataFun } from '/@/components/table/index'
 
 interface Props {
     row: TableRow

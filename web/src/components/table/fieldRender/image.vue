@@ -7,13 +7,14 @@
             :preview-src-list="[fullUrl(cellValue)]"
             :src="fullUrl(cellValue)"
             class="ba-table-render-image"
+            v-bind="invokeTableContextDataFun(field.customRenderAttr?.image, { row, field, cellValue, column, index })"
         ></el-image>
     </div>
 </template>
 
 <script setup lang="ts">
 import { TableColumnCtx } from 'element-plus'
-import { getCellValue } from '/@/components/table/index'
+import { getCellValue, invokeTableContextDataFun } from '/@/components/table/index'
 import { fullUrl } from '/@/utils/common'
 
 interface Props {

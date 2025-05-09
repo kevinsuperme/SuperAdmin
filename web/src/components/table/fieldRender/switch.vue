@@ -1,13 +1,21 @@
 <template>
     <div>
-        <el-switch v-if="field.prop" @change="onChange" :model-value="cellValue" :loading="loading" active-value="1" inactive-value="0" />
+        <el-switch
+            v-if="field.prop"
+            @change="onChange"
+            :model-value="cellValue"
+            :loading="loading"
+            active-value="1"
+            inactive-value="0"
+            v-bind="invokeTableContextDataFun(field.customRenderAttr?.switch, { row, field, cellValue, column, index })"
+        />
     </div>
 </template>
 
 <script setup lang="ts">
 import { TableColumnCtx } from 'element-plus'
 import { inject, ref } from 'vue'
-import { getCellValue } from '/@/components/table/index'
+import { getCellValue, invokeTableContextDataFun } from '/@/components/table/index'
 import type baTableClass from '/@/utils/baTable'
 
 interface Props {

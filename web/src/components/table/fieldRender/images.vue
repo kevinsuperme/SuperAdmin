@@ -10,6 +10,7 @@
                 class="ba-table-render-images-item"
                 :src="fullUrl(item)"
                 :hide-on-click-modal="true"
+                v-bind="invokeTableContextDataFun(field.customRenderAttr?.image, { row, field, cellValue, column, index })"
             ></el-image>
         </template>
     </div>
@@ -18,7 +19,7 @@
 <script setup lang="ts">
 import { TableColumnCtx } from 'element-plus'
 import { isArray } from 'lodash-es'
-import { getCellValue } from '/@/components/table/index'
+import { getCellValue, invokeTableContextDataFun } from '/@/components/table/index'
 import { arrayFullUrl, fullUrl } from '/@/utils/common'
 
 interface Props {

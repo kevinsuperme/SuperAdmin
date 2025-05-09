@@ -1,6 +1,18 @@
-import type { ButtonProps, ButtonType, ColProps, FormInstance, PopconfirmProps, TableColumnCtx, TagProps } from 'element-plus'
+import type {
+    ButtonProps,
+    ButtonType,
+    ColProps,
+    ElTooltipProps,
+    FormInstance,
+    ImageProps,
+    PopconfirmProps,
+    SwitchProps,
+    TableColumnCtx,
+    TagProps,
+} from 'element-plus'
 import type { Mutable } from 'element-plus/es/utils'
 import type { Component, ComponentPublicInstance } from 'vue'
+import Icon from '/@/components/icon/index.vue'
 import Table from '/@/components/table/index.vue'
 
 declare global {
@@ -46,16 +58,6 @@ declare global {
         routePath?: string
         // 表格扩展数据，随意定义，以便一些自定义数据可以随 baTable 实例传递
         extend?: anyObj
-    }
-
-    interface TableRenderPublicInstance extends ComponentPublicInstance {
-        $attrs: {
-            renderValue: any
-            renderRow: TableRow
-            renderField: TableColumn
-            renderColumn: TableColumnCtx<TableRow>
-            renderIndex: number
-        }
     }
 
     interface BaTableForm {
@@ -150,6 +152,16 @@ declare global {
         size?: TagProps['size']
         // 单元格渲染器需要的自定义数据，比如（render: 'tag'）时，可以指定不同值时的 tag 的 type 属性 { open: 'success', close: 'info' }
         custom?: any
+        // 自定义单元格渲染属性（比如单元格渲染器内部的 tag、button 组件的属性，设计上不仅是组件属性，也可以自定义其他渲染相关属性）
+        customRenderAttr?: {
+            // 直接定义对应组件的属性，或使用一个函数返回组件属性
+            tag?: TableContextDataFun<TagProps>
+            icon?: TableContextDataFun<InstanceType<typeof Icon>['$props']>
+            image?: TableContextDataFun<ImageProps>
+            switch?: TableContextDataFun<SwitchProps>
+            tooltip?: TableContextDataFun<ElTooltipProps>
+            [key: string]: any
+        }
         // 渲染为链接时，链接的打开方式
         target?: aTarget
         // 渲染为 datetime 时的格式化方式，字母可以自由组合:y=年,m=月,d=日,h=时,M=分,s=秒，默认：yyyy-mm-dd hh:MM:ss
@@ -277,5 +289,31 @@ declare global {
     interface ElTreeData {
         label: string
         children?: ElTreeData[]
+    }
+
+    /**
+     * 表格上下文数据
+     */
+    interface TableContextData {
+        row?: TableRow
+        field?: TableColumn
+        cellValue?: any
+        column?: TableColumnCtx<TableRow>
+        index?: number
+    }
+
+    /**
+     * 接受表格上下文数据的任意属性计算函数
+     */
+    type TableContextDataFun<T> = Partial<T> | ((context: TableContextData) => Partial<T>)
+
+    interface TableRenderPublicInstance extends ComponentPublicInstance {
+        $attrs: {
+            renderValue: any
+            renderRow: TableRow
+            renderField: TableColumn
+            renderColumn: TableColumnCtx<TableRow>
+            renderIndex: number
+        }
     }
 }

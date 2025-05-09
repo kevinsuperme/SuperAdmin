@@ -1,4 +1,5 @@
 import { TableColumnCtx } from 'element-plus'
+import { isUndefined } from 'lodash-es'
 import { i18n } from '/@/lang/index'
 
 /**
@@ -119,6 +120,22 @@ export const findIndexRow = (data: TableRow[], findIdx: number, keyIndex: number
     }
 
     return keyIndex
+}
+
+/**
+ * 调用一个接受表格上下文数据的任意属性计算函数
+ */
+export const invokeTableContextDataFun = <T>(
+    fun: TableContextDataFun<T> | undefined,
+    context: TableContextData,
+    defaultValue: any = {}
+): Partial<T> => {
+    if (isUndefined(fun)) {
+        return defaultValue
+    } else if (typeof fun === 'function') {
+        return fun(context)
+    }
+    return fun
 }
 
 type DefaultOptButType = 'weigh-sort' | 'edit' | 'delete'

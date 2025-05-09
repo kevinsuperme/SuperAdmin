@@ -23,6 +23,7 @@
                     :disabled="btn.title && !btn.disabledTip ? false : true"
                     :content="getTranslation(btn.title)"
                     placement="top"
+                    v-bind="invokeTableContextDataFun(field.customRenderAttr?.tooltip, { row, field, cellValue: btn, column, index })"
                 >
                     <el-button
                         v-blur
@@ -47,7 +48,12 @@
                 >
                     <template #reference>
                         <div class="ml-6">
-                            <el-tooltip :disabled="btn.title ? false : true" :content="getTranslation(btn.title)" placement="top">
+                            <el-tooltip
+                                :disabled="btn.title ? false : true"
+                                :content="getTranslation(btn.title)"
+                                placement="top"
+                                v-bind="invokeTableContextDataFun(field.customRenderAttr?.tooltip, { row, field, cellValue: btn, column, index })"
+                            >
                                 <el-button
                                     v-blur
                                     :class="btn.class"
@@ -70,6 +76,7 @@
                     :disabled="btn.title && !btn.disabledTip ? false : true"
                     :content="getTranslation(btn.title)"
                     placement="top"
+                    v-bind="invokeTableContextDataFun(field.customRenderAttr?.tooltip, { row, field, cellValue: btn, column, index })"
                 >
                     <el-button
                         :class="btn.class"
@@ -91,6 +98,7 @@
 import { TableColumnCtx } from 'element-plus'
 import { inject } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { invokeTableContextDataFun } from '/@/components/table/index'
 import type baTableClass from '/@/utils/baTable'
 
 interface Props {
