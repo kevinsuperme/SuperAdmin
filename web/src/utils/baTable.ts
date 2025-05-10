@@ -103,8 +103,10 @@ export default class baTable {
 
     /**
      * 表格数据获取（请求表格对应控制器的查看方法）
+     * @alias getIndex
      */
-    getIndex = () => {
+    getData = () => {
+        if (this.runBefore('getData') === false) return
         if (this.runBefore('getIndex') === false) return
         this.table.loading = true
         return this.api
@@ -113,7 +115,12 @@ export default class baTable {
                 this.table.data = res.data.list
                 this.table.total = res.data.total
                 this.table.remark = res.data.remark
+                this.runAfter('getData', { res })
                 this.runAfter('getIndex', { res })
+            })
+            .catch((err) => {
+                this.runAfter('getData', { err })
+                this.runAfter('getIndex', { err })
             })
             .finally(() => {
                 this.table.loading = false
@@ -133,8 +140,10 @@ export default class baTable {
 
     /**
      * 获取被编辑行数据
+     * @alias requestEdit
      */
-    requestEdit = (id: string) => {
+    getEditData = (id: string) => {
+        if (this.runBefore('getEditData', { id }) === false) return
         if (this.runBefore('requestEdit', { id }) === false) return
         this.form.loading = true
         this.form.items = {}
@@ -144,10 +153,12 @@ export default class baTable {
             })
             .then((res) => {
                 this.form.items = res.data.row
+                this.runAfter('getEditData', { res })
                 this.runAfter('requestEdit', { res })
             })
             .catch((err) => {
                 this.toggleForm()
+                this.runAfter('getEditData', { err })
                 this.runAfter('requestEdit', { err })
             })
             .finally(() => {
@@ -179,7 +190,7 @@ export default class baTable {
             if (!operateIds.length) {
                 return false
             }
-            this.requestEdit(operateIds[0])
+            this.getEditData(operateIds[0])
         } else if (operate == 'Add') {
             this.form.items = cloneDeep(this.form.defaultItems)
         }
@@ -337,7 +348,7 @@ export default class baTable {
                 () => {
                     // 刷新表格在大多数情况下无需置空 data，但任需防范表格列组件的 :key 不会被更新的问题，比如关联表的数据列
                     this.table.data = []
-                    this.getIndex()
+                    this.getData()
                 },
             ],
             [
@@ -625,4 +636,8 @@ export default class baTable {
 
         return comSearchData
     }
+
+    // 方法别名
+    getIndex = this.getData
+    requestEdit = this.getEditData
 }

@@ -21,7 +21,7 @@ declare global {
         ref?: typeof Table
         // 表格对应数据表的主键字段
         pk?: string
-        // 表格数据，通过 getIndex 加载
+        // 表格数据，通过 getData 加载
         data?: TableRow[]
         // 路由 remark，后台菜单规则备注信息
         remark?: string | null
@@ -86,11 +86,11 @@ declare global {
      */
     interface BaTableBefore {
         // 获取表格数据前
-        getIndex?: () => boolean | void
+        getData?: () => boolean | void
         // 删除前
         postDel?: ({ ids }: { ids: string[] }) => boolean | void
-        // 编辑请求前
-        requestEdit?: ({ id }: { id: string }) => boolean | void
+        // 获取编辑行数据前
+        getEditData?: ({ id }: { id: string }) => boolean | void
         // 双击表格具体操作执行前
         onTableDblclick?: ({ row, column }: { row: TableRow; column: TableColumn }) => boolean | void
         // 表单切换前
@@ -103,6 +103,13 @@ declare global {
         onTableHeaderAction?: ({ event, data }: { event: string; data: anyObj }) => boolean | void
         // 表格初始化前
         mount?: () => boolean | void
+
+        // getData 的别名
+        getIndex?: () => boolean | void
+        // getEditData 的别名
+        requestEdit?: ({ id }: { id: string }) => boolean | void
+
+        // 可自定义其他钩子
         [key: string]: Function | undefined
     }
 
@@ -111,11 +118,11 @@ declare global {
      */
     interface BaTableAfter {
         // 表格数据请求后
-        getIndex?: ({ res }: { res: ApiResponse }) => void
+        getData?: ({ res }: { res: ApiResponse }) => void
         // 删除请求后
         postDel?: ({ res }: { res: ApiResponse }) => void
-        // 编辑表单请求后
-        requestEdit?: ({ res }: { res: ApiResponse }) => void
+        // 获取到编辑行数据后
+        getEditData?: ({ res }: { res: ApiResponse }) => void
         // 双击单元格操作执行后
         onTableDblclick?: ({ row, column }: { row: TableRow; column: TableColumn }) => void
         // 表单切换后
@@ -126,6 +133,13 @@ declare global {
         onTableAction?: ({ event, data }: { event: string; data: anyObj }) => void
         // 表格顶部事件菜单响应后
         onTableHeaderAction?: ({ event, data }: { event: string; data: anyObj }) => void
+
+        // getData 的别名
+        getIndex?: ({ res }: { res: ApiResponse }) => void
+        // getEditData 的别名
+        requestEdit?: ({ res }: { res: ApiResponse }) => void
+
+        // 可自定义其他钩子
         [key: string]: Function | undefined
     }
 
