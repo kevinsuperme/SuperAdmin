@@ -9,11 +9,14 @@ import { findIndexRow } from '/@/components/table'
 import { i18n } from '/@/lang/index'
 import { auth, getArrayKey } from '/@/utils/common'
 
+/**
+ * 表格管家类
+ */
 export default class baTable {
-    // API实例
-    public api
+    /** baTableApi 类的实例，开发者可重写该类 */
+    public api: baTableApi
 
-    /* 表格状态-s 属性对应含义请查阅 BaTable 的类型定义 */
+    /** 表格状态，属性对应含义请查阅 BaTable 的类型定义 */
     public table: BaTable = reactive({
         ref: undefined,
         pk: 'id',
@@ -31,9 +34,8 @@ export default class baTable {
         expandAll: false,
         extend: {},
     })
-    /* 表格状态-e */
 
-    /* 表单状态-s 属性对应含义请查阅 BaTableForm 的类型定义 */
+    /** 表单状态，属性对应含义请查阅 BaTableForm 的类型定义 */
     public form: BaTableForm = reactive({
         ref: undefined,
         labelWidth: 160,
@@ -45,15 +47,14 @@ export default class baTable {
         loading: false,
         extend: {},
     })
-    /* 表单状态-e */
 
-    // BaTable前置处理函数列表（前置埋点）
+    /** BaTable 前置处理函数列表（前置埋点） */
     public before: BaTableBefore
 
-    // BaTable后置处理函数列表（后置埋点）
+    /** BaTable 后置处理函数列表（后置埋点） */
     public after: BaTableAfter
 
-    // 公共搜索数据
+    /** 公共搜索数据 */
     public comSearch: ComSearch = reactive({
         form: {},
         fieldData: new Map(),
@@ -100,8 +101,9 @@ export default class baTable {
         return true
     }
 
-    /* API请求方法-s */
-    // 查看
+    /**
+     * 表格数据获取（请求表格对应控制器的查看方法）
+     */
     getIndex = () => {
         if (this.runBefore('getIndex') === false) return
         this.table.loading = true
@@ -117,7 +119,10 @@ export default class baTable {
                 this.table.loading = false
             })
     }
-    // 删除
+
+    /**
+     * 删除数据
+     */
     postDel = (ids: string[]) => {
         if (this.runBefore('postDel', { ids }) === false) return
         this.api.del(ids).then((res) => {
@@ -125,7 +130,10 @@ export default class baTable {
             this.runAfter('postDel', { res })
         })
     }
-    // 编辑
+
+    /**
+     * 获取被编辑行数据
+     */
     requestEdit = (id: string) => {
         if (this.runBefore('requestEdit', { id }) === false) return
         this.form.loading = true
@@ -146,7 +154,6 @@ export default class baTable {
                 this.form.loading = false
             })
     }
-    /* API请求方法-e */
 
     /**
      * 双击表格
@@ -191,7 +198,7 @@ export default class baTable {
 
         if (this.runBefore('onSubmit', { formEl: formEl, operate: operate, items: this.form.items! }) === false) return
 
-        // 表单验证通过后执行的api请求操作
+        // 表单验证通过后执行的 api 请求操作
         const submitCallback = () => {
             this.form.submitLoading = true
             this.api
@@ -224,7 +231,7 @@ export default class baTable {
     }
 
     /**
-     * 获取表格选择项的id数组
+     * 获取表格选择项的主键数组
      */
     getSelectionIds() {
         const ids: string[] = []
@@ -390,7 +397,7 @@ export default class baTable {
 
     /**
      * 初始化默认排序
-     * el表格的`default-sort`在自定义排序时无效
+     * el-table 的 `default-sort` 在自定义排序时无效
      * 此方法只有在表格数据请求结束后执行有效
      */
     initSort = () => {

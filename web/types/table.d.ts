@@ -129,8 +129,13 @@ declare global {
         [key: string]: Function | undefined
     }
 
+    /**
+     * 表格公共搜索数据
+     */
     interface ComSearch {
+        // 表单项数据
         form: anyObj
+        // 字段搜索配置，搜索操作符（operator）、字段渲染方式（render）等
         fieldData: Map<string, any>
     }
 
