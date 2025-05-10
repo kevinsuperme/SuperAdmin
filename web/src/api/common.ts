@@ -285,7 +285,9 @@ export function refreshToken() {
 }
 
 /**
- * 生成一个控制器的：增、删、改、查、排序的操作url
+ * 快速生成一个控制器的 增、删、改、查、排序 接口的请求方法
+ * 本 class 实例通常直接传递给 baTable 使用，开发者可重写本类的方法，亦可直接向 baTable 传递自定义的 API 请求类
+ * 表格相关网络请求无需局限于本类，开发者可于 /src/api/ 目录创建自定义的接口请求函数，并于需要的地方导入使用即可
  */
 export class baTableApi {
     private controllerUrl
@@ -302,7 +304,11 @@ export class baTableApi {
         ])
     }
 
-    index(filter: anyObj = {}) {
+    /**
+     * 表格查看接口的请求方法
+     * @param filter 数据过滤条件
+     */
+    index(filter: BaTable['filter'] = {}) {
         return createAxios<TableDefaultData>({
             url: this.actionUrl.get('index'),
             method: 'get',
@@ -310,21 +316,29 @@ export class baTableApi {
         })
     }
 
+    /**
+     * 获取被编辑行数据
+     * @param params 被编辑行主键等
+     */
     edit(params: anyObj) {
         return createAxios({
             url: this.actionUrl.get('edit'),
             method: 'get',
-            params: params,
+            params,
         })
     }
 
+    /**
+     * 表格删除接口的请求方法
+     * @param ids 被删除数据的主键数组
+     */
     del(ids: string[]) {
         return createAxios(
             {
                 url: this.actionUrl.get('del'),
                 method: 'DELETE',
                 params: {
-                    ids: ids,
+                    ids,
                 },
             },
             {
@@ -333,12 +347,17 @@ export class baTableApi {
         )
     }
 
+    /**
+     * 向指定接口 POST 数据，本方法虽然较为通用，但请不要局限于此，开发者可于 /src/api/ 目录创建自定义的接口请求函数，并于需要的地方导入使用即可
+     * @param action 请求的接口，比如 add、edit
+     * @param data 要 POST 的数据
+     */
     postData(action: string, data: anyObj) {
         return createAxios(
             {
                 url: this.actionUrl.has(action) ? this.actionUrl.get(action) : this.controllerUrl + action,
                 method: 'post',
-                data: data,
+                data,
             },
             {
                 showSuccessMessage: true,
@@ -346,11 +365,14 @@ export class baTableApi {
         )
     }
 
+    /**
+     * 表格行排序接口的请求方法
+     */
     sortable(data: anyObj) {
         return createAxios({
             url: this.actionUrl.get('sortable'),
             method: 'post',
-            data: data,
+            data,
         })
     }
 }
