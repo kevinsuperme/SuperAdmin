@@ -179,13 +179,13 @@ const baTable = new baTableClass(new baTableApi('/admin/routine.Attachment/'), {
 
 provide('baTable', baTable)
 
-const getIndex = () => {
+const getData = () => {
     if (props.type == 'image') {
         baTable.table.filter!.search = [{ field: 'mimetype', val: 'image', operator: 'LIKE' }]
     }
     baTable.table.ref = tableRef.value
     baTable.table.filter!.limit = 8
-    baTable.getIndex()?.then(() => {
+    baTable.getData()?.then(() => {
         baTable.initSort()
     })
     state.ready = true
@@ -221,7 +221,7 @@ watch(
     (newVal) => {
         if (newVal && !state.ready) {
             nextTick(() => {
-                getIndex()
+                getData()
             })
         }
     }

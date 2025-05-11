@@ -15,38 +15,32 @@ export class sensitiveDataClass extends baTableClass {
     }
 
     // 重写编辑
-    requestEdit = (id: string) => {
-        this.runBefore('requestEdit', { id })
+    getEditData = (id: string) => {
         this.form.loading = true
         this.form.items = {}
-        return this.api
-            .edit({
-                id: id,
-            })
-            .then((res) => {
-                const fields: string[] = []
-                const dataFields: DataFields[] = []
-                for (const key in res.data.row.data_fields) {
-                    fields.push(key)
-                    dataFields.push({
-                        name: key,
-                        value: res.data.row.data_fields[key] ?? '',
-                    })
-                }
+        return this.api.edit({ id: id }).then((res) => {
+            const fields: string[] = []
+            const dataFields: DataFields[] = []
+            for (const key in res.data.row.data_fields) {
+                fields.push(key)
+                dataFields.push({
+                    name: key,
+                    value: res.data.row.data_fields[key] ?? '',
+                })
+            }
 
-                this.form.items!.connection = res.data.row.connection ? res.data.row.connection : ''
-                this.form.extend!.controllerList = res.data.controllers
+            this.form.items!.connection = res.data.row.connection ? res.data.row.connection : ''
+            this.form.extend!.controllerList = res.data.controllers
 
-                if (res.data.row.data_table) {
-                    this.onTableChange(res.data.row.data_table)
-                    if (this.form.extend!.parentRef) this.form.extend!.parentRef.setDataFields(dataFields)
-                }
+            if (res.data.row.data_table) {
+                this.onTableChange(res.data.row.data_table)
+                if (this.form.extend!.parentRef) this.form.extend!.parentRef.setDataFields(dataFields)
+            }
 
-                res.data.row.data_fields = fields
-                this.form.loading = false
-                this.form.items = res.data.row
-                this.runAfter('requestEdit', { res })
-            })
+            res.data.row.data_fields = fields
+            this.form.loading = false
+            this.form.items = res.data.row
+        })
     }
 
     onConnectionChange = () => {
@@ -93,7 +87,6 @@ export class sensitiveDataClass extends baTableClass {
      * 重写打开表单方法
      */
     toggleForm = (operate = '', operateIds: string[] = []) => {
-        this.runBefore('toggleForm', { operate, operateIds })
         if (this.form.ref) {
             this.form.ref.resetFields()
         }
@@ -104,7 +97,7 @@ export class sensitiveDataClass extends baTableClass {
             if (!operateIds.length) {
                 return false
             }
-            this.requestEdit(operateIds[0])
+            this.getEditData(operateIds[0])
         } else if (operate == 'Add') {
             this.form.loading = true
             add().then((res) => {
@@ -116,6 +109,5 @@ export class sensitiveDataClass extends baTableClass {
 
         this.form.operate = operate
         this.form.operateIds = operateIds
-        this.runAfter('toggleForm', { operate, operateIds })
     }
 }

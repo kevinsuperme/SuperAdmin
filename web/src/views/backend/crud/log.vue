@@ -413,8 +413,8 @@ const baTable = new baTableClass(
 
 provide('baTable', baTable)
 
-const getIndex = () => {
-    baTable.getIndex()?.then(() => {
+const getData = () => {
+    baTable.getData()?.then(() => {
         state.ready = true
     })
 }
@@ -545,7 +545,7 @@ watch(
     (newVal) => {
         if (newVal && !state.ready) {
             nextTick(() => {
-                getIndex()
+                getData()
             })
         }
     }

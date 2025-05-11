@@ -96,7 +96,7 @@ baTable.after.onSubmit = () => {
 }
 
 baTable.mount()
-baTable.getIndex()
+baTable.getData()
 
 provide('baTable', baTable)
 

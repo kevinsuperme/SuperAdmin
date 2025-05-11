@@ -104,14 +104,12 @@ const baTable = new sensitiveDataClass(
         defaultItems: {
             status: 1,
         },
-    },
-    {
-        // 提交前
-        onSubmit: () => {
-            baTable.form.items!.fields = formRef.value.getDataFields()
-        },
     }
 )
+
+baTable.before.onSubmit = () => {
+    baTable.form.items!.fields = formRef.value.getDataFields()
+}
 
 provide('baTable', baTable)
 
@@ -119,7 +117,7 @@ onMounted(() => {
     baTable.form.extend!.parentRef = formRef.value
     baTable.table.ref = tableRef.value
     baTable.mount()
-    baTable.getIndex()
+    baTable.getData()
 })
 </script>
 

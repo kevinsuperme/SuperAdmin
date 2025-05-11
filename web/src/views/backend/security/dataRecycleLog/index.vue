@@ -205,7 +205,7 @@ provide('baTable', baTable)
 
 onMounted(() => {
     baTable.mount()
-    baTable.getIndex()
+    baTable.getData()
 })
 </script>
 

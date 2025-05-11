@@ -107,7 +107,7 @@ const baTable = new baTableClass(
 )
 
 baTable.mount()
-baTable.getIndex()
+baTable.getData()
 
 provide('baTable', baTable)
 </script>

@@ -157,7 +157,7 @@ const state: {
     formKey: uuid(),
 })
 
-const getIndex = () => {
+const getData = () => {
     index()
         .then((res) => {
             state.config = res.data.list
@@ -240,7 +240,7 @@ const onSubmit = () => {
 
 const onDelConfig = (config: anyObj) => {
     del([config.id]).then(() => {
-        getIndex()
+        getData()
     })
 }
 
@@ -277,7 +277,7 @@ const onTestSendMail = () => {
 }
 
 onMounted(() => {
-    getIndex()
+    getData()
     closeHotUpdate('config')
 })
 onActivated(() => {

@@ -127,7 +127,7 @@ baTable.before.onTableDblclick = ({ row }) => {
 }
 
 baTable.mount()
-baTable.getIndex()
+baTable.getData()
 
 provide('baTable', baTable)
 
