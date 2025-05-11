@@ -17,23 +17,21 @@ import Table from '/@/components/table/index.vue'
 
 declare global {
     interface BaTable {
-        // 表格 ref，通常在 页面 onMounted 时赋值，可选的
-        ref?: typeof Table
-        // 表格对应数据表的主键字段
-        pk?: string
-        // 表格数据，通过 getData 加载
+        /**
+         * 表格数据，通过 baTable.getData 获取
+         * 刷新数据可使用 baTable.onTableHeaderAction('refresh', { event: 'custom' })
+         */
         data?: TableRow[]
-        // 路由 remark，后台菜单规则备注信息
-        remark?: string | null
-        // 表格加载状态
-        loading?: boolean
-        // 当前选中行
-        selection?: TableRow[]
-        // 表格列定义
+
+        /**
+         * 表格列定义
+         */
         column: TableColumn[]
-        // 数据总量
-        total?: number
-        // 字段搜索，快速搜索，分页等数据
+
+        /**
+         * 获取表格数据时的过滤条件（含公共搜索、快速搜索、分页、排序等数据）
+         * 公共搜索数据可使用 baTable.setComSearchData 和 baTable.getComSearchData 进行管理
+         */
         filter?: {
             page?: number
             limit?: number
@@ -42,6 +40,30 @@ declare global {
             search?: comSearchData[]
             [key: string]: any
         }
+
+        /**
+         * 不需要双击编辑的字段，type=selection 的列为 undefined
+         * 禁用全部列的双击编辑，可使用 ['all']
+         */
+        dblClickNotEditColumn?: (string | undefined)[]
+
+        /**
+         * 表格扩展数据，随意定义，以便一些自定义数据可以随 baTable 实例传递
+         */
+        extend?: anyObj
+
+        // 表格 ref，通常在 页面 onMounted 时赋值，可选的
+        ref?: typeof Table
+        // 表格对应数据表的主键字段
+        pk?: string
+        // 路由 remark，后台菜单规则备注信息
+        remark?: string | null
+        // 表格加载状态
+        loading?: boolean
+        // 当前选中行
+        selection?: TableRow[]
+        // 数据总量
+        total?: number
         // 默认排序字段和排序方式
         defaultOrder?: { prop: string; order: string }
         // 拖动排序限位字段，例如拖动行 pid=1，那么拖动目的行 pid 也需要为 1
@@ -50,63 +72,110 @@ declare global {
         acceptQuery?: boolean
         // 显示公共搜索
         showComSearch?: boolean
-        // 不需要 '双击编辑' 的字段，type=selection 的列为 undefined
-        dblClickNotEditColumn?: (string | undefined)[]
         // 是否展开所有子项，树状表格专用属性
         expandAll?: boolean
         // 当前表格所在页面的路由 path
         routePath?: string
-        // 表格扩展数据，随意定义，以便一些自定义数据可以随 baTable 实例传递
-        extend?: anyObj
     }
 
     interface BaTableForm {
+        /**
+         * 当前表单项数据
+         */
+        items?: anyObj
+
+        /**
+         * 当前操作标识:Add=添加,Edit=编辑
+         */
+        operate?: string
+
+        /**
+         * 添加表单字段默认值，打开表单时会使用 cloneDeep 赋值给 this.form.items 对象
+         */
+        defaultItems?: anyObj
+
+        /**
+         * 表单扩展数据，可随意定义，以便一些自定义数据可以随 baTable 实例传递
+         */
+        extend?: anyObj
+
         // 表单 ref，实例化表格时通常无需传递
         ref?: FormInstance | undefined
         // 表单项 label 的宽度
         labelWidth?: number
-        // 当前操作:add=添加,edit=编辑
-        operate?: string
         // 被操作数据ID，支持批量编辑:add=[0],edit=[1,2,n]
         operateIds?: string[]
-        // 表单数据，内含用户输入
-        items?: anyObj
         // 提交按钮状态
         submitLoading?: boolean
-        // 默认表单数据（添加时）
-        defaultItems?: anyObj
         // 表单加载状态
         loading?: boolean
-        // 表单扩展数据，随意定义，以便一些自定义数据可以随 baTable 实例传递
-        extend?: anyObj
     }
 
     /**
      * BaTable 前置处理函数（前置埋点）
      */
     interface BaTableBefore {
-        // 获取表格数据前
+        /**
+         * 获取表格数据前的钩子（返回 false 可取消原操作）
+         */
         getData?: () => boolean | void
-        // 删除前
+
+        /**
+         * 删除前的钩子（返回 false 可取消原操作）
+         * @param object.ids 被删除数据的主键集合
+         */
         postDel?: ({ ids }: { ids: string[] }) => boolean | void
-        // 获取编辑行数据前
+
+        /**
+         * 获取被编辑行数据前的钩子（返回 false 可取消原操作）
+         * @param object.id 被编辑行主键
+         */
         getEditData?: ({ id }: { id: string }) => boolean | void
-        // 双击表格具体操作执行前
+
+        /**
+         * 双击表格具体操作执行前钩子（返回 false 可取消原操作）
+         * @param object.row 被双击行数据
+         * @param object.column 被双击列数据
+         */
         onTableDblclick?: ({ row, column }: { row: TableRow; column: TableColumn }) => boolean | void
-        // 表单切换前
+
+        /**
+         * 表单切换前钩子（返回 false 可取消默认行为）
+         * @param object.operate 当前操作标识:Add=添加,Edit=编辑
+         * @param object.operateIds 被操作的行 ID 集合
+         */
         toggleForm?: ({ operate, operateIds }: { operate: string; operateIds: string[] }) => boolean | void
-        // 表单提交前
+
+        /**
+         * 表单提交前钩子（返回 false 可取消原操作）
+         * @param object.formEl 表单组件ref
+         * @param object.operate 当前操作标识:Add=添加,Edit=编辑
+         * @param object.items 表单数据
+         */
         onSubmit?: ({ formEl, operate, items }: { formEl: FormInstance | undefined; operate: string; items: anyObj }) => boolean | void
-        // 表格内事件响应前
+
+        /**
+         * 表格内事件响应前钩子（返回 false 可取消原操作）
+         * @param object.event 事件名称
+         * @param object.data 事件携带的数据
+         */
         onTableAction?: ({ event, data }: { event: string; data: anyObj }) => boolean | void
-        // 表格顶部菜单事件响应前
+
+        /**
+         * 表格顶部菜单事件响应前钩子（返回 false 可取消原操作）
+         * @param object.event 事件名称
+         * @param object.data 事件携带的数据
+         */
         onTableHeaderAction?: ({ event, data }: { event: string; data: anyObj }) => boolean | void
-        // 表格初始化前
+
+        /**
+         * 表格初始化前钩子
+         */
         mount?: () => boolean | void
 
-        // getData 的别名
+        /** getData 的别名 */
         getIndex?: () => boolean | void
-        // getEditData 的别名
+        /** getEditData 的别名 */
         requestEdit?: ({ id }: { id: string }) => boolean | void
 
         // 可自定义其他钩子
@@ -117,26 +186,63 @@ declare global {
      * BaTable 后置处理函数（后置埋点）
      */
     interface BaTableAfter {
-        // 表格数据请求后
+        /**
+         * 请求到表格数据后钩子
+         * 此时 baTable.table.data 已赋值
+         * @param object.res 请求完整响应
+         */
         getData?: ({ res }: { res: ApiResponse }) => void
-        // 删除请求后
+
+        /**
+         * 删除请求后钩子
+         * @param object.res 请求完整响应
+         */
         postDel?: ({ res }: { res: ApiResponse }) => void
-        // 获取到编辑行数据后
+
+        /**
+         * 获取到编辑行数据后钩子
+         * 此时 baTable.form.items 已赋值
+         * @param object.res 请求完整响应
+         */
         getEditData?: ({ res }: { res: ApiResponse }) => void
-        // 双击单元格操作执行后
+
+        /**
+         * 双击单元格操作执行后钩子
+         * @param object.row 当前行数据
+         * @param object.column 当前列数据
+         */
         onTableDblclick?: ({ row, column }: { row: TableRow; column: TableColumn }) => void
-        // 表单切换后
+
+        /**
+         * 表单切换后钩子
+         * @param object.operate 当前操作标识:Add=添加,Edit=编辑
+         * @param object.operateIds 被操作的 ID 集合
+         */
         toggleForm?: ({ operate, operateIds }: { operate: string; operateIds: string[] }) => void
-        // 表单提交后
+
+        /**
+         * 表单提交后钩子
+         * @param object.res 请求完整响应
+         */
         onSubmit?: ({ res }: { res: ApiResponse }) => void
-        // 表格事件响应后
+
+        /**
+         * 表格内事件响应后钩子
+         * @param object.event 事件名称
+         * @param object.data 事件携带的数据
+         */
         onTableAction?: ({ event, data }: { event: string; data: anyObj }) => void
-        // 表格顶部事件菜单响应后
+
+        /**
+         * 表格顶部菜单事件响应后钩子
+         * @param object.event 事件名称
+         * @param object.data 事件携带的数据
+         */
         onTableHeaderAction?: ({ event, data }: { event: string; data: anyObj }) => void
 
-        // getData 的别名
+        /** getData 的别名 */
         getIndex?: ({ res }: { res: ApiResponse }) => void
-        // getEditData 的别名
+        /** getEditData 的别名 */
         requestEdit?: ({ res }: { res: ApiResponse }) => void
 
         // 可自定义其他钩子
@@ -147,9 +253,9 @@ declare global {
      * 表格公共搜索数据
      */
     interface ComSearch {
-        // 表单项数据
+        /** 表单项数据 */
         form: anyObj
-        // 字段搜索配置，搜索操作符（operator）、字段渲染方式（render）等
+        /** 字段搜索配置，搜索操作符（operator）、字段渲染方式（render）等 */
         fieldData: Map<string, any>
     }
 
@@ -243,24 +349,64 @@ declare global {
      * 表格右侧操作按钮
      */
     interface OptButton {
-        // 渲染方式:tipButton=带tip的按钮,confirmButton=带确认框的按钮,moveButton=移动按钮,basicButton=普通按钮
+        /**
+         * 渲染方式:tipButton=带tip的按钮,confirmButton=带确认框的按钮,moveButton=移动按钮,basicButton=普通按钮
+         */
         render: 'tipButton' | 'confirmButton' | 'moveButton' | 'basicButton'
+
+        /**
+         * 按钮名称，将作为触发表格内事件（onTableAction）时的事件名
+         */
         name: string
+
+        /**
+         * 鼠标 hover 时的提示
+         * 可使用多语言翻译 key，比如 user.group
+         */
         title?: string
+
+        /**
+         * 直接在按钮内显示的文字，title 有值时可为空
+         * 可使用多语言翻译 key，比如 user.group
+         */
         text?: string
-        class?: string
-        type: ButtonType
-        icon: string
-        popconfirm?: Partial<Mutable<PopconfirmProps>>
-        disabledTip?: boolean
-        // 自定义点击事件
+
+        /**
+         * 自定义按钮的点击事件
+         * @param row 当前行数据
+         * @param field 当前列数据
+         */
         click?: (row: TableRow, field: TableColumn) => void
-        // 按钮是否显示，请返回布尔值，比如：display: auth('add')
+
+        /**
+         * 按钮是否显示（请返回布尔值，比如：display: auth('add')）
+         * @param row 当前行数据
+         * @param field 当前列数据
+         */
         display?: (row: TableRow, field: TableColumn) => boolean
-        // 按钮是否禁用，请返回布尔值
+
+        /**
+         * 按钮是否禁用（请返回布尔值）
+         * @param row 当前行数据
+         * @param field 当前列数据
+         */
         disabled?: (row: TableRow, field: TableColumn) => boolean
-        // 自定义其他 el-button 的属性
+
+        /**
+         * 自定义 el-button 的其他属性
+         */
         attr?: Partial<Mutable<ButtonProps>>
+
+        // 按钮 class
+        class?: string
+        // 按钮 type
+        type: ButtonType
+        // 按钮 icon 的名称
+        icon: string
+        // 确认按钮的气泡确认框的属性（el-popconfirm 的属性）
+        popconfirm?: Partial<Mutable<PopconfirmProps>>
+        // 是否禁用 title 提示，此值通常由系统动态调整以确保提示的显示效果
+        disabledTip?: boolean
     }
 
     /**
