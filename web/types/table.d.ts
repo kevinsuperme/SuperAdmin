@@ -319,7 +319,7 @@ declare global {
         // 公共搜索操作符，默认值为 = ，值为 false 禁用此字段公共搜索，支持的操作符见下类型定义
         operator?: boolean | OperatorStr
         // 公共搜索框的 placeholder
-        operatorPlaceholder?: string
+        operatorPlaceholder?: string | string[]
         // 公共搜索渲染方式，render=tag|switch 时公共搜索也会渲染为下拉，数字会渲染为范围筛选，时间渲染为时间选择器等
         comSearchRender?: 'remoteSelect' | 'select' | 'date' | 'customRender' | 'slot'
         // 公共搜索自定义组件/函数渲染

@@ -43,8 +43,8 @@
                                         :default-time="[new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 1, 1, 23, 59, 59)]"
                                         :type="item.comSearchRender == 'date' ? 'daterange' : 'datetimerange'"
                                         :range-separator="$t('To')"
-                                        :start-placeholder="$t('el.datepicker.startDate')"
-                                        :end-placeholder="$t('el.datepicker.endDate')"
+                                        :start-placeholder="getPlaceholder(item.operatorPlaceholder, 0, $t('el.datepicker.startDate'))"
+                                        :end-placeholder="getPlaceholder(item.operatorPlaceholder, 1, $t('el.datepicker.endDate'))"
                                         :value-format="item.comSearchRender == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss'"
                                         :teleported="false"
                                     />
@@ -57,14 +57,14 @@
                                 <!-- 数字范围 -->
                                 <div v-if="item.operator == 'RANGE' || item.operator == 'NOT RANGE'" class="com-search-col-input-range">
                                     <el-input
-                                        :placeholder="item.operatorPlaceholder"
+                                        :placeholder="getPlaceholder(item.operatorPlaceholder)"
                                         type="string"
                                         v-model="baTable.comSearch.form[item.prop! + '-start']"
                                         :clearable="true"
                                     ></el-input>
                                     <div class="range-separator">{{ $t('To') }}</div>
                                     <el-input
-                                        :placeholder="item.operatorPlaceholder"
+                                        :placeholder="getPlaceholder(item.operatorPlaceholder, 1)"
                                         type="string"
                                         v-model="baTable.comSearch.form[item.prop! + '-end']"
                                         :clearable="true"
@@ -82,14 +82,14 @@
                                         v-model="baTable.comSearch.form[item.prop!]"
                                         :type="item.comSearchRender == 'date' ? 'date' : 'datetime'"
                                         :value-format="item.comSearchRender == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss'"
-                                        :placeholder="item.operatorPlaceholder"
+                                        :placeholder="getPlaceholder(item.operatorPlaceholder)"
                                         :teleported="false"
                                     />
 
                                     <!-- tag、tags、select -->
                                     <el-select
                                         class="w100"
-                                        :placeholder="item.operatorPlaceholder"
+                                        :placeholder="getPlaceholder(item.operatorPlaceholder)"
                                         v-else-if="
                                             (item.render == 'tag' || item.render == 'tags' || item.comSearchRender == 'select') && item.replaceValue
                                         "
@@ -106,12 +106,12 @@
                                         type="remoteSelect"
                                         v-model="baTable.comSearch.form[item.prop!]"
                                         :attr="item.remote"
-                                        :placeholder="item.operatorPlaceholder"
+                                        :placeholder="getPlaceholder(item.operatorPlaceholder)"
                                     />
 
                                     <!-- 开关 -->
                                     <el-select
-                                        :placeholder="item.operatorPlaceholder"
+                                        :placeholder="getPlaceholder(item.operatorPlaceholder)"
                                         v-else-if="item.render == 'switch'"
                                         v-model="baTable.comSearch.form[item.prop!]"
                                         :clearable="true"
@@ -128,7 +128,7 @@
 
                                     <!-- 字符串 -->
                                     <el-input
-                                        :placeholder="item.operatorPlaceholder"
+                                        :placeholder="getPlaceholder(item.operatorPlaceholder)"
                                         v-else
                                         type="string"
                                         v-model="baTable.comSearch.form[item.prop!]"
@@ -153,7 +153,7 @@
 <script setup lang="ts">
 import { inject } from 'vue'
 import type baTableClass from '/@/utils/baTable'
-import { isEmpty } from 'lodash-es'
+import { isArray, isEmpty, isUndefined } from 'lodash-es'
 import BaInput from '/@/components/baInput/index.vue'
 
 const baTable = inject('baTable') as baTableClass
@@ -167,6 +167,16 @@ const onResetForm = () => {
 
     // 通知 baTable 发起公共搜索
     baTable.onTableAction('com-search', {})
+}
+
+const getPlaceholder = (placeholder: string | string[] | undefined, key = 0, defaultValue = '') => {
+    if (isUndefined(placeholder)) {
+        return defaultValue
+    } else if (isArray(placeholder)) {
+        return placeholder[key]
+    } else {
+        return placeholder
+    }
 }
 </script>
 
