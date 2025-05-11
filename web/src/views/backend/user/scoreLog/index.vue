@@ -87,14 +87,13 @@ const baTable = new baTableClass(
             user_id: defalutUser,
             memo: '',
         },
-    },
-    {},
-    {
-        onSubmit: () => {
-            getUserInfo(baTable.comSearch.form.user_id)
-        },
     }
 )
+
+// 表单提交后
+baTable.after.onSubmit = () => {
+    getUserInfo(baTable.comSearch.form.user_id)
+}
 
 baTable.mount()
 baTable.getIndex()

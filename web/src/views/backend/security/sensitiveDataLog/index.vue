@@ -94,106 +94,102 @@ let optButtons: OptButton[] = [
     },
 ]
 optButtons = optButtons.concat(defaultOptButtons(['delete']))
-const baTable = new baTableClass(
-    new baTableApi(url),
-    {
-        column: [
-            { type: 'selection', align: 'center', operator: false },
-            { label: t('Id'), prop: 'id', align: 'center', operator: '=', operatorPlaceholder: t('Id'), width: 70 },
-            {
-                label: t('security.sensitiveDataLog.Operation administrator'),
-                prop: 'admin.nickname',
-                align: 'center',
-                operator: 'LIKE',
-                operatorPlaceholder: t('Fuzzy query'),
-            },
-            {
-                label: t('security.sensitiveDataLog.Rule name'),
-                prop: 'sensitive.name',
-                align: 'center',
-                operator: 'LIKE',
-                operatorPlaceholder: t('Fuzzy query'),
-            },
-            {
-                label: t('security.sensitiveDataLog.controller'),
-                prop: 'sensitive.controller_as',
-                align: 'center',
-                operator: 'LIKE',
-                operatorPlaceholder: t('Fuzzy query'),
-            },
-            {
-                label: t('Connection'),
-                prop: 'connection',
-                align: 'center',
-                operator: 'LIKE',
-                operatorPlaceholder: t('Fuzzy query'),
-            },
-            {
-                label: t('security.sensitiveDataLog.data sheet'),
-                prop: 'data_table',
-                align: 'center',
-                operator: 'LIKE',
-                operatorPlaceholder: t('Fuzzy query'),
-            },
-            {
-                label: t('security.sensitiveDataLog.Modify line'),
-                prop: 'id_value',
-                align: 'center',
-                operator: 'LIKE',
-                operatorPlaceholder: t('Fuzzy query'),
-            },
-            {
-                label: t('security.sensitiveDataLog.Modification'),
-                prop: 'data_comment',
-                align: 'center',
-                operator: 'LIKE',
-                operatorPlaceholder: t('Fuzzy query'),
-            },
-            {
-                label: t('security.sensitiveDataLog.Before modification'),
-                prop: 'before',
-                align: 'center',
-                operator: 'LIKE',
-                operatorPlaceholder: t('Fuzzy query'),
-                showOverflowTooltip: true,
-            },
-            {
-                label: t('security.sensitiveDataLog.After modification'),
-                prop: 'after',
-                align: 'center',
-                operator: 'LIKE',
-                operatorPlaceholder: t('Fuzzy query'),
-                showOverflowTooltip: true,
-            },
-            { label: 'IP', prop: 'ip', align: 'center', operator: 'LIKE', operatorPlaceholder: t('Fuzzy query') },
-            {
-                label: t('security.sensitiveDataLog.Modification time'),
-                prop: 'create_time',
-                align: 'center',
-                render: 'datetime',
-                sortable: 'custom',
-                operator: 'RANGE',
-                width: 160,
-            },
-            {
-                label: t('Operate'),
-                align: 'center',
-                width: 120,
-                render: 'buttons',
-                buttons: optButtons,
-                operator: false,
-            },
-        ],
-        dblClickNotEditColumn: [undefined],
-    },
-    {},
-    {
-        onTableDblclick: ({ row }) => {
-            infoButtonClick(row[baTable.table.pk!])
-            return false
+const baTable = new baTableClass(new baTableApi(url), {
+    column: [
+        { type: 'selection', align: 'center', operator: false },
+        { label: t('Id'), prop: 'id', align: 'center', operator: '=', operatorPlaceholder: t('Id'), width: 70 },
+        {
+            label: t('security.sensitiveDataLog.Operation administrator'),
+            prop: 'admin.nickname',
+            align: 'center',
+            operator: 'LIKE',
+            operatorPlaceholder: t('Fuzzy query'),
         },
-    }
-)
+        {
+            label: t('security.sensitiveDataLog.Rule name'),
+            prop: 'sensitive.name',
+            align: 'center',
+            operator: 'LIKE',
+            operatorPlaceholder: t('Fuzzy query'),
+        },
+        {
+            label: t('security.sensitiveDataLog.controller'),
+            prop: 'sensitive.controller_as',
+            align: 'center',
+            operator: 'LIKE',
+            operatorPlaceholder: t('Fuzzy query'),
+        },
+        {
+            label: t('Connection'),
+            prop: 'connection',
+            align: 'center',
+            operator: 'LIKE',
+            operatorPlaceholder: t('Fuzzy query'),
+        },
+        {
+            label: t('security.sensitiveDataLog.data sheet'),
+            prop: 'data_table',
+            align: 'center',
+            operator: 'LIKE',
+            operatorPlaceholder: t('Fuzzy query'),
+        },
+        {
+            label: t('security.sensitiveDataLog.Modify line'),
+            prop: 'id_value',
+            align: 'center',
+            operator: 'LIKE',
+            operatorPlaceholder: t('Fuzzy query'),
+        },
+        {
+            label: t('security.sensitiveDataLog.Modification'),
+            prop: 'data_comment',
+            align: 'center',
+            operator: 'LIKE',
+            operatorPlaceholder: t('Fuzzy query'),
+        },
+        {
+            label: t('security.sensitiveDataLog.Before modification'),
+            prop: 'before',
+            align: 'center',
+            operator: 'LIKE',
+            operatorPlaceholder: t('Fuzzy query'),
+            showOverflowTooltip: true,
+        },
+        {
+            label: t('security.sensitiveDataLog.After modification'),
+            prop: 'after',
+            align: 'center',
+            operator: 'LIKE',
+            operatorPlaceholder: t('Fuzzy query'),
+            showOverflowTooltip: true,
+        },
+        { label: 'IP', prop: 'ip', align: 'center', operator: 'LIKE', operatorPlaceholder: t('Fuzzy query') },
+        {
+            label: t('security.sensitiveDataLog.Modification time'),
+            prop: 'create_time',
+            align: 'center',
+            render: 'datetime',
+            sortable: 'custom',
+            operator: 'RANGE',
+            width: 160,
+        },
+        {
+            label: t('Operate'),
+            align: 'center',
+            width: 120,
+            render: 'buttons',
+            buttons: optButtons,
+            operator: false,
+        },
+    ],
+    dblClickNotEditColumn: [undefined],
+})
+
+// 利用双击单元格前钩子重写双击操作
+baTable.before.onTableDblclick = ({ row }) => {
+    infoButtonClick(row[baTable.table.pk!])
+    return false
+}
 
 const onRollback = (ids: string[]) => {
     rollback(ids).then(() => {

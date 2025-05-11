@@ -96,20 +96,19 @@ const baTable = new baTableClass(
         defaultItems: {
             status: 1,
         },
-    },
-    {
-        // 添加前获取控制器和数据表
-        toggleForm: ({ operate }) => {
-            if (operate == 'Add' || operate == 'Edit') {
-                baTable.form.loading = true
-                add().then((res) => {
-                    baTable.form.extend!.controllerList = res.data.controllers
-                    baTable.form.loading = false
-                })
-            }
-        },
     }
 )
+
+// 获取控制器和数据表数据
+baTable.before.toggleForm = ({ operate }) => {
+    if (operate == 'Add' || operate == 'Edit') {
+        baTable.form.loading = true
+        add().then((res) => {
+            baTable.form.extend!.controllerList = res.data.controllers
+            baTable.form.loading = false
+        })
+    }
+}
 
 provide('baTable', baTable)
 

@@ -74,21 +74,24 @@ const baTable = new baTableClass(
             status: 1,
             icon: 'fa fa-circle-o',
         },
-    },
-    {
-        // 获得编辑数据后
-        requestEdit: () => {
-            if (baTable.form.items && !baTable.form.items.icon) baTable.form.items.icon = 'fa fa-circle-o'
-        },
-        onSubmit: () => {
-            if (baTable.form.items!.type == 'route') {
-                baTable.form.items!.menu_type = 'tab'
-            } else if (['menu', 'menu_dir', 'nav_user_menu'].includes(baTable.form.items!.type)) {
-                baTable.form.items!.no_login_valid = '0'
-            }
-        },
     }
 )
+
+// 表单提交前
+baTable.before.onSubmit = () => {
+    if (baTable.form.items!.type == 'route') {
+        baTable.form.items!.menu_type = 'tab'
+    } else if (['menu', 'menu_dir', 'nav_user_menu'].includes(baTable.form.items!.type)) {
+        baTable.form.items!.no_login_valid = '0'
+    }
+}
+
+// 取得编辑行的数据后
+baTable.after.getEditData = () => {
+    if (baTable.form.items && !baTable.form.items.icon) {
+        baTable.form.items.icon = 'fa fa-circle-o'
+    }
+}
 
 provide('baTable', baTable)
 
