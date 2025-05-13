@@ -66,7 +66,7 @@
                             {{ t('auth.rule.It will be registered as the web side routing name and used as the server side API authentication') }}
                         </div>
                     </el-form-item>
-                    <el-form-item :label="t('auth.rule.Routing path')">
+                    <el-form-item v-if="baTable.form.items!.type != 'button'" prop="path" :label="t('auth.rule.Routing path')">
                         <el-input v-model="baTable.form.items!.path" type="string" :placeholder="t('user.rule.Web side routing path')"></el-input>
                     </el-form-item>
 
@@ -114,6 +114,9 @@
                             type="string"
                             :placeholder="t('user.rule.For example, if you add account/overview as a route only')"
                         ></el-input>
+                        <div class="block-help component-path-tips">
+                            {{ t('user.rule.Component path tips') }}
+                        </div>
                     </el-form-item>
                     <!-- 扩展属性 -->
                     <el-form-item
@@ -216,12 +219,19 @@ const rules: Partial<Record<string, FormItemRule[]>> = reactive({
         },
     ],
     name: [buildValidatorData({ name: 'required', title: t('auth.rule.Rule name') })],
-    url: [buildValidatorData({ name: 'url', message: t('auth.rule.Please enter the correct URL') })],
+    path: [buildValidatorData({ name: 'required', title: t('auth.rule.Routing path') })],
+    url: [
+        buildValidatorData({ name: 'required', message: t('auth.rule.Link address') }),
+        buildValidatorData({ name: 'url', message: t('auth.rule.Please enter the correct URL') }),
+    ],
 })
 </script>
 
 <style scoped lang="scss">
 .ba-el-radio {
     margin-bottom: 10px;
+}
+.component-path-tips {
+    color: var(--el-color-warning);
 }
 </style>
