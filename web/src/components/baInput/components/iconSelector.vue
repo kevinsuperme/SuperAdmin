@@ -64,10 +64,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onMounted, nextTick, watch, computed } from 'vue'
-import { getAwesomeIconfontNames, getIconfontNames, getElementPlusIconfontNames, getLocalIconfontNames } from '/@/utils/iconfont'
 import { useEventListener } from '@vueuse/core'
 import type { Placement } from 'element-plus'
+import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
+import { getAwesomeIconfontNames, getElementPlusIconfontNames, getIconfontNames, getLocalIconfontNames } from '/@/utils/iconfont'
 
 type IconType = 'ele' | 'awe' | 'ali' | 'local'
 
@@ -199,9 +199,26 @@ watch(
         state.prependIcon = props.modelValue
     }
 )
+
+/**
+ * 1. 图标选择面板一旦显示就监听 document 的点击事件
+ * 2. 点击后输入框和面板会失去焦点，面板将自动隐藏
+ * 3. 面板隐藏后删除点击事件监听
+ */
+let removeClickHidePopoverListenerFn = () => {}
+watch(
+    () => state.popoverVisible,
+    () => {
+        if (state.popoverVisible) {
+            removeClickHidePopoverListenerFn = useEventListener(document, 'click', popoverVisible)
+        } else {
+            removeClickHidePopoverListenerFn()
+        }
+    }
+)
+
 onMounted(() => {
     getInputWidth()
-    useEventListener(document, 'click', popoverVisible)
     getElementPlusIconfontNames().then((res) => {
         state.fontIconNames = res
     })
