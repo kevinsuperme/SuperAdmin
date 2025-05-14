@@ -14,19 +14,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, reactive } from 'vue'
+import type { ScrollbarInstance } from 'element-plus'
+import { computed, onMounted, reactive, ref } from 'vue'
 import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from 'vue-router'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import MenuTree from '/@/layouts/backend/components/menus/menuTree.vue'
 import { useConfig } from '/@/stores/config'
 import { useNavTabs } from '/@/stores/navTabs'
-import { layoutMenuRef, layoutMenuScrollbarRef } from '/@/stores/refs'
-import horizontalScroll from '/@/utils/horizontalScroll'
+import { layoutMenuRef } from '/@/stores/refs'
 import { getMenuKey } from '/@/utils/router'
 
 const config = useConfig()
 const navTabs = useNavTabs()
 const route = useRoute()
+
+const layoutMenuScrollbarRef = ref<ScrollbarInstance>()
 
 const state: {
     defaultActive: string
@@ -74,18 +76,17 @@ const currentRouteActive = (currentRoute: RouteLocationNormalizedLoaded) => {
  * 侧栏菜单滚动条滚动到激活菜单所在位置
  */
 const verticalMenusScroll = () => {
-    nextTick(() => {
+    setTimeout(() => {
         let activeMenu: HTMLElement | null = document.querySelector('.el-menu.layouts-menu-vertical-children li.is-active')
-        if (!activeMenu) return false
-        layoutMenuScrollbarRef.value?.setScrollTop(activeMenu.offsetTop)
-    })
+        if (activeMenu) {
+            layoutMenuScrollbarRef.value?.setScrollTop(activeMenu.offsetTop)
+        }
+    }, 500)
 }
 
 onMounted(() => {
     currentRouteActive(route)
     verticalMenusScroll()
-
-    new horizontalScroll(layoutMenuScrollbarRef.value!.wrapRef!)
 })
 
 onBeforeRouteUpdate((to) => {
