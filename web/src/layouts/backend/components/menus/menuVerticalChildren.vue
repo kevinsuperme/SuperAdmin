@@ -14,8 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ScrollbarInstance } from 'element-plus'
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, useTemplateRef } from 'vue'
 import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from 'vue-router'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import MenuTree from '/@/layouts/backend/components/menus/menuTree.vue'
@@ -28,7 +27,7 @@ const config = useConfig()
 const navTabs = useNavTabs()
 const route = useRoute()
 
-const layoutMenuScrollbarRef = ref<ScrollbarInstance>()
+const layoutMenuScrollbarRef = useTemplateRef('layoutMenuScrollbarRef')
 
 const state: {
     defaultActive: string
