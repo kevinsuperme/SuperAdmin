@@ -367,10 +367,12 @@ class Server
         if (!file_exists($bootstrapFile)) return [];
         $bootstrapContent = file_get_contents($bootstrapFile);
         $pregArr          = [
-            'mainTsImport'    => '/#main.ts import code start#([\s\S]*?)#main.ts import code end#/i',
-            'mainTsStart'     => '/#main.ts start code start#([\s\S]*?)#main.ts start code end#/i',
-            'appVueImport'    => '/#App.vue import code start#([\s\S]*?)#App.vue import code end#/i',
-            'appVueOnMounted' => '/#App.vue onMounted code start#([\s\S]*?)#App.vue onMounted code end#/i',
+            'mainTsImport'     => '/#main.ts import code start#([\s\S]*?)#main.ts import code end#/i',
+            'mainTsStart'      => '/#main.ts start code start#([\s\S]*?)#main.ts start code end#/i',
+            'appVueImport'     => '/#App.vue import code start#([\s\S]*?)#App.vue import code end#/i',
+            'appVueOnMounted'  => '/#App.vue onMounted code start#([\s\S]*?)#App.vue onMounted code end#/i',
+            'nuxtAppVueImport' => '/#web-nuxt\/app.vue import code start#([\s\S]*?)#web-nuxt\/app.vue import code end#/i',
+            'nuxtAppVueStart'  => '/#web-nuxt\/app.vue start code start#([\s\S]*?)#web-nuxt\/app.vue start code end#/i',
         ];
         $codeStrArr       = [];
         foreach ($pregArr as $key => $item) {
@@ -403,26 +405,38 @@ class Server
      */
     public static function installWebBootstrap(string $uid, string $dir): void
     {
-        $mainTsKeys    = ['mainTsImport', 'mainTsStart'];
         $bootstrapCode = self::analysisWebBootstrap($uid, $dir);
-        $basePath      = root_path() . 'web' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR;
+        if (!$bootstrapCode) {
+            return;
+        }
+
+        $webPath     = root_path() . 'web' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR;
+        $webNuxtPath = root_path() . 'web-nuxt' . DIRECTORY_SEPARATOR;
+        $filePaths   = [
+            'mainTsImport'     => $webPath . 'main.ts',
+            'mainTsStart'      => $webPath . 'main.ts',
+            'appVueImport'     => $webPath . 'App.vue',
+            'appVueOnMounted'  => $webPath . 'App.vue',
+            'nuxtAppVueImport' => $webNuxtPath . 'app.vue',
+            'nuxtAppVueStart'  => $webNuxtPath . 'app.vue',
+        ];
 
         $marks = [
-            'mainTsImport'    => self::buildMarkStr('import-root-mark'),
-            'mainTsStart'     => self::buildMarkStr('start-root-mark'),
-            'appVueImport'    => self::buildMarkStr('import-root-mark'),
-            'appVueOnMounted' => self::buildMarkStr('onMounted-root-mark'),
+            'mainTsImport'     => self::buildMarkStr('import-root-mark'),
+            'mainTsStart'      => self::buildMarkStr('start-root-mark'),
+            'appVueImport'     => self::buildMarkStr('import-root-mark'),
+            'appVueOnMounted'  => self::buildMarkStr('onMounted-root-mark'),
+            'nuxtAppVueImport' => self::buildMarkStr('import-root-mark'),
+            'nuxtAppVueStart'  => self::buildMarkStr('start-root-mark'),
         ];
 
         foreach ($bootstrapCode as $key => $item) {
             if ($item && isset($marks[$key])) {
-                $filePath = $basePath . (in_array($key, $mainTsKeys) ? 'main.ts' : 'App.vue');
-                $content  = file_get_contents($filePath);
-
+                $content = file_get_contents($filePaths[$key]);
                 $markPos = stripos($content, $marks[$key]);
                 if ($markPos && strripos($content, self::buildMarkStr('module-line-mark', $uid, $key)) === false && strripos($content, self::buildMarkStr('module-multi-line-mark-start', $uid, $key)) === false) {
                     $content = substr_replace($content, $item, $markPos + strlen($marks[$key]), 0);
-                    file_put_contents($filePath, $content);
+                    file_put_contents($filePaths[$key], $content);
                 }
             }
         }
@@ -433,18 +447,28 @@ class Server
      */
     public static function uninstallWebBootstrap(string $uid): void
     {
-        $mainTsKeys = ['mainTsImport', 'mainTsStart'];
-        $basePath   = root_path() . 'web' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR;
-        $marksKey   = [
+        $webPath     = root_path() . 'web' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR;
+        $webNuxtPath = root_path() . 'web-nuxt' . DIRECTORY_SEPARATOR;
+        $filePaths   = [
+            'mainTsImport'     => $webPath . 'main.ts',
+            'mainTsStart'      => $webPath . 'main.ts',
+            'appVueImport'     => $webPath . 'App.vue',
+            'appVueOnMounted'  => $webPath . 'App.vue',
+            'nuxtAppVueImport' => $webNuxtPath . 'app.vue',
+            'nuxtAppVueStart'  => $webNuxtPath . 'app.vue',
+        ];
+
+        $marksKey = [
             'mainTsImport',
             'mainTsStart',
             'appVueImport',
             'appVueOnMounted',
+            'nuxtAppVueImport',
+            'nuxtAppVueStart',
         ];
 
         foreach ($marksKey as $item) {
-            $filePath                 = $basePath . (in_array($item, $mainTsKeys) ? 'main.ts' : 'App.vue');
-            $content                  = file_get_contents($filePath);
+            $content                  = file_get_contents($filePaths[$item]);
             $moduleLineMark           = self::buildMarkStr('module-line-mark', $uid, $item);
             $moduleMultiLineMarkStart = self::buildMarkStr('module-multi-line-mark-start', $uid, $item);
             $moduleMultiLineMarkEnd   = self::buildMarkStr('module-multi-line-mark-end', $uid, $item);
@@ -467,7 +491,7 @@ class Server
             }
 
             if ($moduleLineMarkPos || $moduleMultiLineMarkStartPos) {
-                file_put_contents($filePath, $content);
+                file_put_contents($filePaths[$item], $content);
             }
         }
     }
@@ -481,12 +505,14 @@ class Server
      */
     public static function buildMarkStr(string $type, string $uid = '', string $extend = ''): string
     {
-        $importKeys = ['mti', 'avi'];
+        $nonTabKeys = ['mti', 'avi', 'navi', 'navs'];
         $extend     = match ($extend) {
             'mainTsImport' => 'mti',
             'mainTsStart' => 'mts',
             'appVueImport' => 'avi',
             'appVueOnMounted' => 'avo',
+            'nuxtAppVueImport' => 'navi',
+            'nuxtAppVueStart' => 'navs',
             default => '',
         };
         return match ($type) {
@@ -494,8 +520,8 @@ class Server
             'start-root-mark' => '// modules start mark, Please do not remove.',
             'onMounted-root-mark' => '// Modules onMounted mark, Please do not remove.',
             'module-line-mark' => ' // Code from module \'' . $uid . "'" . ($extend ? "($extend)" : ''),
-            'module-multi-line-mark-start' => (in_array($extend, $importKeys) ? '' : Helper::tab()) . "// Code from module '$uid' start" . ($extend ? "($extend)" : '') . "\n",
-            'module-multi-line-mark-end' => (in_array($extend, $importKeys) ? '' : Helper::tab()) . "// Code from module '$uid' end",
+            'module-multi-line-mark-start' => (in_array($extend, $nonTabKeys) ? '' : Helper::tab()) . "// Code from module '$uid' start" . ($extend ? "($extend)" : '') . "\n",
+            'module-multi-line-mark-end' => (in_array($extend, $nonTabKeys) ? '' : Helper::tab()) . "// Code from module '$uid' end",
             default => '',
         };
     }
