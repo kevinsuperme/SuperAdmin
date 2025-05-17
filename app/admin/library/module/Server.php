@@ -220,6 +220,7 @@ class Server
             'config',
             'database',
             'extend',
+            'modules',
             'public',
             'vendor',
             'web',
