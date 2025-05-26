@@ -469,6 +469,9 @@ class Server
         ];
 
         foreach ($marksKey as $item) {
+            if (!is_file($filePaths[$item])) {
+                continue;
+            }
             $content                  = file_get_contents($filePaths[$item]);
             $moduleLineMark           = self::buildMarkStr('module-line-mark', $uid, $item);
             $moduleMultiLineMarkStart = self::buildMarkStr('module-multi-line-mark-start', $uid, $item);
