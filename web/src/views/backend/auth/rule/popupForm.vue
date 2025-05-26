@@ -95,7 +95,7 @@
                     />
                     <el-form-item
                         prop="url"
-                        v-if="baTable.form.items!.menu_type != 'tab' && baTable.form.items!.type != 'button'"
+                        v-if="baTable.form.items!.menu_type != 'tab' && baTable.form.items!.type == 'menu'"
                         :label="t('auth.rule.Link address')"
                     >
                         <el-input
