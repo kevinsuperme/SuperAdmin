@@ -14,10 +14,8 @@
         "baseUrl": "./",
         "allowJs": true,
         "skipLibCheck": true,
-        "ignoreDeprecations": "6.0",
         "paths": {
-            "/@/*": ["src/*"],
-            "vue-i18n": ["vue-i18n/dist/vue-i18n.esm-bundler.js"]
+            "/@/*": ["src/*"]
         },
         "types": ["vite/client", "element-plus/global", "node", "lodash-es"]
     },
