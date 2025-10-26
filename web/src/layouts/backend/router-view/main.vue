@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { reactive, onMounted, watch, onBeforeMount, onUnmounted, nextTick } from 'vue'
-import { useRoute, type RouteLocationNormalized } from 'vue-router'
+import { useRoute } from 'vue-router'
 import useCurrentInstance from '/@/utils/useCurrentInstance'
 import { useConfig } from '/@/stores/config'
 import { useNavTabs } from '/@/stores/navTabs'

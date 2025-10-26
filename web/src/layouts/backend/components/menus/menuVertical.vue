@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, reactive } from 'vue'
-import { onBeforeRouteUpdate, useRoute, type RouteLocationNormalizedLoaded } from 'vue-router'
+import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import MenuTree from '/@/layouts/backend/components/menus/menuTree.vue'
 import { useConfig } from '/@/stores/config'
 import { useNavTabs } from '/@/stores/navTabs'
