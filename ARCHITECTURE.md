@@ -465,9 +465,3 @@ A: 系统提供了数据迁移工具，可以按照以下步骤进行：
 SuperAdmin 是一个功能强大、架构清晰的后台管理系统，采用现代化的前后端分离架构，具有良好的扩展性和可维护性。通过模块化设计和丰富的扩展机制，可以满足各种业务场景的需求。同时，系统注重安全性和性能，提供了多种安全机制和性能优化策略，确保系统的稳定运行。
 
 本文档将随着项目的发展不断更新，如有疑问或建议，欢迎提交Issue或Pull Request。
-
-### 参考资源
-- [项目官网](https://www.superadmin.com)
-- [GitHub仓库](https://github.com/kevinsuperme/SuperAdmin)
-- [在线文档](https://doc.superadmin.com)
-- [问题反馈](https://github.com/kevinsuperme/SuperAdmin/issues)

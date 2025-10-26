@@ -1,13 +1,11 @@
 # SuperAdmin v2.3.3 - 企业级后台管理系统
 
+> 📚 **完整文档导航**: [DOCS.md](DOCS.md) | 🚀 **快速开始**: [快速开始指南](docs/08-快速开始指南__Quick-Start-Guide.md) | 📖 **项目概览**: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md)
+
 <div align="center">
     <img src="https://doc.superadmin.com/images/logo.png" alt="SuperAdmin Logo" width="120" />
     <h1 style="font-size: 36px;color: #2c3e50;font-weight: 600;margin: 0 0 6px 0;">SuperAdmin</h1>
     <p style="font-size: 17px;color: #6a8bad;margin-bottom: 10px;">基于现代技术栈的企业级后台管理系统框架</p>
-
-    <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=paVQA1dlpsVNHTla-ZAts6e4pPK4va9R&authKey=Eto0dq9DOuYldJPl6URFAXXHlG2AFQtPUBxNHEByEiuSg9OraxMniXIaWFt46OKi&noverify=0&group_code=1039646575" target="_blank">联系</a> |
-    <a href="https://doc.superadmin.com/guide/" target="_blank">视频介绍</a> |
-    <a href="https://github.com/kevinsuperme/SuperAdmin" target="_blank">GitHub仓库</a>
 </div>
 
 <p align="center">
@@ -2059,7 +2057,6 @@ http {
 - 📧 邮箱: support@fantastic-admin.com
 - 🐛 问题反馈: [GitHub Issues](https://github.com/fantastic-admin/super-admin/issues)
 - 💬 讨论交流: [GitHub Discussions](https://github.com/fantastic-admin/super-admin/discussions)
-- 📖 文档: [官方文档](https://doc.fantastic-admin.com)
 
 ---
 

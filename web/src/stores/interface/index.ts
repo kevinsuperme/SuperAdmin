@@ -65,8 +65,6 @@ export interface Crud {
     syncType: 'manual' | 'automatic'
     // 已同步记录被更新时，是否自动重新同步
     syncedUpdate: 'no' | 'yes'
-    // 自动同步时是否分享至开源社区
-    syncAutoPublic: 'no' | 'yes'
 }
 
 export interface NavTabs {

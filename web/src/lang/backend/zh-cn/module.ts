@@ -73,7 +73,6 @@ export default {
     'Developer Homepage': '开发者主页',
     'Click to access': '点击访问',
     'Module status': '模块状态',
-    'View demo': '查看演示',
     'Code scanning Preview': '扫码预览',
     'Buy now': '立即购买',
     'continue installation': '继续安装',

@@ -557,19 +557,6 @@ SuperAdmin 内置API文档生成器，可以自动生成最新的API文档。
 
 ---
 
-## 📚 参考资源
-
-- [项目官网](https://www.superadmin.com)
-- [GitHub仓库](https://github.com/kevinsuperme/SuperAdmin)
-- [在线文档](https://doc.superadmin.com)
-- [问题反馈](https://github.com/kevinsuperme/SuperAdmin/issues)
-- [架构文档](./ARCHITECTURE.md)
-- [快速开始指南](./docs/QUICK_START_GUIDE.md)
-- [实施路线图](./docs/IMPLEMENTATION_ROADMAP.md)
-- [测试完成报告](./docs/FINAL_TEST_SUMMARY.md)
-
----
-
 **文档版本**: v2.4.0
 **创建日期**: 2025-10-26
 **最后更新**: 2025-10-26
