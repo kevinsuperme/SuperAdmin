@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, computed } from 'vue'
 import type { FormItemRule } from 'element-plus'
 import BaInput from '/@/components/baInput/index.vue'
 import type { ModelValueTypes } from '/@/components/baInput'
@@ -60,21 +60,44 @@ export default defineComponent({
         BaInput,
     },
     props: {
+        // field对象方式（优先）
         field: {
             type: Object as PropType<FormItemField>,
-            required: true,
+            required: false,
         },
         modelValue: {
             type: Object as PropType<Record<string, ModelValueTypes>>,
             required: true,
         },
+        // 独立属性方式（备用）
+        type: String,
+        prop: String,
+        label: String,
+        placeholder: String,
+        inputAttr: Object as PropType<Record<string, any>>,
+        rules: [Object, Array] as PropType<FormItemRule | FormItemRule[]>,
     },
     emits: ['update:modelValue'],
     setup(props, { emit }) {
+        // 计算最终的field对象
+        const field = computed<FormItemField>(() => {
+            if (props.field) {
+                return props.field
+            }
+            // 从独立props构建field对象
+            return {
+                name: props.prop || '',
+                title: props.label || '',
+                type: props.type || 'string',
+                attr: props.inputAttr,
+                rules: props.rules,
+            }
+        })
+
         const onFieldUpdate = (value: ModelValueTypes) => {
             emit('update:modelValue', {
                 ...props.modelValue,
-                [props.field.name]: value,
+                [field.value.name]: value,
             })
         }
 
@@ -83,6 +106,7 @@ export default defineComponent({
         }
 
         return {
+            field,
             onFieldUpdate,
             onUpdate,
         }

@@ -1,4 +1,4 @@
-# SuperAdmin - 企业级后台管理系统
+# SuperAdmin v2.4.0 - 企业级后台管理系统
 
 <div align="center">
     <img src="https://doc.superadmin.com/images/logo.png" alt="SuperAdmin Logo" width="120" />
@@ -43,44 +43,47 @@
 </div>
 <br>
 
-## 目录
+## 📋 目录
 
 - [项目概述](#项目概述)
 - [技术架构](#技术架构)
-  - [整体架构](#整体架构)
-  - [前端架构](#前端架构)
-  - [后端架构](#后端架构)
-  - [数据层架构](#数据层架构)
 - [核心特性](#核心特性)
 - [技术栈](#技术栈)
 - [系统要求](#系统要求)
 - [快速开始](#快速开始)
 - [架构设计](#架构设计)
-  - [分层架构](#分层架构)
-  - [Service层架构](#service层架构)
-  - [认证与授权](#认证与授权)
-  - [数据安全](#数据安全)
 - [开发指南](#开发指南)
 - [部署指南](#部署指南)
 - [性能优化](#性能优化)
-- [安全架构](#安全架构)
-- [扩展性设计](#扩展性设计)
+- [安全机制](#安全机制)
+- [测试框架](#测试框架)
+- [CI/CD流程](#cicd流程)
+- [API文档](#api文档)
+- [版本历史](#版本历史)
 - [常见问题](#常见问题)
 - [贡献指南](#贡献指南)
 - [开源协议](#开源协议)
 
-## 项目概述
+## 📋 项目概述
 
-SuperAdmin 是一个基于现代技术栈构建的企业级后台管理系统框架，采用前后端分离架构，提供完整的RBAC权限管理、用户管理、数据安全等企业级功能。系统设计遵循SOLID原则，采用分层架构模式，确保代码的可维护性和可扩展性。
+SuperAdmin 是一个基于 Vue 3.5.22 + ThinkPHP8 + TypeScript + Vite + Pinia + Element Plus 等流行技术栈的现代化后台管理系统。它支持常驻内存运行、可视化CRUD代码生成、自带WEB终端、自适应多端，同时提供Web、WebNuxt、Server端等多种部署方式。系统内置全局数据回收站和字段级数据修改保护、自动注册路由、无限子级权限管理等特性，无需授权即可免费商用。
 
-### 设计理念
+### 🎯 项目定位
 
-- **企业级标准**：遵循企业级应用开发最佳实践
-- **前后端分离**：清晰的职责划分，支持独立部署和扩展
-- **安全第一**：内置多层次安全防护机制
-- **高性能**：支持常驻内存运行，提供卓越性能
-- **易于扩展**：模块化设计，支持插件和主题扩展
-- **开发友好**：提供完善的开发工具和文档
+- **现代化架构**: 采用前后端分离架构，前端Vue3+TypeScript，后端ThinkPHP8
+- **企业级特性**: 支持大型企业级应用开发，具备完整的权限管理、数据安全、系统监控
+- **开发效率**: 可视化CRUD代码生成，大幅提高开发效率
+- **高性能**: 支持常驻内存运行，享受比传统框架快上数十倍的性能提升
+- **多端适配**: 自适应PC、平板、手机等多种设备
+
+### 🏆 核心优势
+
+1. **技术先进**: 采用最新稳定版本的主流技术栈
+2. **架构清晰**: 前后端分离，模块化设计，易于扩展和维护
+3. **功能完整**: 内置完整的后台管理功能，开箱即用
+4. **安全可靠**: 多层安全防护，全面的数据保护机制
+5. **性能卓越**: 多级缓存，常驻内存运行，响应迅速
+6. **易于部署**: 支持多种部署方式，适应不同环境需求
 
 ## 技术架构
 
@@ -737,7 +740,568 @@ export function getUserList(params: any): Promise<ApiResponse<User[]>> {
 }
 ```
 
-### 测试指南
+### 🧪 测试框架
+
+SuperAdmin 提供了完整的测试框架，支持单元测试、集成测试和端到端测试，确保代码质量和系统稳定性。
+
+### 测试架构
+
+```
+测试框架/
+├── 后端测试 (PHPUnit)
+│   ├── 单元测试 (Unit Tests)
+│   │   ├── Service层测试
+│   │   ├── Model层测试
+│   │   └── Library类测试
+│   ├── 功能测试 (Feature Tests)
+│   │   ├── API接口测试
+│   │   ├── 控制器测试
+│   │   └── 中间件测试
+│   └── 集成测试 (Integration Tests)
+│       ├── 数据库交互测试
+│       └── 第三方服务集成测试
+├── 前端测试 (Vitest + Vue Test Utils)
+│   ├── 单元测试 (Unit Tests)
+│   │   ├── 组件测试
+│   │   ├── 工具函数测试
+│   │   └── 状态管理测试
+│   └── 端到端测试 (E2E Tests)
+│       ├── 页面流程测试
+│       └── 用户交互测试
+└── 性能测试 (Performance Tests)
+    ├── 负载测试
+    └── 压力测试
+```
+
+### 测试覆盖率目标
+
+- **Service层**: 90%以上
+- **Controller层**: 85%以上
+- **Model层**: 80%以上
+- **前端组件**: 85%以上
+- **整体覆盖率**: 80%以上
+
+### 测试命令
+
+```bash
+# 后端测试
+composer test                    # 运行所有测试
+composer test:unit              # 只运行单元测试
+composer test:feature           # 只运行功能测试
+composer test:coverage          # 运行测试并生成覆盖率报告
+
+# 前端测试
+pnpm test                       # 运行所有测试
+pnpm test:unit                  # 只运行单元测试
+pnpm test:e2e                   # 只运行端到端测试
+pnpm test:coverage              # 运行测试并生成覆盖率报告
+```
+
+### 测试示例
+
+#### 后端单元测试示例
+
+```php
+<?php
+namespace tests\Unit;
+
+use app\common\service\UserService;
+use tests\TestCase;
+
+class UserServiceTest extends TestCase
+{
+    protected UserService $userService;
+    
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->userService = new UserService();
+    }
+    
+    public function testCreateUser()
+    {
+        $userData = [
+            'username' => 'testuser',
+            'email' => 'test@example.com',
+            'password' => 'password123'
+        ];
+        
+        $user = $this->userService->create($userData);
+        
+        $this->assertNotNull($user);
+        $this->assertEquals('testuser', $user->username);
+        $this->assertEquals('test@example.com', $user->email);
+    }
+    
+    public function testGetUserList()
+    {
+        $params = [
+            'page' => 1,
+            'limit' => 10,
+            'status' => 'enabled'
+        ];
+        
+        $result = $this->userService->getList($params);
+        
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('list', $result);
+        $this->assertArrayHasKey('total', $result);
+    }
+}
+```
+
+#### 前端组件测试示例
+
+```typescript
+import { describe, it, expect } from 'vitest'
+import { mount } from '@vue/test-utils'
+import UserTable from '@/components/table/UserTable.vue'
+
+describe('UserTable.vue', () => {
+  it('renders user data correctly', () => {
+    const users = [
+      { id: 1, username: 'user1', email: 'user1@example.com' },
+      { id: 2, username: 'user2', email: 'user2@example.com' }
+    ]
+    
+    const wrapper = mount(UserTable, {
+      props: { users }
+    })
+    
+    expect(wrapper.findAll('.user-row')).toHaveLength(2)
+    expect(wrapper.text()).toContain('user1')
+    expect(wrapper.text()).toContain('user2')
+  })
+  
+  it('emits edit event when edit button is clicked', async () => {
+    const users = [{ id: 1, username: 'user1', email: 'user1@example.com' }]
+    const wrapper = mount(UserTable, {
+      props: { users }
+    })
+    
+    await wrapper.find('.edit-button').trigger('click')
+    
+    expect(wrapper.emitted()).toHaveProperty('edit')
+    expect(wrapper.emitted().edit[0]).toEqual([users[0]])
+  })
+})
+```
+
+## 🚀 CI/CD流程
+
+SuperAdmin 提供了完整的CI/CD流程，支持自动化测试、构建和部署，确保代码质量和交付效率。
+
+### CI/CD架构
+
+```
+CI/CD流程/
+├── 持续集成 (Continuous Integration)
+│   ├── 代码检查 (Code Quality)
+│   │   ├── 静态代码分析
+│   │   ├── 代码规范检查
+│   │   └── 安全漏洞扫描
+│   ├── 自动化测试 (Automated Testing)
+│   │   ├── 单元测试
+│   │   ├── 集成测试
+│   │   └── 端到端测试
+│   └── 构建打包 (Build & Package)
+│       ├── 前端构建
+│       └── 后端打包
+├── 持续交付 (Continuous Delivery)
+│   ├── 环境部署 (Environment Deployment)
+│   │   ├── 测试环境
+│   │   ├── 预发布环境
+│   │   └── 生产环境
+│   └── 数据库迁移 (Database Migration)
+│       ├── 结构迁移
+│       └── 数据迁移
+└── 持续部署 (Continuous Deployment)
+    ├── 自动化部署 (Automated Deployment)
+    │   ├── 蓝绿部署
+    │   └── 滚动更新
+    └── 健康检查 (Health Check)
+        ├── 服务监控
+        └── 自动回滚
+```
+
+### GitHub Actions配置
+
+```yaml
+# .github/workflows/ci-cd.yml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # 代码质量检查
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, iconv, json, mbstring, pdo
+          
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+          
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+            
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+        
+      - name: Run PHP CodeSniffer
+        run: composer run cs-check
+        
+      - name: Run PHPStan
+        run: composer run phpstan
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+          
+      - name: Install npm dependencies
+        working-directory: ./web
+        run: npm ci
+        
+      - name: Run ESLint
+        working-directory: ./web
+        run: npm run lint
+        
+      - name: Run TypeScript check
+        working-directory: ./web
+        run: npm run type-check
+
+  # 后端测试
+  backend-tests:
+    runs-on: ubuntu-latest
+    needs: code-quality
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: superadmin_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      redis:
+        image: redis:6
+        ports:
+          - 6379:6379
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, iconv, json, mbstring, pdo
+          
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+          
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+            
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+        
+      - name: Copy environment file
+        run: cp .env.example .env
+        
+      - name: Generate application key
+        run: php think key:generate
+        
+      - name: Run migrations
+        run: php think migrate
+        
+      - name: Run tests
+        run: composer test
+        
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          flags: backend
+          name: backend-coverage
+
+  # 前端测试
+  frontend-tests:
+    runs-on: ubuntu-latest
+    needs: code-quality
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+          
+      - name: Install npm dependencies
+        working-directory: ./web
+        run: npm ci
+        
+      - name: Run tests
+        working-directory: ./web
+        run: npm run test:unit
+        
+      - name: Build application
+        working-directory: ./web
+        run: npm run build
+        
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./web/coverage/lcov.info
+          flags: frontend
+          name: frontend-coverage
+
+  # 部署到测试环境
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-tests]
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Deploy to staging
+        run: |
+          echo "Deploying to staging environment"
+          # 部署脚本
+          
+  # 部署到生产环境
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-tests]
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Deploy to production
+        run: |
+          echo "Deploying to production environment"
+          # 部署脚本
+```
+
+### 部署策略
+
+#### 蓝绿部署
+
+蓝绿部署是一种零停机部署策略，通过维护两个相同的生产环境（蓝色和绿色）来实现无缝切换。
+
+```bash
+# 部署脚本示例
+#!/bin/bash
+
+# 当前活跃环境
+ACTIVE_ENV=$(curl -s http://api.example.com/health | jq -r '.environment')
+
+# 确定目标环境
+if [ "$ACTIVE_ENV" = "blue" ]; then
+    TARGET_ENV="green"
+else
+    TARGET_ENV="blue"
+fi
+
+# 部署到目标环境
+echo "Deploying to $TARGET_ENV environment"
+docker-compose -f docker-compose.$TARGET_ENV.yml up -d
+
+# 健康检查
+sleep 30
+HEALTH_CHECK=$(curl -s http://api-$TARGET_ENV.example.com/health | jq -r '.status')
+
+if [ "$HEALTH_CHECK" = "healthy" ]; then
+    # 切换流量
+    echo "Switching traffic to $TARGET_ENV environment"
+    # 更新负载均衡器配置
+    
+    # 停止旧环境
+    docker-compose -f docker-compose.$ACTIVE_ENV.yml down
+    echo "Deployment successful"
+else
+    # 回滚
+    echo "Health check failed, rolling back"
+    docker-compose -f docker-compose.$TARGET_ENV.yml down
+    exit 1
+fi
+```
+
+#### 滚动更新
+
+滚动更新是一种逐步替换旧实例的部署策略，适用于有状态服务或资源受限的环境。
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+services:
+  app:
+    image: superadmin:latest
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+      restart_policy:
+        condition: on-failure
+```
+
+### 监控与告警
+
+#### 健康检查端点
+
+```php
+<?php
+namespace app\api\controller;
+
+use think\facade\Db;
+use think\facade\Cache;
+
+class Health
+{
+    public function check()
+    {
+        $status = 'healthy';
+        $services = [];
+        
+        // 检查数据库连接
+        try {
+            Db::query('SELECT 1');
+            $services['database'] = 'ok';
+        } catch (\Exception $e) {
+            $status = 'unhealthy';
+            $services['database'] = 'error: ' . $e->getMessage();
+        }
+        
+        // 检查缓存连接
+        try {
+            Cache::set('health_check', 'ok', 10);
+            $cacheResult = Cache::get('health_check');
+            if ($cacheResult === 'ok') {
+                $services['cache'] = 'ok';
+            } else {
+                $status = 'unhealthy';
+                $services['cache'] = 'error: cache read/write failed';
+            }
+        } catch (\Exception $e) {
+            $status = 'unhealthy';
+            $services['cache'] = 'error: ' . $e->getMessage();
+        }
+        
+        // 检查文件系统
+        $uploadDir = runtime_path() . 'uploads';
+        if (is_dir($uploadDir) && is_writable($uploadDir)) {
+            $services['filesystem'] = 'ok';
+        } else {
+            $status = 'unhealthy';
+            $services['filesystem'] = 'error: upload directory not writable';
+        }
+        
+        return json([
+            'status' => $status,
+            'timestamp' => date('c'),
+            'services' => $services,
+            'system' => [
+                'php_version' => PHP_VERSION,
+                'memory_usage' => round(memory_get_usage(true) / 1024 / 1024, 2) . 'MB',
+                'disk_usage' => round(disk_free_space('/') / disk_total_space('/') * 100, 2) . '%'
+            ]
+        ]);
+    }
+}
+```
+
+#### 告警配置
+
+```yaml
+# prometheus.yml
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'superadmin'
+    static_configs:
+      - targets: ['app:80']
+    metrics_path: '/metrics'
+    scrape_interval: 5s
+
+rule_files:
+  - "alert_rules.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+```
+
+```yaml
+# alert_rules.yml
+groups:
+  - name: superadmin_alerts
+    rules:
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value }} errors per second"
+          
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High response time detected"
+          description: "95th percentile response time is {{ $value }} seconds"
+          
+      - alert: DatabaseConnectionFailed
+        expr: up{job="mysql"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Database connection failed"
+          description: "Cannot connect to MySQL database"
+```
+
+## 🧪 测试指南
 
 #### 1. 运行测试
 
@@ -1383,7 +1947,163 @@ http {
     # 连接保持
     keepalive_timeout 65;
     keepalive_requests 100;
-    
+}
+```
+
+## 📚 版本历史
+
+### v2.4.0 (当前开发版本)
+- 🚀 新增完整的CI/CD流程支持
+- 🧪 引入全面的测试框架
+- 📊 新增API文档自动生成功能
+- 🔍 新增健康检查API端点
+- 🛡️ 增强认证中间件
+- 📈 优化系统性能和稳定性
+- 🎨 改进UI/UX设计
+- 📝 完善项目文档
+
+### v2.3.3 (稳定版本)
+- 🔧 修复已知问题
+- 📦 更新依赖包版本
+- 🐛 修复安全漏洞
+- 🌐 优化多语言支持
+- 📱 改进移动端适配
+
+### v2.3.2
+- 🎨 优化主题系统
+- 🔍 改进搜索功能
+- 📊 增强数据可视化
+- 🚀 提升系统性能
+- 🛠️ 优化开发体验
+
+### v2.3.1
+- 🐛 修复关键bug
+- 🔧 优化配置管理
+- 📚 更新文档
+- 🌟 新增示例代码
+- 🔄 改进数据导入导出
+
+### v2.3.0
+- 🎉 重大功能更新
+- 🏗️ 重构核心架构
+- 📱 优化移动端体验
+- 🔐 增强安全特性
+- 🎨 全新UI设计
+
+### v2.2.x 系列
+- 📊 增强数据分析功能
+- 🔍 改进搜索和过滤
+- 📝 优化表单处理
+- 🚀 提升性能表现
+- 🛡️ 加强安全防护
+
+### v2.1.x 系列
+- 🎨 引入主题系统
+- 📱 改进响应式设计
+- 🔧 优化配置管理
+- 📚 完善文档系统
+- 🌟 增加新组件
+
+### v2.0.x 系列
+- 🏗️ 全面重构项目架构
+- 🚀 迁移至Vue 3 + TypeScript
+- 📦 重构后端为ThinkPHP 8
+- 🔐 重新设计权限系统
+- 🎨 全新UI界面
+
+### v1.x 系列
+- 🎉 项目初始版本
+- 📦 基础功能实现
+- 🎨 基本UI设计
+- 📝 初版文档
+- 🌟 核心特性开发
+
+## 🚀 路线图
+
+### v2.5.0 (计划中)
+- 🤖 引入AI辅助功能
+- 📊 高级数据分析与可视化
+- 🌐 多租户支持
+- 🔄 工作流引擎
+- 📱 移动端APP
+
+### v2.6.0 (规划中)
+- 🌍 国际化全面支持
+- 🔌 插件市场
+- 📊 实时数据监控
+- 🎨 可视化页面构建器
+- 🛡️ 高级安全特性
+
+### v3.0.0 (长期规划)
+- 🏗️ 微服务架构
+- 🤖 智能化运维
+- 🌐 云原生支持
+- 📊 大数据处理能力
+- 🎯 低代码开发平台
+
+---
+
+## 🤝 贡献
+
+我们欢迎所有形式的贡献！无论是提交代码、报告问题、改进文档还是提出建议，您的参与都是宝贵的。
+
+### 开发流程
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 提交 Pull Request
+
+### 代码规范
+
+- 遵循PSR-12 PHP编码规范
+- 使用ESLint和Prettier格式化前端代码
+- 编写单元测试覆盖新功能
+- 提交信息遵循[Conventional Commits](https://conventionalcommits.org/)规范
+
+### 文档贡献
+
+- 改进现有文档
+- 添加使用示例
+- 翻译文档到其他语言
+- 更新API文档
+
+---
+
+## 📄 许可证
+
+本项目采用 [Apache License 2.0](LICENSE) 许可证。
+
+---
+
+## 🙏 致谢
+
+感谢所有为SuperAdmin项目做出贡献的开发者和用户！
+
+---
+
+## ⭐ Star History
+
+如果这个项目对您有帮助，请给我们一个Star！
+
+[![Star History Chart](https://api.star-history.com/svg?repos=fantastic-admin/super-admin&type=Date)](https://star-history.com/#fantastic-admin/super-admin&Date)
+
+---
+
+## 📞 联系我们
+
+- 📧 邮箱: support@fantastic-admin.com
+- 🐛 问题反馈: [GitHub Issues](https://github.com/fantastic-admin/super-admin/issues)
+- 💬 讨论交流: [GitHub Discussions](https://github.com/fantastic-admin/super-admin/discussions)
+- 📖 文档: [官方文档](https://doc.fantastic-admin.com)
+
+---
+
+<div align="center">
+  <p>由 ❤️ 和 ☕ 驱动开发</p>
+  <p>© 2024 Fantastic Admin Team</p>
+</div>    
     # 缓冲区大小
     client_body_buffer_size 128k;
     client_max_body_size 50m;

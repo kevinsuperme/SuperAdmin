@@ -12,6 +12,9 @@ declare global {
      */
     type anyFunction = (...args: any[]) => any
 
+    type Writeable<T> = { -readonly [P in keyof T]: T[P] }
+
+
     /**
      * API 响应数据结构
      */
