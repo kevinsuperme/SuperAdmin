@@ -89,7 +89,7 @@ SuperAdmin 是一个基于 Vue 3.5.22 + ThinkPHP8 + TypeScript + Vite + Pinia + 
 
 ### 整体架构
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                        前端层 (Vue 3)                        │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
@@ -122,7 +122,7 @@ SuperAdmin 是一个基于 Vue 3.5.22 + ThinkPHP8 + TypeScript + Vite + Pinia + 
 
 前端采用Vue 3生态系统，结合TypeScript提供类型安全，使用Vite作为构建工具实现快速开发。
 
-```
+```text
 web/src/
 ├── api/              # API接口层
 ├── assets/           # 静态资源
@@ -149,7 +149,7 @@ web/src/
 
 后端基于ThinkPHP 8框架，采用MVC+Service分层架构，确保业务逻辑与数据访问分离。
 
-```
+```text
 app/
 ├── admin/            # 后台管理模块
 │   ├── controller/   # 控制器
@@ -177,7 +177,7 @@ app/
 
 数据层采用MySQL作为主数据库，Redis作为缓存和会话存储，支持文件存储系统。
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                        数据层架构                            │
 ├─────────────────────────────────────────────────────────────┤
@@ -405,7 +405,7 @@ npm run dev
 
 ### 6. 访问安装向导
 
-```
+```text
 前端: http://localhost:5173
 后端: http://localhost:8000
 安装向导: http://localhost:8000/install
@@ -432,7 +432,7 @@ test.bat
 
 SuperAdmin采用经典的分层架构模式，确保各层职责清晰，降低系统耦合度。
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                      表现层 (Presentation)                    │
 │                    Vue 3 + Element Plus                     │
@@ -565,7 +565,7 @@ class UserService extends BaseService
 
 #### 认证流程
 
-```
+```text
 ┌─────────────┐      ┌─────────────┐      ┌─────────────┐
 │    客户端    │      │   后端API    │      │    Redis    │
 │             │      │             │      │             │
@@ -746,7 +746,7 @@ SuperAdmin 提供了完整的测试框架，支持单元测试、集成测试和
 
 ### 测试架构
 
-```
+```text
 测试框架/
 ├── 后端测试 (PHPUnit)
 │   ├── 单元测试 (Unit Tests)
@@ -893,7 +893,7 @@ SuperAdmin 提供了完整的CI/CD流程，支持自动化测试、构建和部�
 
 ### CI/CD架构
 
-```
+```text
 CI/CD流程/
 ├── 持续集成 (Continuous Integration)
 │   ├── 代码检查 (Code Quality)
@@ -2103,429 +2103,4 @@ http {
 <div align="center">
   <p>由 ❤️ 和 ☕ 驱动开发</p>
   <p>© 2024 Fantastic Admin Team</p>
-</div>    
-    # 缓冲区大小
-    client_body_buffer_size 128k;
-    client_max_body_size 50m;
-    client_header_buffer_size 1k;
-    large_client_header_buffers 4 4k;
-}
-```
-
-#### 2. 常驻内存运行
-
-```php
-// 使用Workerman实现常驻内存
-require_once __DIR__ . '/vendor/autoload.php';
-
-use Workerman\Worker;
-use Workerman\Connection\TcpConnection;
-use Workerman\Protocols\Http\Request;
-use Workerman\Protocols\Http\Response;
-
-// 创建一个Worker监听8080端口，使用http协议通讯
-$http_worker = new Worker('http://0.0.0.0:8080');
-
-// 启动4个进程对外提供服务
-$http_worker->count = 4;
-
-// 接收到浏览器发送的数据时回复hello world给浏览器
-$http_worker->onMessage = function(TcpConnection $connection, Request $request) {
-    // 加载ThinkPHP应用
-    $response = think\Response::create($request->path());
-    $connection->send($response);
-};
-
-// 运行worker
-Worker::runAll();
-```
-
-## 安全架构
-
-### 认证安全
-
-#### 1. JWT认证
-
-```php
-// JWT配置
-'jwt' => [
-    'secret' => env('JWT_SECRET', 'your-secret-key'),
-    'expire' => env('JWT_EXPIRE', 86400), // 24小时
-    'refresh_expire' => env('JWT_REFRESH_EXPIRE', 2592000), // 30天
-],
-
-// JWT生成
-public function generateToken(array $payload): string
-{
-    $payload['iat'] = time();
-    $payload['exp'] = time() + $this->expire;
-    
-    return JWT::encode($payload, $this->secret, 'HS256');
-}
-
-// JWT验证
-public function verifyToken(string $token): array
-{
-    try {
-        $decoded = JWT::decode($token, new Key($this->secret, 'HS256'));
-        return (array)$decoded;
-    } catch (\Exception $e) {
-        throw new \Exception('Token无效');
-    }
-}
-```
-
-#### 2. 密码安全
-
-```php
-// 密码加密
-public function hashPassword(string $password): string
-{
-    return password_hash($password, PASSWORD_ARGON2ID, [
-        'memory_cost' => 65536,
-        'time_cost'   => 4,
-        'threads'     => 3,
-    ]);
-}
-
-// 密码验证
-public function verifyPassword(string $password, string $hash): bool
-{
-    return password_verify($password, $hash);
-}
-```
-
-### 数据安全
-
-#### 1. XSS防护
-
-```php
-// 输入过滤
-use voku\anti-xss\AntiXSS;
-
-$antiXss = new AntiXSS();
-$cleanInput = $antiXss->xss_clean($input);
-
-// 输出转义
-htmlspecialchars($output, ENT_QUOTES, 'UTF-8');
-```
-
-#### 2. SQL注入防护
-
-```php
-// 使用参数绑定
-$user = Db::name('user')->where('id', $userId)->find();
-
-// 使用预处理语句
-$sql = "SELECT * FROM user WHERE username = ? AND password = ?";
-$result = Db::query($sql, [$username, $password]);
-```
-
-#### 3. CSRF防护
-
-```php
-// 中间件验证
-class CsrfTokenMiddleware
-{
-    public function handle($request, \Closure $next)
-    {
-        if ($request->isPost()) {
-            $token = $request->param('__token__');
-            if (!$token || !token($token)) {
-                throw new \Exception('CSRF令牌验证失败');
-            }
-        }
-        
-        return $next($request);
-    }
-}
-```
-
-### 接口安全
-
-#### 1. 请求限流
-
-```php
-// 使用ThinkPHP限流中间件
-'throttle' => [
-    'visit_rate'    => '60/m', // 每分钟60次
-    'visit_enable'   => true,
-    'visit_methods'  => ['GET', 'POST'],
-],
-```
-
-#### 2. IP白名单
-
-```php
-// IP白名单中间件
-class IpWhitelistMiddleware
-{
-    protected $allowedIps = [
-        '127.0.0.1',
-        '192.168.1.100',
-    ];
-    
-    public function handle($request, \Closure $next)
-    {
-        $ip = $request->ip();
-        
-        if (!in_array($ip, $this->allowedIps)) {
-            throw new \Exception('IP地址不在白名单中');
-        }
-        
-        return $next($request);
-    }
-}
-```
-
-## 扩展性设计
-
-### 模块化设计
-
-系统采用模块化设计，支持功能模块的独立开发和部署。
-
-```
-modules/
-├── user/                 # 用户模块
-│   ├── controller/       # 控制器
-│   ├── model/           # 模型
-│   ├── service/         # 服务
-│   ├── validate/        # 验证器
-│   └── config/          # 配置
-├── order/               # 订单模块
-├── payment/             # 支付模块
-└── notification/        # 通知模块
-```
-
-### 插件系统
-
-系统支持插件扩展，可以在不修改核心代码的情况下添加新功能。
-
-```php
-// 插件基类
-abstract class Plugin
-{
-    abstract public function getName(): string;
-    abstract public function getVersion(): string;
-    abstract public function install(): bool;
-    abstract public function uninstall(): bool;
-    abstract public function enable(): bool;
-    abstract public function disable(): bool;
-}
-
-// 插件管理器
-class PluginManager
-{
-    protected array $plugins = [];
-    
-    public function register(Plugin $plugin): void
-    {
-        $this->plugins[$plugin->getName()] = $plugin;
-    }
-    
-    public function getPlugin(string $name): ?Plugin
-    {
-        return $this->plugins[$name] ?? null;
-    }
-    
-    public function install(string $name): bool
-    {
-        $plugin = $this->getPlugin($name);
-        if ($plugin) {
-            return $plugin->install();
-        }
-        return false;
-    }
-}
-```
-
-### 主题系统
-
-系统支持多主题切换，满足不同场景的UI需求。
-
-```
-web/src/themes/
-├── default/             # 默认主题
-│   ├── index.scss       # 主题样式
-│   ├── variables.scss   # 变量定义
-│   └── components/      # 组件样式
-├── dark/                # 暗色主题
-└── custom/              # 自定义主题
-```
-
-## 常见问题
-
-### Q: 如何自定义Service类？
-
-A: 创建Service类并继承BaseService：
-
-```php
-<?php
-namespace app\admin\service;
-
-use app\common\service\BaseService;
-use app\admin\model\Article;
-
-class ArticleService extends BaseService
-{
-    public function __construct()
-    {
-        $this->model = new Article();
-    }
-    
-    public function createArticle(array $data): Article
-    {
-        // 业务逻辑处理
-        return $this->create($data);
-    }
-}
-```
-
-### Q: 如何实现数据权限控制？
-
-A: 在控制器中设置dataLimit属性：
-
-```php
-class User extends Backend
-{
-    protected bool|string|int $dataLimit = 'personal'; // 仅限个人数据
-    
-    // 或指定分组
-    protected bool|string|int $dataLimit = 2; // 指定分组管理员可查
-}
-```
-
-### Q: 如何添加新的API接口？
-
-A: 按照以下步骤添加API：
-
-1. 创建控制器方法
-2. 添加路由规则
-3. 创建前端API接口文件
-4. 在页面中调用API
-
-```php
-// 控制器
-public function profile(): void
-{
-    $userId = $this->auth->id;
-    $info = $this->userService->getUserInfo($userId);
-    $this->success('获取成功', $info);
-}
-
-// 路由
-Route::get('admin/user/profile', 'admin.User/profile');
-
-// 前端API
-export function getUserProfile() {
-    return createAxios({
-        url: 'admin/user/profile',
-        method: 'get',
-    });
-}
-```
-
-### Q: 如何优化查询性能？
-
-A: 可以通过以下方式优化查询：
-
-1. 添加适当的索引
-2. 使用缓存机制
-3. 优化查询语句
-4. 使用分页查询
-5. 避免N+1查询问题
-
-```php
-// 添加索引
-Db::name('user')->execute('ALTER TABLE `user` ADD INDEX idx_status_create_time (`status`, `create_time`)');
-
-// 使用缓存
-public function getUserList(array $where = []): array
-{
-    $cacheKey = 'user:list:' . md5(serialize($where));
-    
-    return Cache::remember($cacheKey, function() use ($where) {
-        return $this->model->where($where)->select()->toArray();
-    }, 3600);
-}
-
-// 优化查询
-$list = $this->model
-    ->with(['roles', 'department'])
-    ->where($where)
-    ->field('id,username,email,status,create_time')
-    ->order('create_time', 'desc')
-    ->paginate($pageSize);
-```
-
-## 贡献指南
-
-我们欢迎所有形式的贡献，包括但不限于：
-
-- 🐛 报告Bug
-- 💡 提出新功能建议
-- 📝 改进文档
-- 🔧 提交代码修复
-- 🎨 改进UI/UX
-
-### 开发流程
-
-1. Fork项目到你的GitHub账户
-2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 创建Pull Request
-
-### 代码规范
-
-- 遵循PSR编码规范
-- 编写单元测试
-- 添加适当的注释
-- 确保代码通过所有检查
-
-### 文档贡献
-
-- 修正错误和不准确之处
-- 添加使用示例
-- 翻译文档到其他语言
-- 改进文档结构和可读性
-
-## 开源协议
-
-本项目采用 [Apache License 2.0](https://github.com/kevinsuperme/SuperAdmin/blob/master/LICENSE) 开源协议。
-
-### 协议摘要
-
-- ✅ 商业使用
-- ✅ 修改
-- ✅ 分发
-- ✅ 私人使用
-- ⚠️ 需要包含版权和许可证声明
-- ⚠️ 需要说明修改内容
-- ❌ 不提供责任担保
-- ❌ 不提供商标授权
-
-### 版权声明
-
-```
-Copyright 2023 SuperAdmin
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```
-
----
-
-<div align="center">
-  <p>如果这个项目对你有帮助，请给我们一个 ⭐️</p>
-  <p>Made with ❤️ by SuperAdmin Team</p>
 </div>

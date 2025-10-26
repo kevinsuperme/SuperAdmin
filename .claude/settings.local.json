@@ -5,7 +5,8 @@
       "Bash(awk:*)",
       "Bash(composer show:*)",
       "Bash(1)",
-      "Bash(xargs -r git rm --cached)"
+      "Bash(xargs -r git rm --cached)",
+      "Bash(test:*)"
     ],
     "deny": [],
     "ask": []
