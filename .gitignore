@@ -21,6 +21,9 @@ dist
 dist-ssr
 .DS_Store
 /.env
+/web/.env
+/web/.env.local
+/web/.env.*.local
 Desktop.ini
 
 # Log files
@@ -46,3 +49,10 @@ pnpm-debug.log*
 !.gitkeep
 .svn
 nul
+
+# CI/CD Cache
+web/.eslintcache
+web/tsconfig.tsbuildinfo
+.phpunit.cache/
+build/
+coverage/

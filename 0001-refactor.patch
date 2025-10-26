@@ -1,0 +1,477 @@
+From 450ebfdc11eedfa6a804486162cfb1115fda808b Mon Sep 17 00:00:00 2001
+From: kevinsuperme <iphone.com@live.cn>
+Date: Sun, 26 Oct 2025 18:32:09 +0800
+Subject: [PATCH 1/3] =?UTF-8?q?refactor:=20=E4=BC=98=E5=8C=96=E4=BB=A3?=
+ =?UTF-8?q?=E7=A0=81=E7=BB=93=E6=9E=84=E5=92=8C=E7=B1=BB=E5=9E=8B=E5=AE=9A?=
+ =?UTF-8?q?=E4=B9=89?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+- 在 tsconfig 中添加 ignoreDeprecations 配置
+- 使用 TableRow 类型替换 adminInfo.vue 中的内联类型
+- 简化组件测试代码，直接导入 ElButton
+- 优化 useApi 相关 composable，移除未使用的导入和参数
+- 更新 FormItem 组件测试以匹配新的 props 结构
+- 扩展 components.d.ts 中的 Element Plus 组件类型
+- 格式化 auto-imports.d.ts 文件
+---
+ web/auto-imports.d.ts                       | 176 +++++++++-----------
+ web/components.d.ts                         |  38 +++++
+ web/src/composables/useApi.ts               |  26 +--
+ web/src/tests/unit/components.spec.ts       |  13 +-
+ web/src/tests/unit/formItem.basic.spec.ts   |  17 +-
+ web/src/views/backend/routine/adminInfo.vue |   6 +-
+ web/tsconfig.json                           |   1 +
+ 7 files changed, 136 insertions(+), 141 deletions(-)
+
+diff --git a/web/auto-imports.d.ts b/web/auto-imports.d.ts
+index e806f362..db0b1309 100644
+--- a/web/auto-imports.d.ts
++++ b/web/auto-imports.d.ts
+@@ -6,104 +6,86 @@
+ // biome-ignore lint: disable
+ export {}
+ declare global {
+-    const EffectScope: typeof import('vue').EffectScope
+-    const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
+-    const computed: typeof import('vue').computed
+-    const createApp: typeof import('vue').createApp
+-    const createPinia: typeof import('pinia').createPinia
+-    const customRef: typeof import('vue').customRef
+-    const defineAsyncComponent: typeof import('vue').defineAsyncComponent
+-    const defineComponent: typeof import('vue').defineComponent
+-    const defineStore: typeof import('pinia').defineStore
+-    const effectScope: typeof import('vue').effectScope
+-    const getActivePinia: typeof import('pinia').getActivePinia
+-    const getCurrentInstance: typeof import('vue').getCurrentInstance
+-    const getCurrentScope: typeof import('vue').getCurrentScope
+-    const getCurrentWatcher: typeof import('vue').getCurrentWatcher
+-    const h: typeof import('vue').h
+-    const inject: typeof import('vue').inject
+-    const isProxy: typeof import('vue').isProxy
+-    const isReactive: typeof import('vue').isReactive
+-    const isReadonly: typeof import('vue').isReadonly
+-    const isRef: typeof import('vue').isRef
+-    const isShallow: typeof import('vue').isShallow
+-    const mapActions: typeof import('pinia').mapActions
+-    const mapGetters: typeof import('pinia').mapGetters
+-    const mapState: typeof import('pinia').mapState
+-    const mapStores: typeof import('pinia').mapStores
+-    const mapWritableState: typeof import('pinia').mapWritableState
+-    const markRaw: typeof import('vue').markRaw
+-    const nextTick: typeof import('vue').nextTick
+-    const onActivated: typeof import('vue').onActivated
+-    const onBeforeMount: typeof import('vue').onBeforeMount
+-    const onBeforeRouteLeave: typeof import('vue-router').onBeforeRouteLeave
+-    const onBeforeRouteUpdate: typeof import('vue-router').onBeforeRouteUpdate
+-    const onBeforeUnmount: typeof import('vue').onBeforeUnmount
+-    const onBeforeUpdate: typeof import('vue').onBeforeUpdate
+-    const onDeactivated: typeof import('vue').onDeactivated
+-    const onErrorCaptured: typeof import('vue').onErrorCaptured
+-    const onMounted: typeof import('vue').onMounted
+-    const onRenderTracked: typeof import('vue').onRenderTracked
+-    const onRenderTriggered: typeof import('vue').onRenderTriggered
+-    const onScopeDispose: typeof import('vue').onScopeDispose
+-    const onServerPrefetch: typeof import('vue').onServerPrefetch
+-    const onUnmounted: typeof import('vue').onUnmounted
+-    const onUpdated: typeof import('vue').onUpdated
+-    const onWatcherCleanup: typeof import('vue').onWatcherCleanup
+-    const provide: typeof import('vue').provide
+-    const reactive: typeof import('vue').reactive
+-    const readonly: typeof import('vue').readonly
+-    const ref: typeof import('vue').ref
+-    const resolveComponent: typeof import('vue').resolveComponent
+-    const setActivePinia: typeof import('pinia').setActivePinia
+-    const setMapStoreSuffix: typeof import('pinia').setMapStoreSuffix
+-    const shallowReactive: typeof import('vue').shallowReactive
+-    const shallowReadonly: typeof import('vue').shallowReadonly
+-    const shallowRef: typeof import('vue').shallowRef
+-    const storeToRefs: typeof import('pinia').storeToRefs
+-    const toRaw: typeof import('vue').toRaw
+-    const toRef: typeof import('vue').toRef
+-    const toRefs: typeof import('vue').toRefs
+-    const toValue: typeof import('vue').toValue
+-    const triggerRef: typeof import('vue').triggerRef
+-    const unref: typeof import('vue').unref
+-    const useAttrs: typeof import('vue').useAttrs
+-    const useCssModule: typeof import('vue').useCssModule
+-    const useCssVars: typeof import('vue').useCssVars
+-    const useI18n: typeof import('vue-i18n').useI18n
+-    const useId: typeof import('vue').useId
+-    const useLink: typeof import('vue-router').useLink
+-    const useModel: typeof import('vue').useModel
+-    const useRoute: typeof import('vue-router').useRoute
+-    const useRouter: typeof import('vue-router').useRouter
+-    const useSlots: typeof import('vue').useSlots
+-    const useTemplateRef: typeof import('vue').useTemplateRef
+-    const watch: typeof import('vue').watch
+-    const watchEffect: typeof import('vue').watchEffect
+-    const watchPostEffect: typeof import('vue').watchPostEffect
+-    const watchSyncEffect: typeof import('vue').watchSyncEffect
++  const EffectScope: typeof import('vue').EffectScope
++  const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
++  const computed: typeof import('vue').computed
++  const createApp: typeof import('vue').createApp
++  const createPinia: typeof import('pinia').createPinia
++  const customRef: typeof import('vue').customRef
++  const defineAsyncComponent: typeof import('vue').defineAsyncComponent
++  const defineComponent: typeof import('vue').defineComponent
++  const defineStore: typeof import('pinia').defineStore
++  const effectScope: typeof import('vue').effectScope
++  const getActivePinia: typeof import('pinia').getActivePinia
++  const getCurrentInstance: typeof import('vue').getCurrentInstance
++  const getCurrentScope: typeof import('vue').getCurrentScope
++  const getCurrentWatcher: typeof import('vue').getCurrentWatcher
++  const h: typeof import('vue').h
++  const inject: typeof import('vue').inject
++  const isProxy: typeof import('vue').isProxy
++  const isReactive: typeof import('vue').isReactive
++  const isReadonly: typeof import('vue').isReadonly
++  const isRef: typeof import('vue').isRef
++  const isShallow: typeof import('vue').isShallow
++  const mapActions: typeof import('pinia').mapActions
++  const mapGetters: typeof import('pinia').mapGetters
++  const mapState: typeof import('pinia').mapState
++  const mapStores: typeof import('pinia').mapStores
++  const mapWritableState: typeof import('pinia').mapWritableState
++  const markRaw: typeof import('vue').markRaw
++  const nextTick: typeof import('vue').nextTick
++  const onActivated: typeof import('vue').onActivated
++  const onBeforeMount: typeof import('vue').onBeforeMount
++  const onBeforeRouteLeave: typeof import('vue-router').onBeforeRouteLeave
++  const onBeforeRouteUpdate: typeof import('vue-router').onBeforeRouteUpdate
++  const onBeforeUnmount: typeof import('vue').onBeforeUnmount
++  const onBeforeUpdate: typeof import('vue').onBeforeUpdate
++  const onDeactivated: typeof import('vue').onDeactivated
++  const onErrorCaptured: typeof import('vue').onErrorCaptured
++  const onMounted: typeof import('vue').onMounted
++  const onRenderTracked: typeof import('vue').onRenderTracked
++  const onRenderTriggered: typeof import('vue').onRenderTriggered
++  const onScopeDispose: typeof import('vue').onScopeDispose
++  const onServerPrefetch: typeof import('vue').onServerPrefetch
++  const onUnmounted: typeof import('vue').onUnmounted
++  const onUpdated: typeof import('vue').onUpdated
++  const onWatcherCleanup: typeof import('vue').onWatcherCleanup
++  const provide: typeof import('vue').provide
++  const reactive: typeof import('vue').reactive
++  const readonly: typeof import('vue').readonly
++  const ref: typeof import('vue').ref
++  const resolveComponent: typeof import('vue').resolveComponent
++  const setActivePinia: typeof import('pinia').setActivePinia
++  const setMapStoreSuffix: typeof import('pinia').setMapStoreSuffix
++  const shallowReactive: typeof import('vue').shallowReactive
++  const shallowReadonly: typeof import('vue').shallowReadonly
++  const shallowRef: typeof import('vue').shallowRef
++  const storeToRefs: typeof import('pinia').storeToRefs
++  const toRaw: typeof import('vue').toRaw
++  const toRef: typeof import('vue').toRef
++  const toRefs: typeof import('vue').toRefs
++  const toValue: typeof import('vue').toValue
++  const triggerRef: typeof import('vue').triggerRef
++  const unref: typeof import('vue').unref
++  const useAttrs: typeof import('vue').useAttrs
++  const useCssModule: typeof import('vue').useCssModule
++  const useCssVars: typeof import('vue').useCssVars
++  const useI18n: typeof import('vue-i18n').useI18n
++  const useId: typeof import('vue').useId
++  const useLink: typeof import('vue-router').useLink
++  const useModel: typeof import('vue').useModel
++  const useRoute: typeof import('vue-router').useRoute
++  const useRouter: typeof import('vue-router').useRouter
++  const useSlots: typeof import('vue').useSlots
++  const useTemplateRef: typeof import('vue').useTemplateRef
++  const watch: typeof import('vue').watch
++  const watchEffect: typeof import('vue').watchEffect
++  const watchPostEffect: typeof import('vue').watchPostEffect
++  const watchSyncEffect: typeof import('vue').watchSyncEffect
+ }
+ // for type re-export
+ declare global {
+-    // @ts-ignore
+-    export type {
+-        Component,
+-        Slot,
+-        Slots,
+-        ComponentPublicInstance,
+-        ComputedRef,
+-        DirectiveBinding,
+-        ExtractDefaultPropTypes,
+-        ExtractPropTypes,
+-        ExtractPublicPropTypes,
+-        InjectionKey,
+-        PropType,
+-        Ref,
+-        ShallowRef,
+-        MaybeRef,
+-        MaybeRefOrGetter,
+-        VNode,
+-        WritableComputedRef,
+-    } from 'vue'
+-    import('vue')
++  // @ts-ignore
++  export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
++  import('vue')
+ }
+diff --git a/web/components.d.ts b/web/components.d.ts
+index f532a777..5fa6d30b 100644
+--- a/web/components.d.ts
++++ b/web/components.d.ts
+@@ -27,27 +27,65 @@ declare module 'vue' {
+     Editor: typeof import('./src/components/baInput/components/editor.vue')['default']
+     ElAlert: typeof import('element-plus/es')['ElAlert']
+     ElAside: typeof import('element-plus/es')['ElAside']
++    ElAvatar: typeof import('element-plus/es')['ElAvatar']
++    ElBadge: typeof import('element-plus/es')['ElBadge']
+     ElButton: typeof import('element-plus/es')['ElButton']
+     ElButtonGroup: typeof import('element-plus/es')['ElButtonGroup']
++    ElCard: typeof import('element-plus/es')['ElCard']
++    ElCarousel: typeof import('element-plus/es')['ElCarousel']
++    ElCarouselItem: typeof import('element-plus/es')['ElCarouselItem']
++    ElCascader: typeof import('element-plus/es')['ElCascader']
+     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
+     ElCol: typeof import('element-plus/es')['ElCol']
++    ElCollapse: typeof import('element-plus/es')['ElCollapse']
++    ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
++    ElColorPicker: typeof import('element-plus/es')['ElColorPicker']
+     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
+     ElContainer: typeof import('element-plus/es')['ElContainer']
++    ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
++    ElDescriptions: typeof import('element-plus/es')['ElDescriptions']
++    ElDescriptionsItem: typeof import('element-plus/es')['ElDescriptionsItem']
+     ElDialog: typeof import('element-plus/es')['ElDialog']
++    ElDivider: typeof import('element-plus/es')['ElDivider']
+     ElDrawer: typeof import('element-plus/es')['ElDrawer']
++    ElDropdown: typeof import('element-plus/es')['ElDropdown']
++    ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
++    ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
++    ElEmpty: typeof import('element-plus/es')['ElEmpty']
+     ElFooter: typeof import('element-plus/es')['ElFooter']
+     ElForm: typeof import('element-plus/es')['ElForm']
+     ElFormItem: typeof import('element-plus/es')['ElFormItem']
+     ElHeader: typeof import('element-plus/es')['ElHeader']
++    ElImage: typeof import('element-plus/es')['ElImage']
+     ElInput: typeof import('element-plus/es')['ElInput']
++    ElLink: typeof import('element-plus/es')['ElLink']
+     ElMain: typeof import('element-plus/es')['ElMain']
+     ElMenu: typeof import('element-plus/es')['ElMenu']
+     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
++    ElOption: typeof import('element-plus/es')['ElOption']
++    ElPagination: typeof import('element-plus/es')['ElPagination']
++    ElPopconfirm: typeof import('element-plus/es')['ElPopconfirm']
++    ElPopover: typeof import('element-plus/es')['ElPopover']
+     ElRadio: typeof import('element-plus/es')['ElRadio']
+     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
++    ElResult: typeof import('element-plus/es')['ElResult']
+     ElRow: typeof import('element-plus/es')['ElRow']
+     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
++    ElSelect: typeof import('element-plus/es')['ElSelect']
++    ElStatistic: typeof import('element-plus/es')['ElStatistic']
+     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
++    ElSwitch: typeof import('element-plus/es')['ElSwitch']
++    ElTable: typeof import('element-plus/es')['ElTable']
++    ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
++    ElTabPane: typeof import('element-plus/es')['ElTabPane']
++    ElTabs: typeof import('element-plus/es')['ElTabs']
++    ElTag: typeof import('element-plus/es')['ElTag']
++    ElText: typeof import('element-plus/es')['ElText']
++    ElTimeline: typeof import('element-plus/es')['ElTimeline']
++    ElTimelineItem: typeof import('element-plus/es')['ElTimelineItem']
++    ElTooltip: typeof import('element-plus/es')['ElTooltip']
++    ElTree: typeof import('element-plus/es')['ElTree']
++    ElUpload: typeof import('element-plus/es')['ElUpload']
+     FormItem: typeof import('./src/components/formItem/index.vue')['default']
+     Header: typeof import('./src/components/table/header/index.vue')['default']
+     Icon: typeof import('./src/components/icon/index.vue')['default']
+diff --git a/web/src/composables/useApi.ts b/web/src/composables/useApi.ts
+index 2761a51c..bec063c9 100644
+--- a/web/src/composables/useApi.ts
++++ b/web/src/composables/useApi.ts
+@@ -1,7 +1,7 @@
+-import { ref, reactive, computed } from 'vue'
++import { reactive, computed } from 'vue'
+ import { createAxios } from '/@/utils/axios'
+ import { handleApiError, showSuccess } from './useError'
+-import { withLoading, useFormSubmit, useLocalLoading } from './useLoading'
++import { useLocalLoading } from './useLoading'
+ 
+ /**
+  * API请求状态
+@@ -34,7 +34,7 @@ export interface ApiOptions {
+  * @returns API状态和方法
+  */
+ export function useApi<T = any>(url: string, options: ApiOptions = {}) {
+-    const { immediate = false, loadingKey, globalLoading = false, loadingText, successMessage, errorMessage, onSuccess, onError } = options
++    const { immediate = false, loadingKey, successMessage, errorMessage, onSuccess, onError } = options
+ 
+     // 状态管理
+     const state = reactive<ApiState<T>>({
+@@ -161,15 +161,7 @@ export function useApi<T = any>(url: string, options: ApiOptions = {}) {
+  * @returns 表单提交状态和方法
+  */
+ export function useFormApi<T = any>(url: string, options: ApiOptions = {}) {
+-    const {
+-        loadingKey,
+-        globalLoading = true,
+-        loadingText = 'Submitting...',
+-        successMessage = 'Submitted successfully',
+-        errorMessage,
+-        onSuccess,
+-        onError,
+-    } = options
++    const { loadingKey, successMessage = 'Submitted successfully', errorMessage, onSuccess, onError } = options
+ 
+     // 状态管理
+     const state = reactive<ApiState<T>>({
+@@ -270,15 +262,7 @@ export function useFormApi<T = any>(url: string, options: ApiOptions = {}) {
+  * @returns 上传状态和方法
+  */
+ export function useUploadApi(url: string, options: ApiOptions = {}) {
+-    const {
+-        loadingKey,
+-        globalLoading = true,
+-        loadingText = 'Uploading...',
+-        successMessage = 'Uploaded successfully',
+-        errorMessage,
+-        onSuccess,
+-        onError,
+-    } = options
++    const { loadingKey, successMessage = 'Uploaded successfully', errorMessage, onSuccess, onError } = options
+ 
+     // 状态管理
+     const state = reactive<ApiState & { progress: number }>({
+diff --git a/web/src/tests/unit/components.spec.ts b/web/src/tests/unit/components.spec.ts
+index 6fad639b..b5918c57 100644
+--- a/web/src/tests/unit/components.spec.ts
++++ b/web/src/tests/unit/components.spec.ts
+@@ -1,14 +1,10 @@
+ import { describe, it, expect } from 'vitest'
+ import { mount } from '@vue/test-utils'
+-import { createApp } from 'vue'
+-import ElementPlus from 'element-plus'
++import { ElButton } from 'element-plus'
+ 
+ describe('Element Plus 组件测试', () => {
+     it('应该正确渲染ElButton组件', () => {
+-        const app = createApp({})
+-        app.use(ElementPlus)
+-
+-        const wrapper = mount(ElementPlus.ElButton, {
++        const wrapper = mount(ElButton, {
+             props: {
+                 type: 'primary',
+             },
+@@ -23,10 +19,7 @@ describe('Element Plus 组件测试', () => {
+     })
+ 
+     it('应该正确响应点击事件', async () => {
+-        const app = createApp({})
+-        app.use(ElementPlus)
+-
+-        const wrapper = mount(ElementPlus.ElButton, {
++        const wrapper = mount(ElButton, {
+             props: {
+                 type: 'primary',
+             },
+diff --git a/web/src/tests/unit/formItem.basic.spec.ts b/web/src/tests/unit/formItem.basic.spec.ts
+index 9c2a5805..482bc0d8 100644
+--- a/web/src/tests/unit/formItem.basic.spec.ts
++++ b/web/src/tests/unit/formItem.basic.spec.ts
+@@ -87,7 +87,7 @@ describe('FormItem 组件基本测试', () => {
+                 },
+             })
+ 
+-            expect(wrapper.props('field').type).toBe(type)
++            expect(wrapper.props('field')?.type).toBe(type)
+             expect(wrapper.exists()).toBe(true)
+         })
+     })
+@@ -97,7 +97,7 @@ describe('FormItem 组件基本测试', () => {
+             name: 'custom',
+             title: '自定义组件',
+             type: 'custom',
+-            component: 'ElInput',
++            render: null, // 自定义渲染函数
+         }
+ 
+         const wrapper = mount(FormItem, {
+@@ -107,8 +107,7 @@ describe('FormItem 组件基本测试', () => {
+             },
+         })
+ 
+-        expect(wrapper.props('field').type).toBe('custom')
+-        expect(wrapper.props('field').component).toBe('ElInput')
++        expect(wrapper.props('field')?.type).toBe('custom')
+         expect(wrapper.exists()).toBe(true)
+     })
+ 
+@@ -117,7 +116,7 @@ describe('FormItem 组件基本测试', () => {
+             name: 'required',
+             title: '必填项',
+             type: 'string',
+-            rule: [{ required: true, message: '此项必填', trigger: 'blur' }],
++            rules: [{ required: true, message: '此项必填', trigger: 'blur' }],
+         }
+ 
+         const wrapper = mount(FormItem, {
+@@ -127,7 +126,7 @@ describe('FormItem 组件基本测试', () => {
+             },
+         })
+ 
+-        expect(wrapper.props('field').rule).toEqual([{ required: true, message: '此项必填', trigger: 'blur' }])
++        expect(wrapper.props('field')?.rules).toEqual([{ required: true, message: '此项必填', trigger: 'blur' }])
+         expect(wrapper.exists()).toBe(true)
+     })
+ 
+@@ -136,7 +135,9 @@ describe('FormItem 组件基本测试', () => {
+             name: 'tip',
+             title: '带提示',
+             type: 'string',
+-            tip: '这是一个提示信息',
++            attr: {
++                placeholder: '这是一个提示信息',
++            },
+         }
+ 
+         const wrapper = mount(FormItem, {
+@@ -146,7 +147,7 @@ describe('FormItem 组件基本测试', () => {
+             },
+         })
+ 
+-        expect(wrapper.props('field').tip).toBe('这是一个提示信息')
++        expect(wrapper.props('field')?.attr?.placeholder).toBe('这是一个提示信息')
+         expect(wrapper.exists()).toBe(true)
+     })
+ })
+diff --git a/web/src/views/backend/routine/adminInfo.vue b/web/src/views/backend/routine/adminInfo.vue
+index 309d6df4..2ef98394 100644
+--- a/web/src/views/backend/routine/adminInfo.vue
++++ b/web/src/views/backend/routine/adminInfo.vue
+@@ -127,11 +127,7 @@ const state: {
+     adminInfo: anyObj
+     formKey: string
+     buttonLoading: boolean
+-    log: {
+-        title: string
+-        create_time: string
+-        url: string
+-    }[]
++    log: TableRow[]
+     logFilter: anyObj
+     logCurrentPage: number
+     logPageSize: number
+diff --git a/web/tsconfig.json b/web/tsconfig.json
+index e3758d40..4ea365e6 100644
+--- a/web/tsconfig.json
++++ b/web/tsconfig.json
+@@ -14,6 +14,7 @@
+         "baseUrl": "./",
+         "allowJs": true,
+         "skipLibCheck": true,
++        "ignoreDeprecations": "6.0",
+         "paths": {
+             "/@/*": ["src/*"],
+             "vue-i18n": ["vue-i18n/dist/vue-i18n.esm-bundler.js"]
+-- 
+2.45.1.windows.1
+

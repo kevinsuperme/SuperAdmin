@@ -11,9 +11,12 @@ env:
   PHP_VERSION: '8.1'
 
 jobs:
-  # 代码质量检查
-  code-quality:
+  # PHP 代码质量检查 (并行)
+  php-code-quality:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        check: [phpcs, phpstan]
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -23,7 +26,6 @@ jobs:
       with:
         php-version: ${{ env.PHP_VERSION }}
         extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, hash, json, pcre, session, simplexml, spl, tokenizer, curl
-        coverage: xdebug
 
     - name: Get Composer Cache Directory
       id: composer-cache
@@ -31,7 +33,7 @@ jobs:
         echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
     - name: Cache Composer dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -42,14 +44,63 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Run PHP CodeSniffer
+      if: matrix.check == 'phpcs'
       run: |
         composer require --dev squizlabs/php_codesniffer
-        vendor/bin/phpcs --standard=PSR12 app/ --ignore=app/common/library/
+        vendor/bin/phpcs --standard=PSR12 app/ --ignore=app/common/library/ --report=summary
 
     - name: Run PHPStan
+      if: matrix.check == 'phpstan'
       run: |
         composer require --dev phpstan/phpstan
-        vendor/bin/phpstan analyse app/ --level=5 --no-progress
+        vendor/bin/phpstan analyse app/ --level=5 --no-progress --error-format=table
+
+  # 前端代码质量检查 (并行)
+  frontend-code-quality:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'pnpm'
+        cache-dependency-path: web/pnpm-lock.yaml
+
+    - name: Install frontend dependencies
+      working-directory: ./web
+      run: pnpm install --frozen-lockfile
+
+    - name: Cache ESLint
+      uses: actions/cache@v4
+      with:
+        path: web/.eslintcache
+        key: ${{ runner.os }}-eslint-${{ hashFiles('web/**/*.{ts,tsx,vue,js}') }}
+        restore-keys: |
+          ${{ runner.os }}-eslint-
+
+    - name: Cache TypeScript build info
+      uses: actions/cache@v4
+      with:
+        path: web/tsconfig.tsbuildinfo
+        key: ${{ runner.os }}-tsc-${{ hashFiles('web/**/*.{ts,tsx,vue}') }}
+        restore-keys: |
+          ${{ runner.os }}-tsc-
+
+    - name: Run ESLint
+      working-directory: ./web
+      run: pnpm run lint --cache --cache-location .eslintcache
+
+    - name: Run TypeScript type checking
+      working-directory: ./web
+      run: pnpm run typecheck
 
   # 后端测试
   backend-tests:
@@ -81,7 +132,7 @@ jobs:
         echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
     - name: Cache Composer dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -97,17 +148,39 @@ jobs:
         php think key:generate
         php think migrate:run
 
-    - name: Run tests
+    - name: Run tests with coverage
       run: |
-        mkdir -p build/coverage
-        vendor/bin/phpunit --coverage-clover=build/logs/clover.xml --coverage-html=build/coverage
+        mkdir -p build/coverage build/logs
+        vendor/bin/phpunit \
+          --coverage-clover=build/logs/clover.xml \
+          --coverage-html=build/coverage \
+          --coverage-text \
+          --colors=always
+
+    - name: Check coverage threshold
+      run: |
+        php -r "
+        \$xml = simplexml_load_file('build/logs/clover.xml');
+        \$metrics = \$xml->project->metrics;
+        \$elements = (int)\$metrics['elements'];
+        \$covered = (int)\$metrics['coveredelements'];
+        \$coverage = (\$covered / \$elements) * 100;
+        echo \"Coverage: \" . number_format(\$coverage, 2) . \"%\n\";
+        if (\$coverage < 70) {
+            echo \"ERROR: Coverage (\$coverage%) is below threshold (70%)\n\";
+            exit(1);
+        }
+        echo \"SUCCESS: Coverage meets threshold\n\";
+        "
 
     - name: Upload coverage reports to Codecov
+      if: always()
       uses: codecov/codecov-action@v3
       with:
         file: ./build/logs/clover.xml
         flags: backend
         name: backend-coverage
+        fail_ci_if_error: false
 
   # 前端测试
   frontend-tests:
@@ -116,36 +189,64 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
-        cache-dependency-path: web/package-lock.json
+        cache: 'pnpm'
+        cache-dependency-path: web/pnpm-lock.yaml
 
     - name: Install frontend dependencies
       working-directory: ./web
-      run: npm ci
+      run: pnpm install --frozen-lockfile
 
-    - name: Run ESLint
+    - name: Run unit tests with coverage
       working-directory: ./web
-      run: npm run lint
+      run: pnpm run test:coverage
 
-    - name: Run TypeScript type checking
+    - name: Check coverage threshold
       working-directory: ./web
-      run: npm run type-check
+      run: |
+        if [ -f "coverage/coverage-summary.json" ]; then
+          node -e "
+          const fs = require('fs');
+          const coverage = JSON.parse(fs.readFileSync('coverage/coverage-summary.json', 'utf8'));
+          const total = coverage.total;
+          const lines = total.lines.pct;
+          const functions = total.functions.pct;
+          const branches = total.branches.pct;
+          console.log(\`Lines: \${lines}%, Functions: \${functions}%, Branches: \${branches}%\`);
+          if (lines < 70 || functions < 70) {
+            console.error('ERROR: Coverage is below threshold (70%)');
+            process.exit(1);
+          }
+          console.log('SUCCESS: Coverage meets threshold');
+          "
+        else
+          echo "WARNING: Coverage summary not found, skipping check"
+        fi
 
-    - name: Run unit tests
-      working-directory: ./web
-      run: npm run test:unit
+    - name: Upload frontend coverage
+      if: always()
+      uses: codecov/codecov-action@v3
+      with:
+        directory: ./web/coverage
+        flags: frontend
+        name: frontend-coverage
+        fail_ci_if_error: false
 
     - name: Build frontend
       working-directory: ./web
-      run: npm run build
+      run: pnpm run build
 
   # 构建和部署
   build-and-deploy:
-    needs: [code-quality, backend-tests, frontend-tests]
+    needs: [php-code-quality, frontend-code-quality, backend-tests, frontend-tests]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
@@ -159,12 +260,17 @@ jobs:
         php-version: ${{ env.PHP_VERSION }}
         extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, hash, json, pcre, session, simplexml, spl, tokenizer, curl
 
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
-        cache-dependency-path: web/package-lock.json
+        cache: 'pnpm'
+        cache-dependency-path: web/pnpm-lock.yaml
 
     - name: Get Composer Cache Directory
       id: composer-cache
@@ -172,7 +278,7 @@ jobs:
         echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
     - name: Cache Composer dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -185,8 +291,8 @@ jobs:
     - name: Install frontend dependencies and build
       working-directory: ./web
       run: |
-        npm ci
-        npm run build
+        pnpm install --frozen-lockfile
+        pnpm run build
 
     - name: Create deployment package
       run: |
@@ -213,10 +319,56 @@ jobs:
           .
 
     - name: Upload deployment artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: deployment-package
         path: deployment/
+        retention-days: 30
+
+    - name: Deploy to server
+      if: success()
+      run: |
+        echo "Deployment package created: fantastic-admin-${{ github.sha }}.tar.gz"
+        echo "To enable actual deployment, configure the following:"
+        echo "1. Add SSH_PRIVATE_KEY to GitHub Secrets"
+        echo "2. Add PROD_HOST and PROD_USER to GitHub Secrets"
+        echo "3. Uncomment and configure the SSH deployment step below"
+        echo ""
+        echo "Example deployment command:"
+        echo "ssh -o StrictHostKeyChecking=no \$PROD_USER@\$PROD_HOST 'bash -s' < deploy.sh"
+
+    # Uncomment and configure the following step for actual deployment
+    # - name: Deploy via SSH
+    #   uses: appleboy/ssh-action@master
+    #   with:
+    #     host: ${{ secrets.PROD_HOST }}
+    #     username: ${{ secrets.PROD_USER }}
+    #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+    #     port: ${{ secrets.SSH_PORT || 22 }}
+    #     script: |
+    #       cd /var/www/fantastic-admin
+    #       wget https://github.com/${{ github.repository }}/releases/download/${{ github.sha }}/fantastic-admin-${{ github.sha }}.tar.gz
+    #       tar -xzf fantastic-admin-${{ github.sha }}.tar.gz
+    #       php think migrate:run --force
+    #       php think cache:clear
+    #       sudo systemctl reload php-fpm
+    #       echo "Deployment completed successfully"
+
+    - name: Health check placeholder
+      if: success()
+      run: |
+        echo "After deployment, implement health checks:"
+        echo "1. Check application response (HTTP 200)"
+        echo "2. Verify database connectivity"
+        echo "3. Check Redis connection"
+        echo "4. Validate critical API endpoints"
+
+    - name: Cleanup on failure
+      if: failure()
+      run: |
+        echo "Build failed, cleaning up..."
+        rm -rf deployment/
+        docker system prune -f || true
 
   # 安全扫描
   security-scan:
@@ -236,7 +388,7 @@ jobs:
         echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
     - name: Cache Composer dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -251,3 +403,54 @@ jobs:
         composer audit
         composer require --dev enshrined/svg-sanitize
         vendor/bin/security-checker security:check
+
+  # 通知
+  notify:
+    needs: [php-code-quality, frontend-code-quality, backend-tests, frontend-tests, build-and-deploy, security-scan]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+    - name: Check workflow status
+      id: check-status
+      run: |
+        if [[ "${{ needs.php-code-quality.result }}" == "failure" ]] || \
+           [[ "${{ needs.frontend-code-quality.result }}" == "failure" ]] || \
+           [[ "${{ needs.backend-tests.result }}" == "failure" ]] || \
+           [[ "${{ needs.frontend-tests.result }}" == "failure" ]] || \
+           [[ "${{ needs.build-and-deploy.result }}" == "failure" ]] || \
+           [[ "${{ needs.security-scan.result }}" == "failure" ]]; then
+          echo "status=failure" >> $GITHUB_OUTPUT
+          echo "color=danger" >> $GITHUB_OUTPUT
+          echo "emoji=❌" >> $GITHUB_OUTPUT
+        elif [[ "${{ needs.php-code-quality.result }}" == "cancelled" ]] || \
+             [[ "${{ needs.frontend-code-quality.result }}" == "cancelled" ]] || \
+             [[ "${{ needs.backend-tests.result }}" == "cancelled" ]] || \
+             [[ "${{ needs.frontend-tests.result }}" == "cancelled" ]] || \
+             [[ "${{ needs.build-and-deploy.result }}" == "cancelled" ]] || \
+             [[ "${{ needs.security-scan.result }}" == "cancelled" ]]; then
+          echo "status=cancelled" >> $GITHUB_OUTPUT
+          echo "color=warning" >> $GITHUB_OUTPUT
+          echo "emoji=⚠️" >> $GITHUB_OUTPUT
+        else
+          echo "status=success" >> $GITHUB_OUTPUT
+          echo "color=good" >> $GITHUB_OUTPUT
+          echo "emoji=✅" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Create workflow summary
+      run: |
+        echo "## ${{ steps.check-status.outputs.emoji }} CI/CD Pipeline Results" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Branch**: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+        echo "**Commit**: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+        echo "**Status**: ${{ steps.check-status.outputs.status }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Job Results" >> $GITHUB_STEP_SUMMARY
+        echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| PHP Code Quality | ${{ needs.php-code-quality.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Frontend Code Quality | ${{ needs.frontend-code-quality.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Backend Tests | ${{ needs.backend-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Frontend Tests | ${{ needs.frontend-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Build & Deploy | ${{ needs.build-and-deploy.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Security Scan | ${{ needs.security-scan.result }} |" >> $GITHUB_STEP_SUMMARY

@@ -4,7 +4,8 @@
       "Bash(./vendor/bin/phpunit:*)",
       "Bash(awk:*)",
       "Bash(composer show:*)",
-      "Bash(1)"
+      "Bash(1)",
+      "Bash(xargs -r git rm --cached)"
     ],
     "deny": [],
     "ask": []
