@@ -10,7 +10,7 @@
                     :size="field.size ?? 'default'"
                     v-bind="invokeTableContextDataFun(field.customRenderAttr?.tag, { row, field, cellValue, column, index })"
                 >
-                    {{ !isEmpty(field.replaceValue) ? (field.replaceValue[tag] ?? tag) : tag }}
+                    {{ !isEmpty(field.replaceValue) ? (field.replaceValue?.[tag] ?? tag) : tag }}
                 </el-tag>
             </template>
         </template>
@@ -22,7 +22,7 @@
                 :size="field.size ?? 'default'"
                 v-bind="invokeTableContextDataFun(field.customRenderAttr?.tag, { row, field, cellValue, column, index })"
             >
-                {{ !isEmpty(field.replaceValue) ? (field.replaceValue[cellValue] ?? cellValue) : cellValue }}
+                {{ !isEmpty(field.replaceValue) ? (field.replaceValue?.[cellValue] ?? cellValue) : cellValue }}
             </el-tag>
         </template>
     </div>

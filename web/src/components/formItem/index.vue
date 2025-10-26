@@ -1,26 +1,26 @@
 <template>
     <div class="form-item-container">
         <el-form-item
-            v-if="!field.render"
-            :label="field.title"
-            :prop="field.name"
-            :rules="field.rules"
-            :label-width="field.labelWidth"
-            :required="field.required"
-            :error="field.error"
-            :show-message="field.showMessage"
-            :inline-message="field.inlineMessage"
-            :size="field.size"
+            v-if="!computedField.render"
+            :label="computedField.title"
+            :prop="computedField.name"
+            :rules="computedField.rules"
+            :label-width="computedField.labelWidth"
+            :required="computedField.required"
+            :error="computedField.error"
+            :show-message="computedField.showMessage"
+            :inline-message="computedField.inlineMessage"
+            :size="computedField.size"
         >
             <BaInput
-                :model-value="modelValue[field.name]"
-                :type="field.type"
-                :attr="field.attr"
-                :data="field.data"
+                :model-value="currentValue"
+                :type="computedField.type"
+                :attr="computedField.attr"
+                :data="computedField.data"
                 @update:model-value="onFieldUpdate"
             />
         </el-form-item>
-        <component v-else :is="field.render" :field="field" :modelValue="modelValue" @update:modelValue="onUpdate" />
+        <component v-else :is="computedField.render" :field="computedField" :modelValue="modelValue" @update:modelValue="onUpdate" />
     </div>
 </template>
 
@@ -66,8 +66,9 @@ export default defineComponent({
             required: false,
         },
         modelValue: {
-            type: Object as PropType<Record<string, ModelValueTypes>>,
-            required: true,
+            type: [Object, String, Number, Boolean, Array] as PropType<Record<string, ModelValueTypes> | ModelValueTypes | undefined>,
+            required: false,
+            default: undefined,
         },
         // 独立属性方式（备用）
         type: String,
@@ -80,7 +81,7 @@ export default defineComponent({
     emits: ['update:modelValue'],
     setup(props, { emit }) {
         // 计算最终的field对象
-        const field = computed<FormItemField>(() => {
+        const computedField = computed<FormItemField>(() => {
             if (props.field) {
                 return props.field
             }
@@ -94,19 +95,45 @@ export default defineComponent({
             }
         })
 
+        // 判断是对象模式还是单值模式
+        const isObjectMode = computed(() => {
+            return (
+                typeof props.modelValue === 'object' &&
+                !Array.isArray(props.modelValue) &&
+                props.modelValue !== null &&
+                'constructor' in props.modelValue &&
+                props.modelValue.constructor === Object
+            )
+        })
+
+        // 获取当前值
+        const currentValue = computed(() => {
+            if (isObjectMode.value) {
+                return (props.modelValue as Record<string, ModelValueTypes>)[computedField.value.name]
+            }
+            return props.modelValue as ModelValueTypes
+        })
+
         const onFieldUpdate = (value: ModelValueTypes) => {
-            emit('update:modelValue', {
-                ...props.modelValue,
-                [field.value.name]: value,
-            })
+            if (isObjectMode.value) {
+                // 对象模式：更新对象中的特定字段
+                emit('update:modelValue', {
+                    ...(props.modelValue as Record<string, ModelValueTypes>),
+                    [computedField.value.name]: value,
+                })
+            } else {
+                // 单值模式：直接更新值
+                emit('update:modelValue', value)
+            }
         }
 
-        const onUpdate = (value: Record<string, ModelValueTypes>) => {
+        const onUpdate = (value: Record<string, ModelValueTypes> | ModelValueTypes) => {
             emit('update:modelValue', value)
         }
 
         return {
-            field,
+            computedField,
+            currentValue,
             onFieldUpdate,
             onUpdate,
         }

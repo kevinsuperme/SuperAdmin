@@ -218,6 +218,7 @@ function createAxios<Data = any, T = ApiPromise<Data>>(axiosConfig: AxiosRequest
     return Axios(axiosConfig) as T
 }
 
+export { createAxios }
 export default createAxios
 
 /**

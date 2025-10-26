@@ -3,7 +3,8 @@
     "allow": [
       "Bash(./vendor/bin/phpunit:*)",
       "Bash(awk:*)",
-      "Bash(composer show:*)"
+      "Bash(composer show:*)",
+      "Bash(1)"
     ],
     "deny": [],
     "ask": []

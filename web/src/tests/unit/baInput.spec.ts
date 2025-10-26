@@ -386,7 +386,7 @@ describe('BaInput 组件测试', () => {
             props: {
                 type: 'string',
                 modelValue: '',
-                data: {
+                attr: {
                     maxlength: 10,
                 },
             },

@@ -120,7 +120,7 @@ function checkFile(filePath) {
         // 计算使用次数，排除导入语句本身
         let count = 0
         if (matches) {
-            lines.forEach((line, index) => {
+            lines.forEach((line) => {
                 if (line.match(importRegex)) return // 跳过导入行
                 const lineMatches = line.match(usageRegex)
                 if (lineMatches) count += lineMatches.length
@@ -142,7 +142,7 @@ function checkFile(filePath) {
         // 计算使用次数，排除声明行
         let count = 0
         if (matches) {
-            lines.forEach((line, index) => {
+            lines.forEach((line) => {
                 if (line.match(varRegex)) return // 跳过声明行
                 const lineMatches = line.match(usageRegex)
                 if (lineMatches) count += lineMatches.length

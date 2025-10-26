@@ -91,14 +91,15 @@ export function handleApiError(error: any, customMessage?: string): void {
  * @param message 错误消息
  * @param options 额外选项
  */
-export function handleBusinessError(code: number | string, message: string, options: ErrorInfo = {}): void {
+export function handleBusinessError(code: number | string, message: string, options: Partial<ErrorInfo> = {}): void {
     const errorInfo: ErrorInfo = {
-        code,
         message,
-        type: 'error',
-        duration: 4500,
-        showConfirm: false,
-        ...options,
+        code,
+        type: options.type || 'error',
+        duration: options.duration || 4500,
+        showConfirm: options.showConfirm || false,
+        confirmText: options.confirmText,
+        cancelText: options.cancelText,
     }
 
     if (errorInfo.showConfirm) {

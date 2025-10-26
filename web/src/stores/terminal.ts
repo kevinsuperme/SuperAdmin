@@ -195,11 +195,11 @@ export const useTerminal = defineStore(
 
                 if (data.data == 'command-exec-error') {
                     setTaskStatus(taskIdx, taskStatus.Failed)
-                    window.eventSource.close()
+                    window.eventSource?.close()
                     taskCompleted(taskIdx)
                     startTask()
                 } else if (data.data == 'command-exec-completed') {
-                    window.eventSource.close()
+                    window.eventSource?.close()
                     if (state.taskList[taskIdx].status != taskStatus.Success) {
                         setTaskStatus(taskIdx, taskStatus.Failed)
                     }
@@ -214,7 +214,7 @@ export const useTerminal = defineStore(
                 }
             }
             window.eventSource.onerror = function () {
-                window.eventSource.close()
+                window.eventSource?.close()
                 const taskIdx = findTaskIdxFromGuess(taskKey)
                 if (taskIdx === false) return
                 setTaskStatus(taskIdx, taskStatus.Failed)

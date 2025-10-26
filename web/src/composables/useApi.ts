@@ -68,16 +68,16 @@ export function useApi<T = any>(url: string, options: ApiOptions = {}) {
 
             switch (method) {
                 case 'get':
-                    response = await createAxios().get(customUrl || url, { params })
+                    response = await createAxios({ url: customUrl || url, method: 'get', params })
                     break
                 case 'post':
-                    response = await createAxios().post(customUrl || url, data)
+                    response = await createAxios({ url: customUrl || url, method: 'post', data })
                     break
                 case 'put':
-                    response = await createAxios().put(customUrl || url, data)
+                    response = await createAxios({ url: customUrl || url, method: 'put', data })
                     break
                 case 'delete':
-                    response = await createAxios().delete(customUrl || url)
+                    response = await createAxios({ url: customUrl || url, method: 'delete' })
                     break
             }
 
@@ -203,13 +203,13 @@ export function useFormApi<T = any>(url: string, options: ApiOptions = {}) {
 
             switch (method) {
                 case 'post':
-                    response = await createAxios().post(customUrl || url, data)
+                    response = await createAxios({ url: customUrl || url, method: 'post', data })
                     break
                 case 'put':
-                    response = await createAxios().put(customUrl || url, data)
+                    response = await createAxios({ url: customUrl || url, method: 'put', data })
                     break
                 case 'patch':
-                    response = await createAxios().patch(customUrl || url, data)
+                    response = await createAxios({ url: customUrl || url, method: 'patch', data })
                     break
             }
 
@@ -319,11 +319,14 @@ export function useUploadApi(url: string, options: ApiOptions = {}) {
                 })
             }
 
-            const response = await createAxios().post(customUrl || url, data, {
+            const response = await createAxios({
+                url: customUrl || url,
+                method: 'post',
+                data,
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-                onUploadProgress: (progressEvent) => {
+                onUploadProgress: (progressEvent: any) => {
                     if (progressEvent.total) {
                         state.progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
                     }

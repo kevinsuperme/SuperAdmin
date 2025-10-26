@@ -273,8 +273,7 @@ import loginMounted from '/@/components/mixins/loginMounted'
 import LoginFooterMixin from '/@/components/mixins/loginFooter.vue'
 import type { FormInstance } from 'element-plus'
 import clickCaptcha from '/@/components/clickCaptcha'
-import { useFormApi } from '/@/composables/useApi'
-import { useError } from '/@/composables/useError'
+import { handleApiError, showSuccess } from '/@/composables/useError'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -284,13 +283,6 @@ const siteConfig = useSiteConfig()
 const memberCenter = useMemberCenter()
 const formRef = useTemplateRef('formRef')
 const retrieveFormRef = useTemplateRef('retrieveFormRef')
-
-// 使用新的错误处理和API请求composables
-const { handleApiError, showSuccess } = useError()
-const { execute: loginExecute } = useFormApi(checkIn)
-const { execute: retrieveExecute } = useFormApi(retrievePassword)
-const { execute: sendEmsExecute } = useFormApi(sendEms)
-const { execute: sendSmsExecute } = useFormApi(sendSms)
 
 interface State {
     form: {
@@ -353,6 +345,9 @@ const state: State = reactive({
     to: route.query.to as string,
 })
 
+// 验证码倒计时定时器
+let timer: number | undefined
+
 const rules = reactive({
     email: [
         buildValidatorData({ name: 'required', title: t('user.login.email') }),
@@ -409,14 +404,14 @@ const onSubmit = (captchaInfo = '') => {
     state.formLoading = true
     state.form.captchaInfo = captchaInfo
 
-    loginExecute('post', state.form)
-        .then((res) => {
+    checkIn('post', state.form)
+        .then((res: any) => {
             userInfo.dataFill(res.data.userInfo, false)
             showSuccess(t('user.login.Login successful'))
             if (state.to) return (location.href = state.to)
             router.push({ path: res.data.routePath })
         })
-        .catch((error) => {
+        .catch((error: any) => {
             handleApiError(error)
         })
         .finally(() => {
@@ -428,8 +423,8 @@ const onSubmitRetrieve = () => {
     retrieveFormRef.value.validate((valid) => {
         if (valid) {
             state.submitRetrieveLoading = true
-            retrieveExecute(state.retrievePasswordForm)
-                .then((res) => {
+            retrievePassword(state.retrievePasswordForm)
+                .then((res: any) => {
                     if (res.code == 1) {
                         showSuccess(t('user.login.Password reset successful'))
                         state.showRetrievePasswordDialog = false
@@ -437,7 +432,7 @@ const onSubmitRetrieve = () => {
                         onResetForm(retrieveFormRef.value)
                     }
                 })
-                .catch((error) => {
+                .catch((error: any) => {
                     handleApiError(error)
                 })
                 .finally(() => {
@@ -456,12 +451,12 @@ const sendRegisterCaptchaPre = () => {
 }
 const sendRegisterCaptcha = (captchaInfo: string) => {
     state.sendCaptchaLoading = true
-    const func = state.form.registerType == 'email' ? sendEmsExecute : sendSmsExecute
+    const func = state.form.registerType == 'email' ? sendEms : sendSms
     func(state.form[state.form.registerType], 'user_register', {
         captchaInfo,
         captchaId: state.form.captchaId,
     })
-        .then((res) => {
+        .then((res: any) => {
             if (res.code == 1) {
                 showSuccess(t('user.login.Verification code sent successfully'))
                 startTiming(60)
@@ -484,12 +479,12 @@ const sendRetrieveCaptchaPre = () => {
 }
 const sendRetrieveCaptcha = (captchaInfo: string) => {
     state.sendCaptchaLoading = true
-    const func = state.retrievePasswordForm.type == 'email' ? sendEmsExecute : sendSmsExecute
+    const func = state.retrievePasswordForm.type == 'email' ? sendEms : sendSms
     func(state.retrievePasswordForm.account, 'user_retrieve_pwd', {
         captchaInfo,
         captchaId: state.form.captchaId,
     })
-        .then((res) => {
+        .then((res: any) => {
             if (res.code == 1) {
                 showSuccess(t('user.login.Verification code sent successfully'))
                 startTiming(60)
@@ -529,13 +524,13 @@ onMounted(async () => {
     resize()
     useEventListener(window, 'resize', resize)
 
-    loginExecute('get')
-        .then((res) => {
+    checkIn('get')
+        .then((res: any) => {
             state.userLoginCaptchaSwitch = res.data.userLoginCaptchaSwitch
             state.accountVerificationType = res.data.accountVerificationType
             state.retrievePasswordForm.type = res.data.accountVerificationType.length > 0 ? res.data.accountVerificationType[0] : ''
         })
-        .catch((error) => {
+        .catch((error: any) => {
             handleApiError(error)
         })
 
