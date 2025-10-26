@@ -2,7 +2,7 @@
 
 ## 📋 项目概述
 
-SuperAdmin 是一个基于 Vue 3.5.21 + ThinkPHP8 + TypeScript + Vite + Pinia + Element Plus 等流行技术栈的现代化后台管理系统。它支持常驻内存运行、可视化CRUD代码生成、自带WEB终端、自适应多端，同时提供Web、WebNuxt、Server端等多种部署方式。系统内置全局数据回收站和字段级数据修改保护、自动注册路由、无限子级权限管理等特性，无需授权即可免费商用。
+SuperAdmin 是一个基于 Vue 3.5.22 + ThinkPHP8 + TypeScript + Vite + Pinia + Element Plus 等流行技术栈的现代化后台管理系统。它支持常驻内存运行、可视化CRUD代码生成、自带WEB终端、自适应多端，同时提供Web、WebNuxt、Server端等多种部署方式。系统内置全局数据回收站和字段级数据修改保护、自动注册路由、无限子级权限管理等特性，无需授权即可免费商用。
 
 ### 🎯 项目定位
 
@@ -26,7 +26,7 @@ SuperAdmin 是一个基于 Vue 3.5.21 + ThinkPHP8 + TypeScript + Vite + Pinia + 
 ## 🛠 技术栈
 
 ### 前端技术栈
-- **Vue 3.5.21**: 渐进式JavaScript框架，采用组合式API
+- **Vue 3.5.22**: 渐进式JavaScript框架，采用组合式API
 - **TypeScript**: JavaScript的超集，提供静态类型检查
 - **Vite**: 新一代前端构建工具，提供快速的开发体验
 - **Pinia**: Vue的状态管理库，替代Vuex
