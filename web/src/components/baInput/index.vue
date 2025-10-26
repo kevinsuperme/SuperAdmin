@@ -1,7 +1,7 @@
 <script lang="ts">
 import { isArray, isString } from 'lodash-es'
 import type { PropType, VNode } from 'vue'
-import { computed, createVNode, defineComponent, reactive, resolveComponent } from 'vue'
+import { createVNode, defineComponent, reactive, resolveComponent } from 'vue'
 import { getArea } from '/@/api/common'
 import type { anyObj, InputAttr, InputData, ModelValueTypes } from '/@/components/baInput'
 import { inputTypes } from '/@/components/baInput'
@@ -10,7 +10,6 @@ import BaUpload from '/@/components/baInput/components/baUpload.vue'
 import Editor from '/@/components/baInput/components/editor.vue'
 import IconSelector from '/@/components/baInput/components/iconSelector.vue'
 import RemoteSelect from '/@/components/baInput/components/remoteSelect.vue'
-import SelectFile from '/@/components/baInput/components/selectFile.vue'
 
 export default defineComponent({
     name: 'BaInput',

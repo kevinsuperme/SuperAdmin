@@ -6,7 +6,8 @@
       "Bash(composer show:*)",
       "Bash(1)",
       "Bash(xargs -r git rm --cached)",
-      "Bash(test:*)"
+      "Bash(test:*)",
+      "Bash(npx tsc --version)"
     ],
     "deny": [],
     "ask": []

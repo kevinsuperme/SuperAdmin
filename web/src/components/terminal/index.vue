@@ -181,7 +181,7 @@
 
 <script setup lang="ts">
 import type { TimelineItemProps } from 'element-plus'
-import { ElMessageBox, ElScrollbar } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import { nextTick, onMounted, reactive, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { postChangeTerminalConfig } from '/@/api/common'

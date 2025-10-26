@@ -134,8 +134,8 @@ onMounted(() => {
             state.showCaptcha = res.data.captcha
             nextTick(() => focusInput())
         })
-        .catch((err) => {
-            console.log(err)
+        .catch(() => {
+            // 登录接口获取失败，静默处理
         })
 })
 
