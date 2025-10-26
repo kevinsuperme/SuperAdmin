@@ -13,7 +13,7 @@ if (!function_exists('get_controller_list')) {
 
 if (!function_exists('get_ba_client')) {
     /**
-     * 获取一个请求 BuildAdmin 开源社区的 Client
+     * 获取一个请求 SuperAdmin 开源社区的 Client
      * @throws Throwable
      */
     function get_ba_client(): Client
@@ -27,7 +27,7 @@ if (!function_exists('get_ba_client')) {
             'headers'         => [
                 'X-REQUESTED-WITH' => 'XMLHttpRequest',
                 'Referer'          => dirname(request()->root(true)),
-                'User-Agent'       => 'BuildAdminClient',
+                'User-Agent'       => 'SuperAdminClient',
             ]
         ]);
     }

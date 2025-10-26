@@ -30,7 +30,7 @@ class InstallData extends Migrator
                 'id'         => 1,
                 'username'   => 'admin',
                 'nickname'   => 'Admin',
-                'email'      => 'admin@buildadmin.com',
+                'email'      => 'admin@superadmin.com',
                 'mobile'     => '18888888888',
                 'updatetime' => $this->nowTime,
                 'createtime' => $this->nowTime,

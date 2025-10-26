@@ -41,7 +41,7 @@ class Captcha
 {
     protected array $config = [
         // 验证码加密密钥
-        'seKey'    => 'BuildAdmin',
+        'seKey'    => 'SuperAdmin',
         // 验证码字符集合
         'codeSet'  => '2345678abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRTUVWXY',
         // 验证码过期时间（s）

@@ -1,16 +1,16 @@
 <br />
 <div align="center">
-    <img src="https://doc.buildadmin.com/images/logo.png" alt="" />
-    <h1 style="font-size: 36px;color: #2c3e50;font-weight: 600;margin: 0 0 6px 0;">BuildAdmin</h1>
+    <img src="https://doc.superadmin.com/images/logo.png" alt="" />
+    <h1 style="font-size: 36px;color: #2c3e50;font-weight: 600;margin: 0 0 6px 0;">SuperAdmin</h1>
     <p style="font-size: 17px;color: #6a8bad;margin-bottom: 10px;">使用流行技术栈快速创建商业级后台管理系统</p>
-    <a href="https://uni.buildadmin.com" target="_blank">官网</a> |
-    <a href="https://demo.buildadmin.com" target="_blank">演示</a> |
-    <a href="https://ask.buildadmin.com" target="_blank">社区</a> |
-    <a href="https://doc.buildadmin.com/" target="_blank">文档</a> |
+    <a href="https://uni.superadmin.com" target="_blank">官网</a> |
+    <a href="https://demo.superadmin.com" target="_blank">演示</a> |
+    <a href="https://ask.superadmin.com" target="_blank">社区</a> |
+    <a href="https://doc.superadmin.com/" target="_blank">文档</a> |
     <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=paVQA1dlpsVNHTla-ZAts6e4pPK4va9R&authKey=Eto0dq9DOuYldJPl6URFAXXHlG2AFQtPUBxNHEByEiuSg9OraxMniXIaWFt46OKi&noverify=0&group_code=1039646575" target="_blank">加群</a> |
-    <a href="https://doc.buildadmin.com/guide/" target="_blank">视频介绍</a> |
-    <a href="https://gitee.com/wonderful-code/buildadmin" target="_blank">Gitee仓库</a> |
-    <a href="https://github.com/build-admin/BuildAdmin" target="_blank">GitHub仓库</a>
+    <a href="https://doc.superadmin.com/guide/" target="_blank">视频介绍</a> |
+    <a href="https://gitee.com/wonderful-code/superadmin" target="_blank">Gitee仓库</a> |
+    <a href="https://github.com/kevinsuperme/SuperAdmin" target="_blank">GitHub仓库</a>
 </div>
 <br />
 <p align="center">
@@ -32,14 +32,14 @@
     <a href="https://pinia.vuejs.org/" target="_blank">
         <img src="https://img.shields.io/badge/Pinia-%3E2.3-blue?color=91aac3&labelColor=439EFD" alt="vite">
     </a>
-    <a href="https://gitee.com/wonderful-code/buildadmin/blob/master/LICENSE" target="_blank">
+    <a href="https://gitee.com/wonderful-code/superadmin/blob/master/LICENSE" target="_blank">
         <img src="https://img.shields.io/badge/Apache2.0-license-blue?color=91aac3&labelColor=439EFD" alt="license">
     </a>
 </p>
 
 <br>
 <div align="center">
-  <img src="https://doc.buildadmin.com/images/readme/dashboard-radius.png" />
+  <img src="https://doc.superadmin.com/images/readme/dashboard-radius.png" />
 </div>
 <br>
 
@@ -48,7 +48,7 @@
 
 ✨ 关于 `Star` 的小小期待 ✨
 
-~~文档和演示站的「入场券」是点亮 Star~~ 哈哈哈，开个玩笑，实际上**您不需要任何「门槛」即可访问源码、文档和演示站**，在您丝滑体验文档与强大功能的同时，我们有个温暖的请求 —— 若 `BuildAdmin` 让您眼前一亮，请为我们点亮一颗 `Star`，这将是一次开发者间最浪漫的「确认过眼神」，亦可助我们向本应「自由开放」的开源界证明：优秀的项目我会发自内心的点亮 Star ~（而不是像某些同类产品哪样，将 Star 作为文档或演示站的「强制交换」条件）
+~~文档和演示站的「入场券」是点亮 Star~~ 哈哈哈，开个玩笑，实际上**您不需要任何「门槛」即可访问源码、文档和演示站**，在您丝滑体验文档与强大功能的同时，我们有个温暖的请求 —— 若 `SuperAdmin` 让您眼前一亮，请为我们点亮一颗 `Star`，这将是一次开发者间最浪漫的「确认过眼神」，亦可助我们向本应「自由开放」的开源界证明：优秀的项目我会发自内心的点亮 Star ~（而不是像某些同类产品哪样，将 Star 作为文档或演示站的「强制交换」条件）
 
 ### 主要特性
 **🚀 CRUD 代码生成：**
@@ -67,7 +67,7 @@
 项目的 `web` 文件夹内包含： `干净`（不含后端代码）、`完整`（所有前端代码文件均在此内）的前端代码文件，代码和部署均可前后分离，对前端开发者友好，作为纯前端开发者，您可以将 BAdmin 当做学习与资源的社群，本系统可为您准备好案例和模板等所需要的环境，而您只需专注于学习或工作，不需要会任何后端代码！（邀您：[和我们一起](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=paVQA1dlpsVNHTla-ZAts6e4pPK4va9R&authKey=Eto0dq9DOuYldJPl6URFAXXHlG2AFQtPUBxNHEByEiuSg9OraxMniXIaWFt46OKi&noverify=0&group_code=1039646575) ）
 
 **⚡️ 常驻内存：**
-系统内置的功能均可常驻内存运行，享受比传统框架快上数十倍的性能提升！目前 [Workerman 模块](https://modules.buildadmin.com/workerman) 可提供框架的常驻内存 `HTTP` 服务，同时该模块还提供了开箱即用的 `WebSocket` 服务。
+系统内置的功能均可常驻内存运行，享受比传统框架快上数十倍的性能提升！目前 [Workerman 模块](https://modules.superadmin.com/workerman) 可提供框架的常驻内存 `HTTP` 服务，同时该模块还提供了开箱即用的 `WebSocket` 服务。
 
 **🚚 按需加载：**
 前端的页面组件和语言包均是在使用到它们时，才从网络异步加载，服务端则是基于 `TP8` 和 `PSR` 规范，天生拥有真正的按需加载能力，所以，您无需考虑 `我并不需要多语言、我并不需要某个后台功能` 这类的问题，不需要不使用或隐藏即可。
@@ -91,26 +91,26 @@
 角色组/管理员/管理员日志、 会员/会员组/会员余额、积分日志、系统配置/控制台/附件管理/个人资料管理等等、更多特性等你探索...
 
 ### 安装使用
-💫 我们提供了完善的文档，对于熟悉 `ThinkPHP` 和 `Vue` 的用户，请使用大佬版：[快速上手](https://doc.buildadmin.com/guide/install/start.html) ，对于新人朋友，我们额外准备了各个操作系统的从零开始套餐：[Windows从零到一](https://doc.buildadmin.com/guide/install/windows.html) | [Linux从零到一](https://doc.buildadmin.com/guide/install/linux-bt.html) | [MacBook安装引导](https://doc.buildadmin.com/guide/install/macBook.html)
+💫 我们提供了完善的文档，对于熟悉 `ThinkPHP` 和 `Vue` 的用户，请使用大佬版：[快速上手](https://doc.superadmin.com/guide/install/start.html) ，对于新人朋友，我们额外准备了各个操作系统的从零开始套餐：[Windows从零到一](https://doc.superadmin.com/guide/install/windows.html) | [Linux从零到一](https://doc.superadmin.com/guide/install/linux-bt.html) | [MacBook安装引导](https://doc.superadmin.com/guide/install/macBook.html)
 
 ### 联系我们
-- [演示站](https://demo.buildadmin.com) 账户：`admin`，密码：`123456`（演示站数据无法修改，请下载源码安装体验全部功能）
-- [问答社区：ask.buildadmin.com](https://ask.buildadmin.com)
-- [官方网站：uni.buildadmin.com](https://uni.buildadmin.com)
-- [文档：doc.buildadmin.com](https://doc.buildadmin.com/)
+- [演示站](https://demo.superadmin.com) 账户：`admin`，密码：`123456`（演示站数据无法修改，请下载源码安装体验全部功能）
+- [问答社区：ask.superadmin.com](https://ask.superadmin.com)
+- [官方网站：uni.superadmin.com](https://uni.superadmin.com)
+- [文档：doc.superadmin.com](https://doc.superadmin.com/)
 - 加群：[687903819（>960/1000）](https://jq.qq.com/?_wv=1027&k=QwtXa14c)、[751852082（>1990/2000）](https://jq.qq.com/?_wv=1027&k=c8a7iSk8)、[1039646575](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=paVQA1dlpsVNHTla-ZAts6e4pPK4va9R&authKey=Eto0dq9DOuYldJPl6URFAXXHlG2AFQtPUBxNHEByEiuSg9OraxMniXIaWFt46OKi&noverify=0&group_code=1039646575)
-- [Gitee仓库](https://gitee.com/wonderful-code/buildadmin)、[GitHub仓库](https://github.com/build-admin/BuildAdmin)
-- [官方邮箱 hi@buildadmin.com](mailto:hi@buildadmin.com)
+- [Gitee仓库](https://gitee.com/wonderful-code/superadmin)、[GitHub仓库](https://github.com/kevinsuperme/SuperAdmin)
+- [官方邮箱 iphone.com@live.cn](mailto:iphone.com@live.cn)
 
 ### 项目预览
 |  |  |
 |---------------------|---------------------|
-|![登录](https://doc.buildadmin.com/images/readme/login.gif)|![控制台](https://doc.buildadmin.com/images/readme/dashboard.png)|
-|![布局配置](https://doc.buildadmin.com/images/readme/layout.png)|![表格](https://doc.buildadmin.com/images/readme/admin.png)|
-|![表单](https://doc.buildadmin.com/images/readme/user.png)|![系统配置](https://doc.buildadmin.com/images/readme/config.png)|
-|![数据回收规则](https://doc.buildadmin.com/images/readme/data-recycle.png)|![数据回收日志](https://doc.buildadmin.com/images/readme/data-recycle-log.png)|
-|![敏感数据](https://doc.buildadmin.com/images/readme/sensitive-data.png)|![菜单](https://doc.buildadmin.com/images/readme/menu.png)|
-|![单栏布局](https://doc.buildadmin.com/images/readme/layout-3.png)|![经典布局](https://doc.buildadmin.com/images/readme/layout-2.png)|
+|![登录](https://doc.superadmin.com/images/readme/login.gif)|![控制台](https://doc.superadmin.com/images/readme/dashboard.png)|
+|![布局配置](https://doc.superadmin.com/images/readme/layout.png)|![表格](https://doc.superadmin.com/images/readme/admin.png)|
+|![表单](https://doc.superadmin.com/images/readme/user.png)|![系统配置](https://doc.superadmin.com/images/readme/config.png)|
+|![数据回收规则](https://doc.superadmin.com/images/readme/data-recycle.png)|![数据回收日志](https://doc.superadmin.com/images/readme/data-recycle-log.png)|
+|![敏感数据](https://doc.superadmin.com/images/readme/sensitive-data.png)|![菜单](https://doc.superadmin.com/images/readme/menu.png)|
+|![单栏布局](https://doc.superadmin.com/images/readme/layout-3.png)|![经典布局](https://doc.superadmin.com/images/readme/layout-2.png)|
 
 ### 特别鸣谢
 💕 感谢巨人提供肩膀，排名不分先后
@@ -140,8 +140,8 @@
 - [jetbrains](https://www.jetbrains.com/)
 
 ### 版权信息
-🔐 BuildAdmin 遵循 `Apache2.0` 开源协议发布，提供无需授权的免费使用。\
+🔐 SuperAdmin 遵循 `Apache2.0` 开源协议发布，提供无需授权的免费使用。\
 本项目包含的第三方源码和二进制文件之版权信息另行标注。
 
 ### 支持项目
-💕 无需捐赠，如果觉得项目不错，或者已经在使用了，希望你可以去 [Github](https://github.com/build-admin/BuildAdmin) 或者 [Gitee](https://gitee.com/wonderful-code/buildadmin) 帮我们点个 ⭐ Star，这将是对我们极大的鼓励与支持。
+💕 无需捐赠，如果觉得项目不错，或者已经在使用了，希望你可以去 [Github](https://github.com/kevinsuperme/SuperAdmin) 或者 [Gitee](https://gitee.com/wonderful-code/superadmin) 帮我们点个 ⭐ Star，这将是对我们极大的鼓励与支持。

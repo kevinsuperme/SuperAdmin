@@ -4,7 +4,7 @@
  * @Date: 2025-05-26 20:27:09
  * @LastEditors: kevinsuperme iphone.com@live.cn
  * @LastEditTime: 2025-10-26 14:37:02
- * @FilePath: \super-admin-v2.3.3\config\buildadmin.php
+ * @FilePath: \super-admin-v2.3.3\config\superadmin.php
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 // +----------------------------------------------------------------------
