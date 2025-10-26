@@ -4,6 +4,9 @@ import type { ConfigEnv, UserConfig } from 'vite'
 import { loadEnv } from 'vite'
 import { svgBuilder } from '/@/components/icon/svg/index'
 import { customHotUpdate, isProd } from '/@/utils/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 const pathResolve = (dir: string): any => {
     return resolve(__dirname, '.', dir)
@@ -20,7 +23,20 @@ const viteConfig = ({ mode }: ConfigEnv): UserConfig => {
     }
 
     return {
-        plugins: [vue(), svgBuilder('./src/assets/icons/'), customHotUpdate()],
+        plugins: [
+            vue(),
+            svgBuilder('./src/assets/icons/'),
+            customHotUpdate(),
+            AutoImport({
+                resolvers: [ElementPlusResolver()],
+                imports: ['vue', 'vue-router', 'pinia', 'vue-i18n'],
+                dts: true,
+            }),
+            Components({
+                resolvers: [ElementPlusResolver()],
+                dts: true,
+            }),
+        ],
         root: process.cwd(),
         resolve: { alias },
         base: VITE_BASE_PATH,

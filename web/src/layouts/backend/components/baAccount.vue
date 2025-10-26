@@ -39,7 +39,7 @@
                         :model="state.user"
                     >
                         <FormItem
-                            v-model="state.user.username"
+                            v-model="state.user"
                             type="string"
                             prop="username"
                             :placeholder="t('layouts.Please enter superadmin account name or email')"
@@ -48,7 +48,7 @@
                             }"
                         />
                         <FormItem
-                            v-model="state.user.password"
+                            v-model="state.user"
                             type="password"
                             prop="password"
                             :placeholder="t('layouts.Please enter the superadmin account password')"
@@ -143,7 +143,7 @@ const baAccountFormRules: Partial<Record<string, FormItemRule[]>> = reactive({
 
 watch(
     () => model.value,
-    (newVal) => {
+    (newVal: boolean | undefined) => {
         if (newVal && baAccount.token) {
             baAccountGetUserInfo()
                 .then((res) => {

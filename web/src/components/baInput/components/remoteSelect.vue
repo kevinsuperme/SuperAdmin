@@ -64,10 +64,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { ElSelect } from 'element-plus'
 import { debounce, isEmpty } from 'lodash-es'
 import { computed, getCurrentInstance, nextTick, onMounted, onUnmounted, reactive, toRaw, useAttrs, useTemplateRef, watch } from 'vue'
-import { InputAttr } from '../index'
+import type { InputAttr } from '../index'
 import { getSelectData } from '/@/api/common'
 import { useConfig } from '/@/stores/config'
 import { getArrayKey } from '/@/utils/common'
@@ -75,8 +74,9 @@ import { shortUuid } from '/@/utils/random'
 
 const attrs = useAttrs()
 const config = useConfig()
-const selectRef = useTemplateRef('selectRef')
-type ElSelectProps = Omit<Partial<InstanceType<typeof ElSelect>['$props']>, 'modelValue'>
+type ElSelectInstance = InstanceType<(typeof import('element-plus/es/components/select'))['ElSelect']>
+type ElSelectProps = Omit<Partial<ElSelectInstance['$props']>, 'modelValue'>
+const selectRef = useTemplateRef<ElSelectInstance>('selectRef')
 type valueTypes = string | number | string[] | number[]
 
 interface Props extends /* @vue-ignore */ ElSelectProps {

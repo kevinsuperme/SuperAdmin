@@ -72,7 +72,8 @@ const state = reactive({
     tableSelectable: true,
 })
 
-const tableRef = useTemplateRef('tableRef')
+type TableInstance = InstanceType<typeof Table>
+const tableRef = useTemplateRef<TableInstance>('tableRef')
 
 const optBtn: OptButton[] = [
     {
@@ -84,7 +85,7 @@ const optBtn: OptButton[] = [
         class: 'table-row-choice',
         disabledTip: false,
         click: (row: TableRow) => {
-            const elTableRef = tableRef.value?.getRef()
+            const elTableRef: any = tableRef.value?.getRef()
             elTableRef?.clearSelection()
             emits('choice', props.returnFullUrl ? [row.full_url] : [row.url])
         },
@@ -108,6 +109,8 @@ const baTable = new baTableClass(new baTableApi('/admin/routine.Attachment/'), {
             },
             align: 'center',
             operator: false,
+            prop: 'selection',
+            label: 'Selection',
         },
         { label: t('Id'), prop: 'id', align: 'center', operator: 'LIKE', operatorPlaceholder: t('Fuzzy query'), width: 70 },
         { label: t('utils.Breakdown'), prop: 'topic', align: 'center', operator: 'LIKE', operatorPlaceholder: t('Fuzzy query') },
@@ -173,6 +176,7 @@ const baTable = new baTableClass(new baTableApi('/admin/routine.Attachment/'), {
             render: 'buttons',
             buttons: optBtn,
             operator: false,
+            prop: 'operate',
         },
     ],
     defaultOrder: { prop: 'last_upload_time', order: 'desc' },
@@ -199,7 +203,7 @@ const onChoice = () => {
             files.push(props.returnFullUrl ? baTable.table.selection[key].full_url : baTable.table.selection[key].url)
         }
         emits('choice', files)
-        const elTableRef = tableRef.value?.getRef()
+        const elTableRef: any = tableRef.value?.getRef()
         elTableRef?.clearSelection()
     }
 }
@@ -207,7 +211,7 @@ const onChoice = () => {
 const onSelectionChange = (selection: TableRow[]) => {
     if (props.limit == 0) return
     if (selection.length > props.limit) {
-        const elTableRef = tableRef.value?.getRef()
+        const elTableRef: any = tableRef.value?.getRef()
         elTableRef?.toggleRowSelection(selection[selection.length - 1], false)
     }
     state.tableSelectable = !(selection.length >= props.limit)

@@ -85,7 +85,7 @@ const emits = defineEmits<{
 
 const load = () => {
     state.loading = true
-    getCaptchaData(props.uuid, props.apiBaseURL).then((res) => {
+    getCaptchaData(props.uuid).then((res) => {
         state.xy = []
         state.tip = ''
         state.loading = false
@@ -98,7 +98,7 @@ const onRecord = (event: MouseEvent) => {
         state.xy.push(event.offsetX + ',' + event.offsetY)
         if (state.xy.length == state.captcha.text.length) {
             const captchaInfo = [state.xy.join('-'), (event.target as HTMLImageElement).width, (event.target as HTMLImageElement).height].join(';')
-            checkClickCaptcha(props.uuid, captchaInfo, props.unset, props.apiBaseURL)
+            checkClickCaptcha(props.uuid, captchaInfo, props.unset)
                 .then(() => {
                     state.tip = props.success
                     setTimeout(() => {

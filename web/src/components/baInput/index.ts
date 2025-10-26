@@ -1,8 +1,13 @@
 import type { Component, CSSProperties } from 'vue'
 
 /**
+ * 任意对象类型
+ */
+export type anyObj = Record<string, any>
+
+/**
  * 支持的输入框类型
- * 若您正在设计数据表，可以找到 ./helper.ts 文件来参考对应类型的：数据字段设计示例
+ * 若您正在设计数据表,可以找到 ./helper.ts 文件来参考对应类型的:数据字段设计示例
  */
 export const inputTypes = [
     'string',
@@ -33,7 +38,7 @@ export const inputTypes = [
 export type ModelValueTypes = string | number | boolean | object
 
 export interface InputData {
-    // 内容,比如radio的选项列表数据,格式为对象或者数组：{ a: '选项1', b: '选项2' } or [{value: '1', label: 2, disabled: false}, {...}]
+    // 内容,比如radio的选项列表数据,格式为对象或者数组:{ a: '选项1', b: '选项2' } or [{value: '1', label: 2, disabled: false}, {...}]
     content?: any
     // 需要生成子级元素时,子级元素属性(比如radio)
     childrenAttr?: anyObj
@@ -166,7 +171,7 @@ export interface InputAttr extends InputData {
     valueTitle?: string
     // 返回数据类型
     dataType?: string
-    // 是否渲染为 button（radio 和 checkbox）
+    // 是否渲染为 button(radio 和 checkbox)
     button?: boolean
     // 事件
     onPreview?: Function

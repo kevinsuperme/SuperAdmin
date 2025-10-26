@@ -1,30 +1,17 @@
-interface Window {
-    existLoading: boolean
-    lazy: number
-    unique: number
-    tokenRefreshing: boolean
-    requests: Function[]
-    eventSource: EventSource
-    loadLangHandle: Record<string, any>
+// 全局类型声明
+import type { Ref, ComputedRef } from 'vue'
+
+// Vue 相关类型补充
+declare module '@vue/reactivity' {
+    export interface WritableComputedRef<T> extends Ref<T> {
+        readonly value: T
+    }
 }
 
-interface anyObj {
-    [key: string]: any
+// 确保 WritableComputedRef 在全局可用
+declare global {
+    type WritableComputedRef<T> = import('vue').WritableComputedRef<T>
 }
 
-interface TableDefaultData<T = any> {
-    list: T
-    remark: string
-    total: number
-}
-
-interface ApiResponse<T = any> {
-    code: number
-    data: T
-    msg: string
-    time: number
-}
-
-type ApiPromise<T = any> = Promise<ApiResponse<T>>
-
-type Writeable<T> = { -readonly [P in keyof T]: T[P] }
+// 导出空对象以使此文件成为模块
+export {}

@@ -19,7 +19,7 @@
         </testsuite>
     </testsuites>
 
-    <coverage>
+    <coverage includeUncoveredFiles="true">
         <include>
             <directory suffix=".php">./app</directory>
         </include>
@@ -28,28 +28,6 @@
             <directory suffix=".php">./app/common/library</directory>
             <file>./app/common.php</file>
         </exclude>
-    </coverage>
-    <coverage>
-        <include>
-            <directory suffix=".php">./app</directory>
-        </include>
-        <exclude>
-            <directory suffix=".php">./app/common/command</directory>
-            <directory suffix=".php">./app/common/library</directory>
-            <file>./app/common.php</file>
-        </exclude>
-    </coverage>
-        <include>
-            <directory suffix=".php">./app</directory>
-        </include>
-        <exclude>
-            <directory suffix=".php">./app/common/command</directory>
-            <directory suffix=".php">./app/common/library</directory>
-            <file>./app/common.php</file>
-        </exclude>
-    </source>
-
-    <coverage>
         <report>
             <html outputDirectory="build/coverage"/>
             <text outputFile="build/coverage.txt"/>

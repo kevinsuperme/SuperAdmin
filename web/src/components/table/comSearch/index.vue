@@ -42,9 +42,9 @@
                                         v-model="baTable.comSearch.form[item.prop!]"
                                         :default-time="[new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 1, 1, 23, 59, 59)]"
                                         :type="item.comSearchRender == 'date' ? 'daterange' : 'datetimerange'"
-                                        :range-separator="$t('To')"
-                                        :start-placeholder="getPlaceholder(item.operatorPlaceholder, 0, $t('el.datepicker.startDate'))"
-                                        :end-placeholder="getPlaceholder(item.operatorPlaceholder, 1, $t('el.datepicker.endDate'))"
+                                        :range-separator="t('To')"
+                                        :start-placeholder="getPlaceholder(item.operatorPlaceholder, 0, t('el.datepicker.startDate'))"
+                                        :end-placeholder="getPlaceholder(item.operatorPlaceholder, 1, t('el.datepicker.endDate'))"
                                         :value-format="item.comSearchRender == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss'"
                                         :teleported="false"
                                     />
@@ -62,7 +62,7 @@
                                         v-model="baTable.comSearch.form[item.prop! + '-start']"
                                         :clearable="true"
                                     ></el-input>
-                                    <div class="range-separator">{{ $t('To') }}</div>
+                                    <div class="range-separator">{{ t('To') }}</div>
                                     <el-input
                                         :placeholder="getPlaceholder(item.operatorPlaceholder, 1)"
                                         type="string"
@@ -121,8 +121,8 @@
                                             <el-option v-for="(opt, okey) in item.replaceValue" :key="item.prop! + okey" :label="opt" :value="okey" />
                                         </template>
                                         <template v-else>
-                                            <el-option :label="$t('utils.open')" value="1" />
-                                            <el-option :label="$t('utils.close')" value="0" />
+                                            <el-option :label="t('utils.open')" value="1" />
+                                            <el-option :label="t('utils.close')" value="0" />
                                         </template>
                                     </el-select>
 
@@ -141,8 +141,8 @@
                 </template>
                 <el-col :xs="24" :sm="6">
                     <div class="com-search-col pl-20">
-                        <el-button v-blur @click="baTable.onTableAction('com-search', {})" type="primary">{{ $t('Search') }}</el-button>
-                        <el-button @click="onResetForm()">{{ $t('Reset') }}</el-button>
+                        <el-button v-blur @click="baTable.onTableAction('com-search', {})" type="primary">{{ t('Search') }}</el-button>
+                        <el-button @click="onResetForm()">{{ t('Reset') }}</el-button>
                     </div>
                 </el-col>
             </el-row>
@@ -155,7 +155,9 @@ import { inject } from 'vue'
 import type baTableClass from '/@/utils/baTable'
 import { isArray, isEmpty, isUndefined } from 'lodash-es'
 import BaInput from '/@/components/baInput/index.vue'
+import { i18n } from '/@/lang'
 
+const { t } = i18n.global
 const baTable = inject('baTable') as baTableClass
 
 const onResetForm = () => {

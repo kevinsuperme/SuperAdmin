@@ -32,8 +32,10 @@ const clickCaptcha = (uuid: string, callback?: (captchaInfo: string) => void, op
             render(null, container)
         },
     })
-    render(vnode, container)
-    document.body.appendChild(container.firstElementChild!)
+    const element = render(vnode, container)
+    if (element) {
+        document.body.appendChild(element)
+    }
 }
 
 /**

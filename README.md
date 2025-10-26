@@ -18,7 +18,7 @@
         <img src="https://img.shields.io/badge/ThinkPHP-%3E8.1-brightgreen?color=91aac3&labelColor=439EFD" alt="ThinkPHP">
     </a>
     <a href="https://v3.vuejs.org/" target="_blank">
-        <img src="https://img.shields.io/badge/Vue-%3E3.5-brightgreen?color=91aac3&labelColor=439EFD" alt="Vue">
+        <img src="https://img.shields.io/badge/Vue-3.5.22-brightgreen?color=91aac3&labelColor=439EFD" alt="Vue">
     </a>
     <a href="https://element-plus.org/zh-CN/guide/changelog.html" target="_blank">
         <img src="https://img.shields.io/badge/Element--Plus-%3E2.9-brightgreen?color=91aac3&labelColor=439EFD" alt="Element Plus">
@@ -218,7 +218,7 @@ app/
 
 ### 👍 现代化技术栈
 - 基于ThinkPHP 8前后端分离架构
-- Vue 3 + Composition API
+- Vue 3.5.22 + Composition API
 - TypeScript提供类型安全
 - Pinia状态管理
 - Vite构建工具
@@ -304,7 +304,7 @@ app/
 
 | 技术 | 版本 | 说明 |
 |-----|------|------|
-| **框架** | Vue 3.x | 渐进式JavaScript框架 |
+| **框架** | Vue 3.5.22 | 渐进式JavaScript框架 |
 | **语言** | TypeScript 5.x+ | JavaScript超集 |
 | **构建工具** | Vite 6.x+ | 下一代前端构建工具 |
 | **UI框架** | Element Plus 2.x+ | Vue 3组件库 |

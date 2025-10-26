@@ -15,9 +15,10 @@
         "allowJs": true,
         "skipLibCheck": true,
         "paths": {
-            "/@/*": ["src/*"]
+            "/@/*": ["src/*"],
+            "vue-i18n": ["vue-i18n/dist/vue-i18n.esm-bundler.js"]
         },
-        "types": ["vite/client", "element-plus/global"]
+        "types": ["vite/client", "element-plus/global", "node", "lodash-es"]
     },
-    "include": ["src/**/*.ts", "src/**/*.vue", "types/**/*.d.ts", "vite.config.ts"]
+    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue", "types/**/*.d.ts", "vite.config.ts", "env.d.ts"]
 }

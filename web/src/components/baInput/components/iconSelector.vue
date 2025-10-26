@@ -3,26 +3,18 @@
         <div @mouseover.stop="state.iconSelectorMouseover = true" @mouseout.stop="state.iconSelectorMouseover = false" class="icon-selector">
             <div class="icon-selector-box">
                 <div class="selector-header">
-                    <div class="selector-title">{{ title ? title : $t('utils.Please select an icon') }}</div>
+                    <div class="selector-title">{{ title ? title : t('utils.Please select an icon') }}</div>
                     <div class="selector-tab">
-                        <span
-                            :title="'Element Puls ' + $t('utils.Icon')"
-                            @click="onChangeTab('ele')"
-                            :class="state.iconType == 'ele' ? 'active' : ''"
-                        >
+                        <span :title="'Element Puls ' + t('utils.Icon')" @click="onChangeTab('ele')" :class="state.iconType == 'ele' ? 'active' : ''">
                             ele
                         </span>
-                        <span
-                            :title="'Font Awesome ' + $t('utils.Icon')"
-                            @click="onChangeTab('awe')"
-                            :class="state.iconType == 'awe' ? 'active' : ''"
-                        >
+                        <span :title="'Font Awesome ' + t('utils.Icon')" @click="onChangeTab('awe')" :class="state.iconType == 'awe' ? 'active' : ''">
                             awe
                         </span>
-                        <span :title="$t('utils.Ali iconcont Icon')" @click="onChangeTab('ali')" :class="state.iconType == 'ali' ? 'active' : ''">
+                        <span :title="t('utils.Ali iconcont Icon')" @click="onChangeTab('ali')" :class="state.iconType == 'ali' ? 'active' : ''">
                             ali
                         </span>
-                        <span :title="$t('utils.Local icon title')" @click="onChangeTab('local')" :class="state.iconType == 'local' ? 'active' : ''">
+                        <span :title="t('utils.Local icon title')" @click="onChangeTab('local')" :class="state.iconType == 'local' ? 'active' : ''">
                             local
                         </span>
                     </div>
@@ -41,7 +33,7 @@
                 v-model="state.inputValue"
                 :size="size"
                 :disabled="disabled"
-                :placeholder="$t('Search') + $t('utils.Icon')"
+                :placeholder="t('Search') + t('utils.Icon')"
                 ref="selectorInput"
                 @focus="onInputFocus"
                 @blur="onInputBlur"
@@ -63,18 +55,19 @@
 
 <script setup lang="ts">
 import { useEventListener } from '@vueuse/core'
-import type { Placement } from 'element-plus'
-import { computed, nextTick, onMounted, reactive, useTemplateRef, watch } from 'vue'
+import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { getAwesomeIconfontNames, getElementPlusIconfontNames, getIconfontNames, getLocalIconfontNames } from '/@/utils/iconfont'
 
 type IconType = 'ele' | 'awe' | 'ali' | 'local'
+type ElInputInstance = InstanceType<(typeof import('element-plus/es/components/input'))['ElInput']>
 
 interface Props {
     size?: 'default' | 'small' | 'large'
     disabled?: boolean
     title?: string
     type?: IconType
-    placement?: Placement
+    placement?: string
     modelValue?: string
     showIconName?: boolean
 }
@@ -93,7 +86,8 @@ const emits = defineEmits<{
     (e: 'change', value: string): void
 }>()
 
-const selectorInput = useTemplateRef('selectorInput')
+const { t } = useI18n()
+const selectorInput = ref<ElInputInstance | null>(null)
 const state: {
     iconType: IconType
     selectorWidth: number
@@ -161,7 +155,7 @@ const onIcon = (icon: string) => {
     emits('update:modelValue', icon)
     emits('change', icon)
     nextTick(() => {
-        selectorInput.value?.blur()
+        ;(selectorInput.value as any)?.blur()
     })
 }
 
@@ -179,7 +173,7 @@ const renderFontIconNames = computed(() => {
 // 获取 input 的宽度
 const getInputWidth = () => {
     nextTick(() => {
-        state.selectorWidth = selectorInput.value?.$el.offsetWidth < 260 ? 260 : selectorInput.value?.$el.offsetWidth
+        state.selectorWidth = (selectorInput.value as any)?.$el?.offsetWidth < 260 ? 260 : (selectorInput.value as any)?.$el?.offsetWidth
     })
 }
 
