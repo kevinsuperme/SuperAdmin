@@ -2,12 +2,37 @@
 
 🔥🔥基于 Vue3.x + ThinkPHP8 + TypeScript + Vite + Pinia + Element Plus 等流行技术栈的后台管理系统，支持常驻内存运行、可视化CRUD代码生成、自带WEB终端、自适应多端、同时提供Web、WebNuxt、Server端、内置全局数据回收站和字段级数据修改保护、自动注册路由、无限子级权限管理等，无需授权即可免费商用，希望能帮助大家实现快速开发。
 
-## v2.3.3-Release
+## 版本说明
+本更新日志记录了SuperAdmin项目的所有重要版本更新内容，包括新功能、优化改进、修复的问题以及安全更新。建议定期关注更新日志，以便了解最新功能和改进。
+
+### 版本命名规则
+- **主版本号**：重大架构变更或不兼容更新
+- **次版本号**：新功能添加或重要优化
+- **修订版本号**：Bug修复和小幅优化
+- **Release**：稳定发布版本
+- **Beta**：测试版本，可能包含不稳定功能
+
+### 更新类型说明
+- **新增**：全新功能或组件
+- **重构/优化/修复**：代码优化、性能提升、Bug修复
+- **安全更新**：安全漏洞修复和安全增强
+- **不兼容更新**：可能影响现有功能的重大变更
+
+### 目录索引
+- [当前版本](#v2333-release-当前版本)
+- [近期版本](#v232-release)
+- [历史版本](#v231-release)
+- [早期版本](#v130-release)
+- [初始版本](#v100-beta)
+
+---
+
+## v2.3.3-Release (当前版本) {#v2333-release-当前版本}
 ### 修复
 - 修复卸载模块的 WebBootstrap 时可能报错的问题（即模块卸载可能报错）
 - 修复后台菜单规则管理可能意外要求链接URL字段必填的问题
 
-## v2.3.2-Release
+## v2.3.2-Release {#v232-release}
 ### 新增
 - 增加预设表格单元格渲染器内部的组件的任意属性自定义功能
 - 表格公共搜索中的范围输入框的 `placeholder` 支持以数组类型定义不同值
@@ -30,7 +55,7 @@
 - 优化右击菜单组件和图标选择器的事件监听
 - 优化生成 `tableRenderer.d.ts` 文件的逻辑和其内容
 
-## v2.3.1-Release
+## v2.3.1-Release {#v231-release}
 
 ### 安全更新
 - 升级 `axios` 以避免 `CVE-2025-27152` 带来的影响（[axios请求可能通过绝对URL遭受SSRF和凭证泄露漏洞](https://www.cve.org/CVERecord?id=CVE-2025-27152)）
@@ -904,7 +929,7 @@ PS: 框架对`TP`的版本限定为`^6.0.0`，针对tp本次安全更新，git�
 - 新增站点配置状态store
 - 修复bug、完善README
 
-## v1.0.0-beta
+## v1.0.0-beta {#v100-beta}
 **公共测试版本**
 - 内置WEB终端
 - 一键CRUD
@@ -913,3 +938,21 @@ PS: 框架对`TP`的版本限定为`^6.0.0`，针对tp本次安全更新，git�
 - 细粒度权限控制
 - 数据修改保护、数据全局回收
 - ...
+
+---
+
+### 贡献指南
+欢迎参与SuperAdmin项目的贡献！您可以通过以下方式参与：
+1. 提交Bug报告和功能建议
+2. 提交代码改进和新功能
+3. 完善文档和翻译
+4. 分享使用经验和最佳实践
+
+### 联系我们
+- **官方网站**：[https://www.superadmin.com](https://www.superadmin.com)
+- **GitHub仓库**：[https://github.com/kevinsuperme/SuperAdmin](https://github.com/kevinsuperme/SuperAdmin)
+- **问题反馈**：[GitHub Issues](https://github.com/kevinsuperme/SuperAdmin/issues)
+- **问答社区**：[https://ask.superadmin.com](https://ask.superadmin.com)
+
+### 许可证
+本项目采用 [MIT 许可证](https://opensource.org/licenses/MIT)，允许免费商用，无需授权。

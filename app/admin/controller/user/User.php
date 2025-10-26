@@ -5,6 +5,7 @@ namespace app\admin\controller\user;
 use Throwable;
 use app\common\controller\Backend;
 use app\admin\model\User as UserModel;
+use app\common\service\UserService;
 
 class User extends Backend
 {
@@ -13,6 +14,11 @@ class User extends Backend
      * @phpstan-var UserModel
      */
     protected object $model;
+
+    /**
+     * @var UserService
+     */
+    protected UserService $userService;
 
     protected array $withJoinTable = ['userGroup'];
 
@@ -25,6 +31,7 @@ class User extends Backend
     {
         parent::initialize();
         $this->model = new UserModel();
+        $this->userService = new UserService();
     }
 
     /**
@@ -65,11 +72,9 @@ class User extends Backend
                 $this->error(__('Parameter %s can not be empty', ['']));
             }
 
-            $result = false;
-            $passwd = $data['password']; // 密码将被排除不直接入库
-            $data   = $this->excludeFields($data);
+            // 排除不需要的字段
+            $data = $this->excludeFields($data);
 
-            $this->model->startTrans();
             try {
                 // 模型验证
                 if ($this->modelValidate) {
@@ -80,20 +85,17 @@ class User extends Backend
                         $validate->check($data);
                     }
                 }
-                $result = $this->model->save($data);
-                $this->model->commit();
 
-                if (!empty($passwd)) {
-                    $this->model->resetPassword($this->model->id, $passwd);
+                // 调用服务层创建用户
+                $user = $this->userService->createUser($data);
+
+                if ($user) {
+                    $this->success(__('Added successfully'));
+                } else {
+                    $this->error(__('No rows were added'));
                 }
             } catch (Throwable $e) {
-                $this->model->rollback();
                 $this->error($e->getMessage());
-            }
-            if ($result !== false) {
-                $this->success(__('Added successfully'));
-            } else {
-                $this->error(__('No rows were added'));
             }
         }
 
@@ -108,24 +110,135 @@ class User extends Backend
     {
         $pk  = $this->model->getPk();
         $id  = $this->request->param($pk);
-        $row = $this->model->find($id);
+        
+        // 获取用户信息
+        $row = $this->userService->getUserInfo($id);
         if (!$row) {
             $this->error(__('Record not found'));
         }
 
         if ($this->request->isPost()) {
-            $password = $this->request->post('password', '');
-            if ($password) {
-                $this->model->resetPassword($id, $password);
+            $data = $this->request->post();
+            $data = $this->excludeFields($data);
+
+            try {
+                // 模型验证
+                if ($this->modelValidate) {
+                    $validate = str_replace("\\model\\", "\\validate\\", get_class($this->model));
+                    if (class_exists($validate)) {
+                        $validate = new $validate();
+                        if ($this->modelSceneValidate) $validate->scene('edit');
+                        $validate->check($data);
+                    }
+                }
+
+                // 调用服务层更新用户
+                $result = $this->userService->updateUser($id, $data);
+
+                if ($result) {
+                    $this->success(__('Update successful'));
+                } else {
+                    $this->error(__('No rows updated'));
+                }
+            } catch (Throwable $e) {
+                $this->error($e->getMessage());
             }
-            parent::edit();
         }
 
-        unset($row->salt);
         $row->password = '';
         $this->success('', [
             'row' => $row
         ]);
+    }
+
+    /**
+     * 删除
+     * @throws Throwable
+     */
+    public function del(): void
+    {
+        if ($this->request->isPost()) {
+            $pk  = $this->model->getPk();
+            $ids = $this->request->post($pk . '/a', []);
+
+            if (empty($ids)) {
+                $this->error(__('Parameter %s can not be empty', ['']));
+            }
+
+            try {
+                $result = $this->userService->deleteUser($ids);
+
+                if ($result) {
+                    $this->success(__('Deleted successfully'));
+                } else {
+                    $this->error(__('No rows were deleted'));
+                }
+            } catch (Throwable $e) {
+                $this->error($e->getMessage());
+            }
+        }
+
+        $this->error(__('Parameter error'));
+    }
+
+    /**
+     * 修改状态
+     * @throws Throwable
+     */
+    public function changeStatus(): void
+    {
+        if ($this->request->isPost()) {
+            $id     = $this->request->post('id');
+            $status = $this->request->post('status');
+
+            if (empty($id)) {
+                $this->error(__('Parameter %s can not be empty', ['id']));
+            }
+
+            try {
+                $result = $this->userService->changeUserStatus($id, $status);
+
+                if ($result) {
+                    $this->success(__('Update successful'));
+                } else {
+                    $this->error(__('No rows updated'));
+                }
+            } catch (Throwable $e) {
+                $this->error($e->getMessage());
+            }
+        }
+
+        $this->error(__('Parameter error'));
+    }
+
+    /**
+     * 重置密码
+     * @throws Throwable
+     */
+    public function resetPassword(): void
+    {
+        if ($this->request->isPost()) {
+            $id          = $this->request->post('id');
+            $newPassword = $this->request->post('password');
+
+            if (empty($id) || empty($newPassword)) {
+                $this->error(__('Parameter error'));
+            }
+
+            try {
+                $result = $this->userService->resetUserPassword($id, $newPassword);
+
+                if ($result) {
+                    $this->success(__('Password reset successful'));
+                } else {
+                    $this->error(__('Password reset failed'));
+                }
+            } catch (Throwable $e) {
+                $this->error($e->getMessage());
+            }
+        }
+
+        $this->error(__('Parameter error'));
     }
 
     /**
@@ -152,5 +265,18 @@ class User extends Backend
             'total'  => $res->total(),
             'remark' => get_route_remark(),
         ]);
+    }
+
+    /**
+     * 获取用户统计信息
+     */
+    public function statistics(): void
+    {
+        try {
+            $stats = $this->userService->getUserStatistics();
+            $this->success('', $stats);
+        } catch (Throwable $e) {
+            $this->error($e->getMessage());
+        }
     }
 }

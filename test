@@ -1,0 +1,68 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * 测试运行脚本
+ */
+
+// 检查是否安装了PHPUnit
+if (!file_exists('vendor/bin/phpunit')) {
+    echo "错误: 未找到PHPUnit，请先运行 'composer install --dev' 安装依赖\n";
+    exit(1);
+}
+
+// 解析命令行参数
+$options = getopt('', ['unit', 'feature', 'coverage', 'verbose', 'filter:']);
+
+$command = 'vendor/bin/phpunit';
+
+// 添加测试套件
+if (isset($options['unit'])) {
+    $command .= ' --testsuite Unit';
+} elseif (isset($options['feature'])) {
+    $command .= ' --testsuite Feature';
+}
+
+// 添加覆盖率报告
+if (isset($options['coverage'])) {
+    $command .= ' --coverage-html build/coverage --coverage-text';
+}
+
+// 添加详细输出
+if (isset($options['verbose'])) {
+    $command .= ' -v';
+}
+
+// 添加过滤器
+if (isset($options['filter'])) {
+    $command .= ' --filter ' . escapeshellarg($options['filter']);
+}
+
+// 创建必要的目录
+if (!is_dir('build')) {
+    mkdir('build', 0755, true);
+}
+
+if (!is_dir('build/coverage')) {
+    mkdir('build/coverage', 0755, true);
+}
+
+if (!is_dir('build/logs')) {
+    mkdir('build/logs', 0755, true);
+}
+
+// 执行测试
+echo "运行命令: $command\n";
+echo "开始执行测试...\n\n";
+
+passthru($command, $exitCode);
+
+echo "\n测试执行完成，退出代码: $exitCode\n";
+
+if ($exitCode === 0) {
+    echo "✅ 所有测试通过\n";
+} else {
+    echo "❌ 测试失败\n";
+}
+
+exit($exitCode);

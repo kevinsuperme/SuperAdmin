@@ -1,0 +1,253 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  NODE_VERSION: '18'
+  PHP_VERSION: '8.1'
+
+jobs:
+  # 代码质量检查
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+        extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, hash, json, pcre, session, simplexml, spl, tokenizer, curl
+        coverage: xdebug
+
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: |
+        echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache Composer dependencies
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
+    - name: Install PHP dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Run PHP CodeSniffer
+      run: |
+        composer require --dev squizlabs/php_codesniffer
+        vendor/bin/phpcs --standard=PSR12 app/ --ignore=app/common/library/
+
+    - name: Run PHPStan
+      run: |
+        composer require --dev phpstan/phpstan
+        vendor/bin/phpstan analyse app/ --level=5 --no-progress
+
+  # 后端测试
+  backend-tests:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: fantastic_admin_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+        extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, hash, json, pcre, session, simplexml, spl, tokenizer, curl
+        coverage: xdebug
+
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: |
+        echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache Composer dependencies
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
+    - name: Install PHP dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Setup environment
+      run: |
+        cp .env.example .env
+        php think key:generate
+        php think migrate:run
+
+    - name: Run tests
+      run: |
+        mkdir -p build/coverage
+        vendor/bin/phpunit --coverage-clover=build/logs/clover.xml --coverage-html=build/coverage
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./build/logs/clover.xml
+        flags: backend
+        name: backend-coverage
+
+  # 前端测试
+  frontend-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: web/package-lock.json
+
+    - name: Install frontend dependencies
+      working-directory: ./web
+      run: npm ci
+
+    - name: Run ESLint
+      working-directory: ./web
+      run: npm run lint
+
+    - name: Run TypeScript type checking
+      working-directory: ./web
+      run: npm run type-check
+
+    - name: Run unit tests
+      working-directory: ./web
+      run: npm run test:unit
+
+    - name: Build frontend
+      working-directory: ./web
+      run: npm run build
+
+  # 构建和部署
+  build-and-deploy:
+    needs: [code-quality, backend-tests, frontend-tests]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+        extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, hash, json, pcre, session, simplexml, spl, tokenizer, curl
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: web/package-lock.json
+
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: |
+        echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache Composer dependencies
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
+    - name: Install PHP dependencies
+      run: composer install --prefer-dist --no-dev --optimize-autoloader
+
+    - name: Install frontend dependencies and build
+      working-directory: ./web
+      run: |
+        npm ci
+        npm run build
+
+    - name: Create deployment package
+      run: |
+        mkdir -p deployment
+        tar -czf deployment/fantastic-admin-${{ github.sha }}.tar.gz \
+          --exclude='.git' \
+          --exclude='tests' \
+          --exclude='.github' \
+          --exclude='web/node_modules' \
+          --exclude='web/src' \
+          --exclude='web/public' \
+          --exclude='web/.env.local' \
+          --exclude='web/.env.development.local' \
+          --exclude='web/.env.test.local' \
+          --exclude='web/.env.production.local' \
+          --exclude='web/tsconfig.json' \
+          --exclude='web/tsconfig.node.json' \
+          --exclude='web/vite.config.ts' \
+          --exclude='web/package*.json' \
+          --exclude='web/.eslintrc.cjs' \
+          --exclude='web/index.html' \
+          --exclude='web/vite' \
+          --exclude='web/dist' \
+          .
+
+    - name: Upload deployment artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: deployment-package
+        path: deployment/
+
+  # 安全扫描
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: |
+        echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache Composer dependencies
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
+    - name: Install PHP dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Run security audit
+      run: |
+        composer audit
+        composer require --dev enshrined/svg-sanitize
+        vendor/bin/security-checker security:check
