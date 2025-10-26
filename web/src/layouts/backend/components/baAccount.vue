@@ -1,4 +1,4 @@
-<!-- 模块市场 和 CRUD 记录页面等地方的 BuildAdmin 官方账户登录弹窗 -->
+<!-- 模块市场 和 CRUD 记录页面等地方的 SuperAdmin 官方账户登录弹窗 -->
 <template>
     <div>
         <el-dialog v-model="model" class="ba-account-dialog" width="25%" :title="t('layouts.Member information')">
@@ -19,7 +19,7 @@
                         <span>{{ $t('Balance') + ' ' + baAccount.money }}</span>
                     </p>
                     <div class="userinfo-buttons">
-                        <a href="https://uni.buildadmin.com/user" target="_blank" rel="noopener noreferrer">
+                        <a href="https://uni.superadmin.com/user" target="_blank" rel="noopener noreferrer">
                             <el-button v-blur size="default" type="primary">
                                 {{ $t('layouts.Member center') }}
                             </el-button>
@@ -30,7 +30,7 @@
             </template>
             <template v-else>
                 <div class="ba-login">
-                    <h3 class="ba-title">{{ t('layouts.Login to the buildadmin') }}</h3>
+                    <h3 class="ba-title">{{ t('layouts.Login to the superadmin') }}</h3>
                     <el-form
                         @keyup.enter="onBaAccountSubmitPre()"
                         ref="baAccountFormRef"
@@ -42,7 +42,7 @@
                             v-model="state.user.username"
                             type="string"
                             prop="username"
-                            :placeholder="t('layouts.Please enter buildadmin account name or email')"
+                            :placeholder="t('layouts.Please enter superadmin account name or email')"
                             :input-attr="{
                                 size: 'large',
                             }"
@@ -51,7 +51,7 @@
                             v-model="state.user.password"
                             type="password"
                             prop="password"
-                            :placeholder="t('layouts.Please enter the buildadmin account password')"
+                            :placeholder="t('layouts.Please enter the superadmin account password')"
                             :input-attr="{
                                 size: 'large',
                             }"
@@ -63,7 +63,7 @@
                             <a
                                 target="_blank"
                                 class="ba-account-register"
-                                href="https://uni.buildadmin.com/user/login?type=register"
+                                href="https://uni.superadmin.com/user/login?type=register"
                                 rel="noopener noreferrer"
                             >
                                 <el-button round plain type="info" size="large"> {{ t('layouts.Register') }} </el-button>

@@ -90,5 +90,5 @@ return [
     // 版本号
     'version'               => 'v2.3.3',
     // 中心接口地址（用于请求模块市场的数据等用途）
-    'api_url'               => 'https://buildadmin.com',
+    'api_url'               => 'https://superadmin.com',
 ];

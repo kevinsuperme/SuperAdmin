@@ -60,7 +60,7 @@ class Filesystem
 
     /**
      * 删除一个路径下的所有相对空文件夹（删除此路径中的所有空文件夹）
-     * @param string $path 相对于根目录的文件夹路径 如`c:BuildAdmin/a/b/`
+     * @param string $path 相对于根目录的文件夹路径 如`c:SuperAdmin/a/b/`
      * @return void
      */
     public static function delEmptyDir(string $path): void

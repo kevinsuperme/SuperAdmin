@@ -1,4 +1,4 @@
-### [BuildAdmin 更新日志](https://gitee.com/wonderful-code/buildadmin)
+### [SuperAdmin 更新日志](https://github.com/kevinsuperme/SuperAdmin)
 
 🔥🔥基于 Vue3.x + ThinkPHP8 + TypeScript + Vite + Pinia + Element Plus 等流行技术栈的后台管理系统，支持常驻内存运行、可视化CRUD代码生成、自带WEB终端、自适应多端、同时提供Web、WebNuxt、Server端、内置全局数据回收站和字段级数据修改保护、自动注册路由、无限子级权限管理等，无需授权即可免费商用，希望能帮助大家实现快速开发。
 
@@ -34,7 +34,7 @@
 
 ### 安全更新
 - 升级 `axios` 以避免 `CVE-2025-27152` 带来的影响（[axios请求可能通过绝对URL遭受SSRF和凭证泄露漏洞](https://www.cve.org/CVERecord?id=CVE-2025-27152)）
-- `BuildAdmin` 后台 `系统配置控制器` 内意外的设置了 `查看` 方法为免登录，可能导致 `配置信息泄露`，建议你立即进行更新或手动修复，[本安全更新详细文档](https://doc.buildadmin.com/guide/other/incompatibleUpdate/v231.html)。
+- `BuildAdmin` 后台 `系统配置控制器` 内意外的设置了 `查看` 方法为免登录，可能导致 `配置信息泄露`，建议你立即进行更新或手动修复，[本安全更新详细文档](https://doc.superadmin.com/guide/other/incompatibleUpdate/v231.html)。
 
 ### 优化
 - 统一和调高系统级 `z-index` 配置值
@@ -84,7 +84,7 @@
 
 ## v2.2.0-Release
 
-- 本版本包含一些不兼容更新，请在升级时查阅 [v2.2.0不兼容更新文档](https://doc.buildadmin.com/guide/other/incompatibleUpdate/v220.html)
+- 本版本包含一些不兼容更新，请在升级时查阅 [v2.2.0不兼容更新文档](https://doc.superadmin.com/guide/other/incompatibleUpdate/v220.html)
 
 ### 新增
 - 升级前后端依赖（`tp8.1` + `vue3.5` + `element plus2.9` 等）
@@ -134,7 +134,7 @@
 - 优化终端弹窗样式
 - 优化小屏下的菜单抽屉
 - 优化顶栏子级菜单的激活逻辑
-- 优化系统配置项 `buildadmin.api_url` 的注释
+- 优化系统配置项 `superadmin.api_url` 的注释
 - 优化 `CRUD` 无意义默认值的清理逻辑
 - 优化 `CRUD` 浮点数类型字段的模型获取器生成
 - 去除开发环境下跨域代理示例
@@ -217,8 +217,8 @@
 - 基于`Element plus`新版本优化`FormItem`组件
 - 优化`FormItem`的`props.tip`和`props.blockHelp`样式
 - 优化`FormItem`组件的类型定义
-- 合并`FormItem`的`props`本身和`props.attr`，可查阅[此提交](https://gitee.com/wonderful-code/buildadmin/commit/10527ebb760a10b329130e3194a6bbc929a52737)
-- 合并`baInput`组件的`props.attr`和`props.data`，可查阅[此提交](https://gitee.com/wonderful-code/buildadmin/commit/10527ebb760a10b329130e3194a6bbc929a52737)
+- 合并`FormItem`的`props`本身和`props.attr`，可查阅[此提交](https://github.com/kevinsuperme/SuperAdmin/commit/10527ebb760a10b329130e3194a6bbc929a52737)
+- 合并`baInput`组件的`props.attr`和`props.data`，可查阅[此提交](https://github.com/kevinsuperme/SuperAdmin/commit/10527ebb760a10b329130e3194a6bbc929a52737)
 - 优化表格的`props`继承的类型的定义
 - 优化富文本编辑器的默认宽度
 - 优化可视化`CRUD`生成的模型的`onBeforeInsert`方法返回值类型定义
@@ -241,7 +241,7 @@
 - 优化管理员管理和菜单规则管理的控制器代码
 - 修复选择数据表、选择数据表字段接口非默认数据库返回空数据的问题
 - 修复第一个菜单为 Iframe 时不能自动跳转的 BUG
-- 修复由于`Gitee Pages`停止服务造成的文档站无法访问
+- 修复由于文档站服务停止造成的文档站无法访问
 - 修复可视化`CRUD`远程下拉选择数据表时不能关键词搜索的问题
 - 修复右击菜单组件的菜单面板可能超出屏幕的问题
 
@@ -250,7 +250,7 @@
 - 增加动态修改后台顶部`Tab`标题的方法
 - 增加关闭掉全部或者指定`Tab`的方法
 - 新增`refs`状态商店，全局提供了：引用（指向）一些对象（组件）的句柄
-- 常驻内存支持，享受比传统框架快上数十倍的性能提升，目前[Workerman模块](https://modules.buildadmin.com/workerman)可提供框架的常驻内存HTTP服务
+- 常驻内存支持，享受比传统框架快上数十倍的性能提升，目前[Workerman模块](https://modules.superadmin.com/workerman)可提供框架的常驻内存HTTP服务
 
 ### 重构/优化/修复
 - 优化内置滚动条样式
@@ -265,7 +265,7 @@
 
 ## v2.0.8-Beta
 ### 新增
-- [Workerman模块](https://modules.buildadmin.com/workerman)上线（系统内置的`API`已完成常驻内存运行的兼容）
+- [Workerman模块](https://modules.superadmin.com/workerman)上线（系统内置的`API`已完成常驻内存运行的兼容）
 - 增加一个获取用户鉴权`token`的公共函数
 - WEB终端：对交互式命令进行提示并终止执行
 
@@ -575,7 +575,7 @@
 
 ## v1.1.3-Release
 ### 新增
-- `WebNuxt`工程发布，可通过模块市场安装，亦可直接访问[代码仓库](https://gitee.com/wonderful-code/build-admin-nuxt)
+- `WebNuxt`工程发布，可通过模块市场安装，亦可直接访问[代码仓库](https://github.com/kevinsuperme/SuperAdmin-nuxt)
 - 增加可选的管理员和会员单点登录功能
 - 增加直接登录会员账号的方法
 - 新增双栏布局效果，顶部栏加左侧栏同时存在

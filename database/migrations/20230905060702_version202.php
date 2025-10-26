@@ -54,9 +54,9 @@ class Version202 extends Migrator
 
             // 修改name
             Db::name('admin_rule')
-                ->where('name', 'buildadmin/buildadmin')
+                ->where('name', 'superadmin/superadmin')
                 ->update([
-                    'name' => 'buildadmin',
+                    'name' => 'superadmin',
                 ]);
 
             Db::commit();

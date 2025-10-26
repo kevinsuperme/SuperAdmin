@@ -9,7 +9,6 @@
     <a href="https://doc.superadmin.com/" target="_blank">文档</a> |
     <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=paVQA1dlpsVNHTla-ZAts6e4pPK4va9R&authKey=Eto0dq9DOuYldJPl6URFAXXHlG2AFQtPUBxNHEByEiuSg9OraxMniXIaWFt46OKi&noverify=0&group_code=1039646575" target="_blank">加群</a> |
     <a href="https://doc.superadmin.com/guide/" target="_blank">视频介绍</a> |
-    <a href="https://gitee.com/wonderful-code/superadmin" target="_blank">Gitee仓库</a> |
     <a href="https://github.com/kevinsuperme/SuperAdmin" target="_blank">GitHub仓库</a>
 </div>
 <br />
@@ -32,7 +31,7 @@
     <a href="https://pinia.vuejs.org/" target="_blank">
         <img src="https://img.shields.io/badge/Pinia-%3E2.3-blue?color=91aac3&labelColor=439EFD" alt="vite">
     </a>
-    <a href="https://gitee.com/wonderful-code/superadmin/blob/master/LICENSE" target="_blank">
+    <a href="https://github.com/kevinsuperme/SuperAdmin/blob/master/LICENSE" target="_blank">
         <img src="https://img.shields.io/badge/Apache2.0-license-blue?color=91aac3&labelColor=439EFD" alt="license">
     </a>
 </p>
@@ -99,7 +98,7 @@
 - [官方网站：uni.superadmin.com](https://uni.superadmin.com)
 - [文档：doc.superadmin.com](https://doc.superadmin.com/)
 - 加群：[687903819（>960/1000）](https://jq.qq.com/?_wv=1027&k=QwtXa14c)、[751852082（>1990/2000）](https://jq.qq.com/?_wv=1027&k=c8a7iSk8)、[1039646575](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=paVQA1dlpsVNHTla-ZAts6e4pPK4va9R&authKey=Eto0dq9DOuYldJPl6URFAXXHlG2AFQtPUBxNHEByEiuSg9OraxMniXIaWFt46OKi&noverify=0&group_code=1039646575)
-- [Gitee仓库](https://gitee.com/wonderful-code/superadmin)、[GitHub仓库](https://github.com/kevinsuperme/SuperAdmin)
+- [GitHub仓库](https://github.com/kevinsuperme/SuperAdmin)
 - [官方邮箱 iphone.com@live.cn](mailto:iphone.com@live.cn)
 
 ### 项目预览
@@ -144,4 +143,4 @@
 本项目包含的第三方源码和二进制文件之版权信息另行标注。
 
 ### 支持项目
-💕 无需捐赠，如果觉得项目不错，或者已经在使用了，希望你可以去 [Github](https://github.com/kevinsuperme/SuperAdmin) 或者 [Gitee](https://gitee.com/wonderful-code/superadmin) 帮我们点个 ⭐ Star，这将是对我们极大的鼓励与支持。
+💕 无需捐赠，如果觉得项目不错，或者已经在使用了，希望你可以去 [Github](https://github.com/kevinsuperme/SuperAdmin) 帮我们点个 ⭐ Star，这将是对我们极大的鼓励与支持。

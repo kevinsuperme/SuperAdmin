@@ -9,7 +9,6 @@ use DateTimeInterface;
 
 /**
  * 日期时间处理类
- * @form https://gitee.com/karson/fastadmin/blob/develop/extend/fast/Date.php
  */
 class Date
 {
