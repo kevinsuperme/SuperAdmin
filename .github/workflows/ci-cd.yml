@@ -294,6 +294,30 @@ jobs:
         pnpm install --frozen-lockfile
         pnpm run build
 
+    - name: Prepare frontend files for deployment
+      run: |
+        echo "Copying frontend build to public directory..."
+
+        # 确保 public 目录存在
+        mkdir -p public
+
+        # 复制前端构建产物到 public 目录
+        cp -r web/dist/* public/
+
+        # 验证关键文件存在
+        if [ ! -f "public/index.html" ]; then
+          echo "ERROR: Frontend index.html not found in public/"
+          exit 1
+        fi
+
+        if [ ! -d "public/assets" ]; then
+          echo "ERROR: Frontend assets directory not found in public/"
+          exit 1
+        fi
+
+        echo "Frontend files prepared successfully:"
+        ls -lh public/ | head -10
+
     - name: Create deployment package
       run: |
         mkdir -p deployment
@@ -303,7 +327,7 @@ jobs:
           --exclude='.github' \
           --exclude='web/node_modules' \
           --exclude='web/src' \
-          --exclude='web/public' \
+          --exclude='web/dist' \
           --exclude='web/.env.local' \
           --exclude='web/.env.development.local' \
           --exclude='web/.env.test.local' \
@@ -311,11 +335,16 @@ jobs:
           --exclude='web/tsconfig.json' \
           --exclude='web/tsconfig.node.json' \
           --exclude='web/vite.config.ts' \
+          --exclude='web/vitest.config.ts' \
           --exclude='web/package*.json' \
+          --exclude='web/pnpm-lock.yaml' \
           --exclude='web/.eslintrc.cjs' \
+          --exclude='web/eslint.config.js' \
           --exclude='web/index.html' \
           --exclude='web/vite' \
-          --exclude='web/dist' \
+          --exclude='web/coverage' \
+          --exclude='web/.eslintcache' \
+          --exclude='web/tsconfig.tsbuildinfo' \
           .
 
     - name: Upload deployment artifact
