@@ -459,6 +459,6 @@ class UserServiceTest extends TestCase
 
 ## 相关文档
 
-- [架构说明](./ARCHITECTURE.md)
+- [架构说明](01-项目技术架构评估与规划.md)
 - [API接口规范](./API_SPECIFICATION.md)
 - [数据库设计规范](./DATABASE_DESIGN.md)

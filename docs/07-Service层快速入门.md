@@ -561,9 +561,9 @@ class OrderService extends BaseService
 
 ## 下一步
 
-- 📖 阅读 [Service层完整文档](./SERVICE_LAYER.md)
-- 🏗️ 查看 [Service层实现总结](./SERVICE_LAYER_IMPLEMENTATION.md)
-- 📚 学习 [项目架构说明](./ARCHITECTURE.md)
+- 📖 阅读 [Service层完整文档](05-Service层架构说明.md)
+- 🏗️ 查看 [Service层实现总结](06-Service层实现指南.md)
+- 📚 学习 [项目架构说明](01-项目技术架构评估与规划.md)
 
 ## 总结
 

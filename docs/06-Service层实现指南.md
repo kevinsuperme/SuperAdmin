@@ -103,7 +103,7 @@
 
 ### 4. 文档完善
 
-#### SERVICE_LAYER.md
+#### 05-Service层架构说明.md
 完整的Service层使用文档:
 
 **内容包括:**
@@ -454,6 +454,6 @@ Service层架构为项目的长期发展奠定了坚实的基础,使得项目更
 
 ## 相关文档
 
-- [Service层使用文档](./SERVICE_LAYER.md)
-- [项目架构说明](./ARCHITECTURE.md)
+- [Service层使用文档](05-Service层架构说明.md)
+- [项目架构说明](01-项目技术架构评估与规划.md)
 - [开发规范](./DEVELOPMENT_STANDARDS.md)
