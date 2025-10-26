@@ -4,11 +4,8 @@
     <img src="https://doc.superadmin.com/images/logo.png" alt="SuperAdmin Logo" width="120" />
     <h1 style="font-size: 36px;color: #2c3e50;font-weight: 600;margin: 0 0 6px 0;">SuperAdmin</h1>
     <p style="font-size: 17px;color: #6a8bad;margin-bottom: 10px;">基于现代技术栈的企业级后台管理系统框架</p>
-    <a href="https://uni.superadmin.com" target="_blank">官网</a> |
-    <a href="https://demo.superadmin.com" target="_blank">演示</a> |
-    <a href="https://ask.superadmin.com" target="_blank">社区</a> |
-    <a href="https://doc.superadmin.com/" target="_blank">文档</a> |
-    <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=paVQA1dlpsVNHTla-ZAts6e4pPK4va9R&authKey=Eto0dq9DOuYldJPl6URFAXXHlG2AFQtPUBxNHEByEiuSg9OraxMniXIaWFt46OKi&noverify=0&group_code=1039646575" target="_blank">加群</a> |
+
+    <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=paVQA1dlpsVNHTla-ZAts6e4pPK4va9R&authKey=Eto0dq9DOuYldJPl6URFAXXHlG2AFQtPUBxNHEByEiuSg9OraxMniXIaWFt46OKi&noverify=0&group_code=1039646575" target="_blank">联系</a> |
     <a href="https://doc.superadmin.com/guide/" target="_blank">视频介绍</a> |
     <a href="https://github.com/kevinsuperme/SuperAdmin" target="_blank">GitHub仓库</a>
 </div>
@@ -18,19 +15,19 @@
         <img src="https://img.shields.io/badge/ThinkPHP-%3E8.1-brightgreen?color=91aac3&labelColor=439EFD" alt="ThinkPHP">
     </a>
     <a href="https://v3.vuejs.org/" target="_blank">
-        <img src="https://img.shields.io/badge/Vue-3.5.21-brightgreen?color=91aac3&labelColor=439EFD" alt="Vue">
+        <img src="https://img.shields.io/badge/Vue-^3.5.22-brightgreen?color=91aac3&labelColor=439EFD"" alt="Vue">
     </a>
     <a href="https://element-plus.org/zh-CN/guide/changelog.html" target="_blank">
-        <img src="https://img.shields.io/badge/Element--Plus-%3E2.9-brightgreen?color=91aac3&labelColor=439EFD" alt="Element Plus">
+        <img src="https://img.shields.io/badge/Element--Plus-%3E2-brightgreen?color=91aac3&labelColor=439EFD"" alt="Element Plus">
     </a>
     <a href="https://www.tslang.cn/" target="_blank">
-        <img src="https://img.shields.io/badge/TypeScript-%3E5.7-blue?color=91aac3&labelColor=439EFD" alt="TypeScript">
+        <img src="https://img.shields.io/badge/TypeScript-%3E5-blue?color=91aac3&labelColor=439EFD"" alt="TypeScript">
     </a>
     <a href="https://vitejs.dev/" target="_blank">
-        <img src="https://img.shields.io/badge/Vite-%3E6.0-blue?color=91aac3&labelColor=439EFD" alt="Vite">
+        <img src="https://img.shields.io/badge/Vite-%3E6-blue?color=91aac3&labelColor=439EFD"" alt="Vite">
     </a>
     <a href="https://pinia.vuejs.org/" target="_blank">
-        <img src="https://img.shields.io/badge/Pinia-%3E2.3-blue?color=91aac3&labelColor=439EFD" alt="Pinia">
+        <img src="https://img.shields.io/badge/Pinia-%3E2-blue?color=91aac3&labelColor=439EFD"" alt="Pinia">
     </a>
     <a href="https://github.com/kevinsuperme/SuperAdmin/blob/master/LICENSE" target="_blank">
         <img src="https://img.shields.io/badge/Apache2.0-license-blue?color=91aac3&labelColor=439EFD" alt="License">
@@ -66,7 +63,7 @@
 
 ## 📋 项目概述
 
-SuperAdmin 是一个基于 Vue 3.5.21 + ThinkPHP8 + TypeScript + Vite + Pinia + Element Plus 等流行技术栈的现代化后台管理系统。它支持常驻内存运行、可视化CRUD代码生成、自带WEB终端、自适应多端，同时提供Web、WebNuxt、Server端等多种部署方式。系统内置全局数据回收站和字段级数据修改保护、自动注册路由、无限子级权限管理等特性，无需授权即可免费商用。
+SuperAdmin 是一个基于 Vue ^3.5.22 + ThinkPHP8 + TypeScript + Vite + Pinia + Element Plus 等流行技术栈的现代化后台管理系统。它支持常驻内存运行、可视化CRUD代码生成、自带WEB终端、自适应多端，同时提供Web、WebNuxt、Server端等多种部署方式。系统内置全局数据回收站和字段级数据修改保护、自动注册路由、无限子级权限管理等特性，无需授权即可免费商用。
 
 ### 🎯 项目定位
 
@@ -89,53 +86,25 @@ SuperAdmin 是一个基于 Vue 3.5.21 + ThinkPHP8 + TypeScript + Vite + Pinia + 
 
 ### 整体架构
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                        前端层 (Vue 3)                        │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │  表现层     │  │  组件层     │  │  状态管理   │         │
-│  │   Views     │  │ Components  │  │   Pinia     │         │
-│  └─────────────┘  └─────────────┘  └─────────────┘         │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              │ HTTP/HTTPS
-                              │
-┌─────────────────────────────────────────────────────────────┐
-│                      后端层 (ThinkPHP 8)                     │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │  控制器层   │  │  服务层     │  │  模型层     │         │
-│  │ Controller  │  │  Service    │  │   Model     │         │
-│  └─────────────┘  └─────────────┘  └─────────────┘         │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              │
-┌─────────────────────────────────────────────────────────────┐
-│                        数据层                                │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │    MySQL    │  │    Redis    │  │  文件存储   │         │
-│  │   主数据库   │  │   缓存      │  │  Filesystem │         │
-│  └─────────────┘  └─────────────┘  └─────────────┘         │
-└─────────────────────────────────────────────────────────────┘
 ```
-
-### 前端架构
-
-前端采用Vue 3生态系统，结合TypeScript提供类型安全，使用Vite作为构建工具实现快速开发。
-
-```text
-web/src/
-├── api/              # API接口层
-├── assets/           # 静态资源
-├── components/       # 公共组件
-│   ├── table/        # 表格组件
-│   ├── form/         # 表单组件
-│   └── icon/         # 图标组件
-├── layouts/          # 布局组件
-├── router/           # 路由配置
-├── stores/           # 状态管理
-├── styles/           # 样式文件
-├── utils/            # 工具函数
-└── views/            # 页面视图
+web/
+├── src/
+│   ├── api/                # API接口 (17 files)
+│   ├── assets/                # 静态资源 (14 files)
+│   ├── components/                # 组件库 (43 files)
+│   ├── composables/                # 组合式函数 (4 files)
+│   ├── lang/                # 其他模块 (78 files)
+│   ├── layouts/                # 布局组件 (33 files)
+│   ├── router/                # 路由管理 (5 files)
+│   ├── stores/                # 其他模块 (14 files)
+│   ├── styles/                # 样式文件 (8 files)
+│   ├── tests/                # 其他模块 (8 files)
+│   ├── types/                # 类型定义 (2 files)
+│   ├── utils/                # 工具函数 (18 files)
+│   ├── views/                # 页面视图 (64 files)
+├── public/                 # 静态资源
+├── tests/                  # 测试文件
+└── package.json
 ```
 
 **核心特性**：
@@ -221,7 +190,7 @@ app/
 
 ### 👍 现代化技术栈
 - 基于ThinkPHP 8前后端分离架构
-- Vue 3.5.21 + Composition API
+- Vue 3.5.22 + Composition API
 - TypeScript提供类型安全
 - Pinia状态管理
 - Vite构建工具
@@ -307,20 +276,16 @@ app/
 
 | 技术 | 版本 | 说明 |
 |-----|------|------|
-| **框架** | Vue 3.5.21 | 渐进式JavaScript框架 |
-| **语言** | TypeScript 5.x+ | JavaScript超集 |
-| **构建工具** | Vite 6.x+ | 下一代前端构建工具 |
-| **UI框架** | Element Plus 2.x+ | Vue 3组件库 |
-| **状态管理** | Pinia 2.x+ | Vue状态管理库 |
-| **路由** | Vue Router 4.x+ | 官方路由管理器 |
-| **HTTP客户端** | Axios | Promise based HTTP客户端 |
-| **代码规范** | ESLint, Prettier | 代码质量和格式化工具 |
-| **CSS预处理器** | Sass/SCSS | CSS扩展语言 |
-| **图表库** | ECharts | 数据可视化库 |
-| **工具库** | Lodash, VueUse | 实用工具库 |
-
-## 系统要求
-
+| **框架** | Vue ^3.5.22 | 渐进式JavaScript框架 |
+| **语言** | TypeScript 5.7.2 | JavaScript超集 |
+| **构建工具** | Vite 6.3.5 | 下一代前端构建工具 |
+| **UI框架** | Element Plus 2.9.1 | Vue 3组件库 |
+| **状态管理** | Pinia 2.3.0 | Vue状态管理库 |
+| **路由管理** | Vue Router 4.5.0 | Vue官方路由 |
+| **HTTP客户端** | Axios 1.9.0 | Promise based HTTP client |
+| **图表库** | ECharts 5.5.1 | 数据可视化库 |
+| **工具库** | Lodash-ES ^4.17.21 | 现代化工具库 |
+| **组合式API工具** | VueUse 12.0.0 | Vue组合式函数集合 |
 ### 服务器环境
 
 | 组件 | 最低要求 | 推荐配置 |
@@ -2102,3 +2067,6 @@ http {
   <p>由 ❤️ 和 ☕ 驱动开发</p>
   <p>© 2024 Fantastic Admin Team</p>
 </div>
+<!-- 自动更新信息 -->
+<!-- 最后更新时间: 2025-10-26T16:02:31.410Z -->
+<!-- 更新工具: scripts/update-readme.js -->
