@@ -1,0 +1,352 @@
+{
+  "summary": {
+    "totalDocuments": 21,
+    "totalLinks": 269,
+    "validLinks": 241,
+    "invalidLinks": 28,
+    "externalLinks": 20,
+    "anchorLinks": 72,
+    "documentsWithBrokenLinks": 10
+  },
+  "results": [
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\README.md",
+      "totalLinks": 27,
+      "validLinks": 27,
+      "invalidLinks": 0,
+      "externalLinks": 4,
+      "anchorLinks": 19,
+      "brokenLinks": []
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\DOCS.md",
+      "totalLinks": 64,
+      "validLinks": 64,
+      "invalidLinks": 0,
+      "externalLinks": 1,
+      "anchorLinks": 0,
+      "brokenLinks": []
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\DOCUMENTATION_INDEX.md",
+      "totalLinks": 50,
+      "validLinks": 48,
+      "invalidLinks": 2,
+      "externalLinks": 0,
+      "anchorLinks": 0,
+      "brokenLinks": [
+        {
+          "text": "docs/TECHNICAL_ARCHITECTURE_ASSESSMENT.md",
+          "url": "docs/TECHNICAL_ARCHITECTURE_ASSESSMENT.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\TECHNICAL_ARCHITECTURE_ASSESSMENT.md"
+        },
+        {
+          "text": "docs/IMPLEMENTATION_ROADMAP.md",
+          "url": "docs/IMPLEMENTATION_ROADMAP.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\IMPLEMENTATION_ROADMAP.md"
+        }
+      ]
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\PROJECT_OVERVIEW.md",
+      "totalLinks": 1,
+      "validLinks": 1,
+      "invalidLinks": 0,
+      "externalLinks": 0,
+      "anchorLinks": 0,
+      "brokenLinks": []
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\ARCHITECTURE.md",
+      "totalLinks": 12,
+      "validLinks": 12,
+      "invalidLinks": 0,
+      "externalLinks": 0,
+      "anchorLinks": 12,
+      "brokenLinks": []
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\00-文档管理规范__Documentation-Management-Standard.md",
+      "totalLinks": 14,
+      "validLinks": 12,
+      "invalidLinks": 2,
+      "externalLinks": 1,
+      "anchorLinks": 8,
+      "brokenLinks": [
+        {
+          "text": "相关文档1",
+          "url": "./01-xxx.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\01-xxx.md"
+        },
+        {
+          "text": "相关文档2",
+          "url": "./02-xxx.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\02-xxx.md"
+        }
+      ]
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\01-持续集成与部署__CICD-Configuration-Guide.md",
+      "totalLinks": 13,
+      "validLinks": 10,
+      "invalidLinks": 3,
+      "externalLinks": 3,
+      "anchorLinks": 6,
+      "brokenLinks": [
+        {
+          "text": "CI/CD 流程说明",
+          "url": "../CI-CD.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\CI-CD.md"
+        },
+        {
+          "text": "系统架构文档",
+          "url": "01-项目技术架构评估与规划.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\01-项目技术架构评估与规划.md"
+        },
+        {
+          "text": "v2.4.0 新特性",
+          "url": "09-V2.4.0功能特性.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\09-V2.4.0功能特性.md"
+        }
+      ]
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\02-服务层架构__Service-Layer-Architecture.md",
+      "totalLinks": 3,
+      "validLinks": 0,
+      "invalidLinks": 3,
+      "externalLinks": 0,
+      "anchorLinks": 0,
+      "brokenLinks": [
+        {
+          "text": "架构说明",
+          "url": "01-项目技术架构评估与规划.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\01-项目技术架构评估与规划.md"
+        },
+        {
+          "text": "API接口规范",
+          "url": "./API_SPECIFICATION.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\API_SPECIFICATION.md"
+        },
+        {
+          "text": "数据库设计规范",
+          "url": "./DATABASE_DESIGN.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\DATABASE_DESIGN.md"
+        }
+      ]
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\03-服务层实现指南__Service-Layer-Implementation.md",
+      "totalLinks": 3,
+      "validLinks": 0,
+      "invalidLinks": 3,
+      "externalLinks": 0,
+      "anchorLinks": 0,
+      "brokenLinks": [
+        {
+          "text": "Service层使用文档",
+          "url": "05-Service层架构说明.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\05-Service层架构说明.md"
+        },
+        {
+          "text": "项目架构说明",
+          "url": "01-项目技术架构评估与规划.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\01-项目技术架构评估与规划.md"
+        },
+        {
+          "text": "开发规范",
+          "url": "./DEVELOPMENT_STANDARDS.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\DEVELOPMENT_STANDARDS.md"
+        }
+      ]
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\04-服务层快速入门__Service-Layer-Quick-Start.md",
+      "totalLinks": 3,
+      "validLinks": 0,
+      "invalidLinks": 3,
+      "externalLinks": 0,
+      "anchorLinks": 0,
+      "brokenLinks": [
+        {
+          "text": "Service层完整文档",
+          "url": "05-Service层架构说明.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\05-Service层架构说明.md"
+        },
+        {
+          "text": "Service层实现总结",
+          "url": "06-Service层实现指南.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\06-Service层实现指南.md"
+        },
+        {
+          "text": "项目架构说明",
+          "url": "01-项目技术架构评估与规划.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\01-项目技术架构评估与规划.md"
+        }
+      ]
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\05-版本功能特性__V2.3.3-Features.md",
+      "totalLinks": 6,
+      "validLinks": 2,
+      "invalidLinks": 4,
+      "externalLinks": 0,
+      "anchorLinks": 0,
+      "brokenLinks": [
+        {
+          "text": "GitHub Actions 配置指南",
+          "url": "04-GitHub Actions CI-CD配置指南.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\04-GitHub Actions CI-CD配置指南.md"
+        },
+        {
+          "text": "CI/CD 实施指南",
+          "url": "../CI-CD.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\CI-CD.md"
+        },
+        {
+          "text": "架构文档",
+          "url": "01-项目技术架构评估与规划.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\01-项目技术架构评估与规划.md"
+        },
+        {
+          "text": "技术架构评估",
+          "url": "08-技术架构评估报告.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\08-技术架构评估报告.md"
+        }
+      ]
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\06-测试总结报告__Testing-Summary-Report.md",
+      "totalLinks": 4,
+      "validLinks": 0,
+      "invalidLinks": 4,
+      "externalLinks": 0,
+      "anchorLinks": 0,
+      "brokenLinks": [
+        {
+          "text": "快速开始指南",
+          "url": "./QUICK_START_GUIDE.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\QUICK_START_GUIDE.md"
+        },
+        {
+          "text": "测试完成报告",
+          "url": "./TEST_COMPLETION_REPORT.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\TEST_COMPLETION_REPORT.md"
+        },
+        {
+          "text": "实施路线图",
+          "url": "./IMPLEMENTATION_ROADMAP.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\IMPLEMENTATION_ROADMAP.md"
+        },
+        {
+          "text": "架构评估报告",
+          "url": "./TECHNICAL_ARCHITECTURE_ASSESSMENT.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\TECHNICAL_ARCHITECTURE_ASSESSMENT.md"
+        }
+      ]
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\07-项目实施路线图__Project-Implementation-Roadmap.md",
+      "totalLinks": 0,
+      "validLinks": 0,
+      "invalidLinks": 0,
+      "externalLinks": 0,
+      "anchorLinks": 0,
+      "brokenLinks": []
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\08-快速开始指南__Quick-Start-Guide.md",
+      "totalLinks": 8,
+      "validLinks": 6,
+      "invalidLinks": 2,
+      "externalLinks": 6,
+      "anchorLinks": 0,
+      "brokenLinks": [
+        {
+          "text": "实施路线图",
+          "url": "./IMPLEMENTATION_ROADMAP.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\IMPLEMENTATION_ROADMAP.md"
+        },
+        {
+          "text": "架构评估报告",
+          "url": "./TECHNICAL_ARCHITECTURE_ASSESSMENT.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\TECHNICAL_ARCHITECTURE_ASSESSMENT.md"
+        }
+      ]
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\09-技术架构评估__Architecture-Assessment-Report.md",
+      "totalLinks": 0,
+      "validLinks": 0,
+      "invalidLinks": 0,
+      "externalLinks": 0,
+      "anchorLinks": 0,
+      "brokenLinks": []
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\10-已知问题__Known-Issues.md",
+      "totalLinks": 1,
+      "validLinks": 1,
+      "invalidLinks": 0,
+      "externalLinks": 1,
+      "anchorLinks": 0,
+      "brokenLinks": []
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\11-错误修复总结__Fix-Summary.md",
+      "totalLinks": 0,
+      "validLinks": 0,
+      "invalidLinks": 0,
+      "externalLinks": 0,
+      "anchorLinks": 0,
+      "brokenLinks": []
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\12-TypeScript基础路径迁移__TypeScript-BaseUrl-Migration.md",
+      "totalLinks": 3,
+      "validLinks": 3,
+      "invalidLinks": 0,
+      "externalLinks": 3,
+      "anchorLinks": 0,
+      "brokenLinks": []
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\13-文档迁移总结报告__Documentation-Migration-Summary-Report.md",
+      "totalLinks": 13,
+      "validLinks": 13,
+      "invalidLinks": 0,
+      "externalLinks": 0,
+      "anchorLinks": 9,
+      "brokenLinks": []
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\14-文档版本同步更新报告__Documentation-Sync-Update-Report.md",
+      "totalLinks": 30,
+      "validLinks": 28,
+      "invalidLinks": 2,
+      "externalLinks": 0,
+      "anchorLinks": 8,
+      "brokenLinks": [
+        {
+          "text": "docs/05-版本功能特性__V2.4.0-Features.md",
+          "url": "docs/05-版本功能特性__V2.4.0-Features.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\docs\\05-版本功能特性__V2.4.0-Features.md"
+        },
+        {
+          "text": "docs/05-版本功能特性__V2.3.3-Features.md",
+          "url": "docs/05-版本功能特性__V2.3.3-Features.md",
+          "resolvedPath": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\docs\\05-版本功能特性__V2.3.3-Features.md"
+        }
+      ]
+    },
+    {
+      "file": "f:\\fantastic-admin\\super-admin-v2.3.3\\docs\\15-README自动更新系统__README-Auto-Update-System.md",
+      "totalLinks": 14,
+      "validLinks": 14,
+      "invalidLinks": 0,
+      "externalLinks": 1,
+      "anchorLinks": 10,
+      "brokenLinks": []
+    }
+  ]
+}

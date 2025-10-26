@@ -39,13 +39,13 @@
 **受众**: 架构师、高级开发者
 **更新频率**: 低
 
-### 5. [docs/TECHNICAL_ARCHITECTURE_ASSESSMENT.md](docs/TECHNICAL_ARCHITECTURE_ASSESSMENT.md) - 架构评估 📊
-**大小**: 48K
+### 5. [docs/09-技术架构评估](docs/09-技术架构评估__Architecture-Assessment-Report.md) - 架构评估 📊
+**大小**: 37K
 **用途**: 架构质量评估、改进建议、技术债务分析
 **受众**: 技术负责人、架构师
 **更新频率**: 季度
 
-### 6. [docs/IMPLEMENTATION_ROADMAP.md](docs/IMPLEMENTATION_ROADMAP.md) - 实施路线图 🗺️
+### 6. [docs/07-项目实施路线图](docs/07-项目实施路线图__Project-Implementation-Roadmap.md) - 实施路线图 🗺️
 **大小**: 66K
 **用途**: 功能开发规划、里程碑、优先级排序
 **受众**: 技术负责人、项目经理
