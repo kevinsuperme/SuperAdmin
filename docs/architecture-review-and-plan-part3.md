@@ -1,4 +1,4 @@
-# BuildAdmin 项目技术架构评估与规划方案 (终)
+# SuperAdmin 项目技术架构评估与规划方案 (终)
 
 ## 9. 开发与部署流程规范
 
@@ -27,7 +27,7 @@
 #!/bin/bash
 # init-dev.sh - 开发环境初始化脚本
 
-echo "=== BuildAdmin 开发环境初始化 ==="
+echo "=== SuperAdmin 开发环境初始化 ==="
 
 # 1. 检查 PHP 版本
 php_version=$(php -v | grep -oP 'PHP \K[0-9.]+')
@@ -51,8 +51,8 @@ fi
 php think key:generate
 
 # 6. 创建数据库
-read -p "请输入数据库名称 [buildadmin]: " db_name
-db_name=${db_name:-buildadmin}
+read -p "请输入数据库名称 [SuperAdmin]: " db_name
+db_name=${db_name:-SuperAdmin}
 mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS $db_name DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
 # 7. 运行数据库迁移
@@ -348,7 +348,7 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: buildadmin_test
+          MYSQL_DATABASE: SuperAdmin_test
         options: >-
           --health-cmd="mysqladmin ping"
           --health-interval=10s
@@ -371,7 +371,7 @@ jobs:
         run: ./vendor/bin/phpunit
         env:
           DB_HOST: 127.0.0.1
-          DB_DATABASE: buildadmin_test
+          DB_DATABASE: SuperAdmin_test
           DB_USERNAME: root
           DB_PASSWORD: root
       
@@ -409,7 +409,7 @@ services:
       - ./storage:/var/www/html/storage
     environment:
       - DB_HOST=mysql
-      - DB_DATABASE=buildadmin
+      - DB_DATABASE=SuperAdmin
       - DB_USERNAME=root
       - DB_PASSWORD=secret
       - REDIS_HOST=redis
@@ -421,7 +421,7 @@ services:
     image: mysql:8.0
     environment:
       - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=buildadmin
+      - MYSQL_DATABASE=SuperAdmin
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
@@ -491,7 +491,7 @@ CMD ["php-fpm"]
 
 set -e
 
-echo "=== 开始部署 BuildAdmin ==="
+echo "=== 开始部署 SuperAdmin ==="
 
 # 1. 拉取最新代码
 echo "拉取最新代码..."
@@ -819,7 +819,7 @@ section 长期规划 (6-12个月)
 
 ### 11.1 架构优势
 
-BuildAdmin 项目具有以下**核心优势**:
+SuperAdmin 项目具有以下**核心优势**:
 
 ✅ **现代化技术栈**: ThinkPHP 8.0 + Vue 3 组合,符合当前主流技术趋势  
 ✅ **完善的权限体系**: RBAC + 数据权限,细粒度控制  
@@ -917,7 +917,7 @@ BuildAdmin 项目具有以下**核心优势**:
 
 **文档版本**: v1.0  
 **最后更新**: 2025-10-26  
-**维护团队**: BuildAdmin 技术团队
+**维护团队**: SuperAdmin 技术团队
 
 ---
 

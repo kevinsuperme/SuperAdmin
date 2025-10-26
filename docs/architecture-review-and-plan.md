@@ -1,8 +1,8 @@
-# BuildAdmin 项目技术架构评估与规划方案
+# SuperAdmin 项目技术架构评估与规划方案
 
 ## 文档信息
 
-- **项目名称**: BuildAdmin 后台管理系统
+- **项目名称**: SuperAdmin 后台管理系统
 - **文档版本**: v1.0
 - **编写日期**: 2025-10-26
 - **文档类型**: 技术架构评估与规划
@@ -29,7 +29,7 @@
 
 ### 1.1 项目定位
 
-BuildAdmin 是一个基于 ThinkPHP 8.0 和 Vue 3 的现代化后台管理系统框架,采用前后端分离架构,提供完整的 RBAC 权限管理、用户管理、文件上传等企业级功能。
+SuperAdmin 是一个基于 ThinkPHP 8.0 和 Vue 3 的现代化后台管理系统框架,采用前后端分离架构,提供完整的 RBAC 权限管理、用户管理、文件上传等企业级功能。
 
 ### 1.2 核心特性
 
@@ -775,7 +775,7 @@ return [
         'mysql' => [
             'type' => 'mysql',
             'hostname' => env('DB_HOST', '127.0.0.1'),
-            'database' => env('DB_DATABASE', 'buildadmin'),
+            'database' => env('DB_DATABASE', 'SuperAdmin'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', ''),
             

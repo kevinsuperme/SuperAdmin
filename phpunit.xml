@@ -19,7 +19,26 @@
         </testsuite>
     </testsuites>
 
-    <source>
+    <coverage>
+        <include>
+            <directory suffix=".php">./app</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">./app/common/command</directory>
+            <directory suffix=".php">./app/common/library</directory>
+            <file>./app/common.php</file>
+        </exclude>
+    </coverage>
+    <coverage>
+        <include>
+            <directory suffix=".php">./app</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">./app/common/command</directory>
+            <directory suffix=".php">./app/common/library</directory>
+            <file>./app/common.php</file>
+        </exclude>
+    </coverage>
         <include>
             <directory suffix=".php">./app</directory>
         </include>

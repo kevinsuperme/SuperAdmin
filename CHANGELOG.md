@@ -19,15 +19,84 @@
 - **不兼容更新**：可能影响现有功能的重大变更
 
 ### 目录索引
-- [当前版本](#v2333-release-当前版本)
-- [近期版本](#v232-release)
-- [历史版本](#v231-release)
+- [当前版本](#v240-release-当前版本)
+- [近期版本](#v2333-release)
+- [历史版本](#v232-release)
 - [早期版本](#v130-release)
 - [初始版本](#v100-beta)
 
 ---
 
-## v2.3.3-Release (当前版本) {#v2333-release-当前版本}
+## v2.4.0-Release (当前版本) {#v240-release-当前版本}
+
+### 重大更新 🎉
+本版本带来了多个重要的企业级功能增强,显著提升了系统的自动化、可测试性和可维护性。
+
+### 新增
+- **CI/CD 自动化部署系统**
+  - GitHub Actions 工作流配置,支持自动化测试、构建和部署
+  - Linux 部署脚本 (deploy.sh),一键部署到生产环境
+  - Windows 部署脚本 (deploy.ps1),支持 Windows Server 部署
+  - 自动化代码质量检查和安全扫描
+
+- **完整的测试框架**
+  - PHPUnit 测试环境配置 (phpunit.xml)
+  - 测试基类 (TestCase.php) 提供通用测试工具
+  - 单元测试示例 (AuthServiceTest.php)
+  - 功能测试示例 (UserApiTest.php)
+  - 便捷的测试启动脚本 (test.bat, test)
+
+- **健康检查 API**
+  - `/api/health/check` - 系统健康状态检测
+  - `/api/health/info` - 详细系统信息
+  - 数据库、缓存、文件系统连接状态监控
+  - PHP 版本、内存使用、磁盘空间等系统指标
+
+- **API 文档自动生成器**
+  - 基于注释自动生成 API 文档
+  - 可视化文档管理界面
+  - 支持分组、搜索、过滤功能
+  - 在线测试 API 接口
+
+- **增强的中间件系统**
+  - EnhancedAuth 中间件 - 增强的认证功能
+  - RateLimit 中间件 - API 访问频率限制
+  - 支持多端认证 (管理员/用户)
+  - JWT Token 自动刷新机制
+
+- **配置优化**
+  - Redis 缓存配置示例
+  - 完善的 .gitignore 规则
+  - 环境变量模板优化
+
+### 重构/优化/修复
+- 修复 System.php 控制器基类引用错误
+- 优化数据库配置文件注释
+- 完善错误处理和日志记录
+- 提升代码可读性和可维护性
+- 统一代码风格和命名规范
+
+### 架构改进
+- 完善项目架构文档 (ARCHITECTURE.md)
+- 新增 CI/CD 实施指南 (CI-CD.md)
+- 技术架构评估报告 (TECHNICAL_ARCHITECTURE_ASSESSMENT.md)
+- 更新部署文档和最佳实践
+
+### 升级指南
+1. 备份现有数据
+2. 拉取最新代码: `git pull origin main`
+3. 更新依赖: `composer install`
+4. 运行测试确保兼容性: `./test`
+5. 配置 CI/CD (如需): 参考 CI-CD.md
+6. 更新环境配置: 检查新增的配置项
+
+### 注意事项
+- 本版本引入了测试框架,建议为关键业务逻辑编写测试用例
+- CI/CD 功能需要配置 GitHub Actions 和部署环境
+- 健康检查 API 默认开放,生产环境建议添加访问控制
+- 限流中间件默认关闭,根据需要在路由中启用
+
+## v2.3.3-Release {#v2333-release}
 ### 修复
 - 修复卸载模块的 WebBootstrap 时可能报错的问题（即模块卸载可能报错）
 - 修复后台菜单规则管理可能意外要求链接URL字段必填的问题
@@ -59,7 +128,7 @@
 
 ### 安全更新
 - 升级 `axios` 以避免 `CVE-2025-27152` 带来的影响（[axios请求可能通过绝对URL遭受SSRF和凭证泄露漏洞](https://www.cve.org/CVERecord?id=CVE-2025-27152)）
-- `BuildAdmin` 后台 `系统配置控制器` 内意外的设置了 `查看` 方法为免登录，可能导致 `配置信息泄露`，建议你立即进行更新或手动修复，[本安全更新详细文档](https://doc.superadmin.com/guide/other/incompatibleUpdate/v231.html)。
+- `SuperAdmin` 后台 `系统配置控制器` 内意外的设置了 `查看` 方法为免登录，可能导致 `配置信息泄露`，建议你立即进行更新或手动修复，[本安全更新详细文档](https://doc.superadmin.com/guide/other/incompatibleUpdate/v231.html)。
 
 ### 优化
 - 统一和调高系统级 `z-index` 配置值
@@ -457,7 +526,7 @@
 - 可视化CRUD：MySQL text 和 blob 类型不能有默认值
 
 ## v2.0.0-Release
-此版本有一些不兼容更新，建议在更新前参考：[v2.0.0不兼容更新](https://doc.buildadmin.com/guide/other/incompatibleUpdate/v200.html)
+此版本有一些不兼容更新，建议在更新前参考：[v2.0.0不兼容更新](https://doc.SuperAdmin.com/guide/other/incompatibleUpdate/v200.html)
 ### 新增
 - 升级到`tp8.0.0`，升级所有后端依赖
 - 升级到`vue3.3`，升级所有前端依赖
@@ -630,7 +699,7 @@
 - 修复后台因为管理员模型登录时间获取器导致登录判断报错问题
 
 ## v1.1.2-Release
-- 此版本有一些不兼容更新，建议在更新前参考：[v1.1.2不兼容更新](https://doc.buildadmin.com/guide/other/incompatibleUpdate/v112.html)
+- 此版本有一些不兼容更新，建议在更新前参考：[v1.1.2不兼容更新](https://doc.SuperAdmin.com/guide/other/incompatibleUpdate/v112.html)
 - 页面组件与页面语言包全部**按需加载**，大幅减少首屏加载大小
 - 更新系统前端的所有可更新依赖到最新稳定版本
 - 可视化CRUD增加字段名称检查
@@ -737,7 +806,7 @@
 - 完善工具函数注释、优化相关代码
 - 模块详情展示效果优化
 
-PS: 框架对`TP`的版本限定为`^6.0.0`，针对tp本次安全更新，git包的开发者可以直接`composer update`，若没更新到`v6.1.0`请更换`composer`源，`BuildAdmin`发新版本主要是为了更新完整包和资源包。
+PS: 框架对`TP`的版本限定为`^6.0.0`，针对tp本次安全更新，git包的开发者可以直接`composer update`，若没更新到`v6.1.0`请更换`composer`源，`SuperAdmin`发新版本主要是为了更新完整包和资源包。
 
 ## v1.0.7-Release
 - 富文本编辑器通过模块市场按需安装（框架不再内置），以方便选择不同的编辑器

@@ -92,7 +92,7 @@ const { t } = useI18n()
 const baAccount = useBaAccount()
 const siteConfig = useSiteConfig()
 const model = defineModel<boolean>()
-const baAccountFormRef = useTemplateRef('baAccountFormRef')
+const baAccountFormRef = ref<FormInstance>()
 
 interface Props {
     loginCallback?: (res: ApiResponse) => void

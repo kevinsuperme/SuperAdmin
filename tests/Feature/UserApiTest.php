@@ -3,13 +3,75 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use Tests\Feature\TestResponse;
 use think\facade\Db;
+use think\response\Response;
 
 /**
  * 用户API功能测试
+ * @mixin \think\testing\TestCase
  */
 class UserApiTest extends TestCase
 {
+    /**
+     * 发送GET请求
+     *
+     * @param string $uri 请求URI
+     * @param array $headers 请求头
+     * @return TestResponse
+     */
+    protected function get($uri, array $headers = []): TestResponse
+    {
+        return parent::get($uri, $headers);
+    }
+    
+    /**
+     * 发送POST请求
+     *
+     * @param string $uri 请求URI
+     * @param array $data 请求数据
+     * @param array $headers 请求头
+     * @return TestResponse
+     */
+    protected function post($uri, array $data = [], array $headers = []): TestResponse
+    {
+        return parent::post($uri, $data, $headers);
+    }
+    
+    /**
+     * 断言不为空
+     *
+     * @param mixed $value 值
+     * @param string $message 消息
+     */
+    protected function assertNotNull($value, string $message = ''): void
+    {
+        parent::assertNotNull($value, $message);
+    }
+    
+    /**
+     * 断言相等
+     *
+     * @param mixed $expected 期望值
+     * @param mixed $actual 实际值
+     * @param string $message 消息
+     */
+    protected function assertEquals($expected, $actual, string $message = ''): void
+    {
+        parent::assertEquals($expected, $actual, $message);
+    }
+    
+    /**
+     * 创建测试用户
+     *
+     * @param array $data 用户数据
+     * @return int 用户ID
+     */
+    protected function createTestUser(array $data = []): int
+    {
+        return parent::createTestUser($data);
+    }
+    
     /**
      * 测试用户登录接口
      *

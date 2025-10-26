@@ -29,7 +29,7 @@ describe('Element Plus 组件测试', () => {
         })
 
         await wrapper.find('button').trigger('click')
-        
+
         // 验证组件是否正确响应点击事件
         expect(wrapper.emitted()).toHaveProperty('click')
     })

@@ -193,6 +193,14 @@ app/
 
 ## 核心特性
 
+### 🔥 最新特性 (v2.4.0)
+- **CI/CD 自动化部署**: GitHub Actions 自动化测试、构建和部署流程
+- **健康检查 API**: 完整的系统健康状态检测接口
+- **API 文档生成器**: 自动生成和管理 API 文档
+- **增强认证中间件**: 支持多端认证和 JWT Token 刷新
+- **限流中间件**: API 访问频率限制保护
+- **单元测试框架**: PHPUnit 测试环境配置和示例
+
 ### 🚀 CRUD 代码生成
 - 图形化拖拽生成后台增删改查代码
 - 自动创建数据表结构
@@ -289,6 +297,8 @@ app/
 | **缓存** | Redis / 文件缓存 | 高性能缓存系统 |
 | **队列** | ThinkPHP Queue | 异步任务处理 |
 | **认证** | JWT | 无状态认证 |
+| **测试框架** | PHPUnit | 单元测试和功能测试 |
+| **CI/CD** | GitHub Actions | 自动化测试和部署 |
 
 ### 前端技术栈
 
@@ -343,6 +353,15 @@ app/
 
 ## 快速开始
 
+### 环境检查
+
+在开始之前,请确保您的环境满足[系统要求](#系统要求)。可以使用健康检查 API 验证环境配置:
+
+```bash
+# 启动开发服务器后访问
+curl http://localhost:8000/api/health/check
+```
+
 ### 1. 克隆项目
 
 ```bash
@@ -387,6 +406,21 @@ npm run dev
 前端: http://localhost:5173
 后端: http://localhost:8000
 安装向导: http://localhost:8000/install
+健康检查: http://localhost:8000/api/health/check
+API 文档: http://localhost:5173/admin/api-doc
+```
+
+### 7. 运行测试(可选)
+
+```bash
+# 运行所有测试
+./test
+
+# Windows 环境
+test.bat
+
+# 运行特定测试
+./vendor/bin/phpunit tests/Unit/AuthServiceTest.php
 ```
 
 ## 架构设计
@@ -701,6 +735,152 @@ export function getUserList(params: any): Promise<ApiResponse<User[]>> {
         params,
     });
 }
+```
+
+### 测试指南
+
+#### 1. 运行测试
+
+```bash
+# 运行所有测试
+./test
+
+# Windows 环境
+test.bat
+
+# 运行特定测试套件
+./vendor/bin/phpunit tests/Unit
+./vendor/bin/phpunit tests/Feature
+
+# 运行单个测试文件
+./vendor/bin/phpunit tests/Unit/AuthServiceTest.php
+
+# 带代码覆盖率报告
+./vendor/bin/phpunit --coverage-html coverage
+```
+
+#### 2. 编写测试
+
+```php
+<?php
+namespace tests\Unit;
+
+use tests\TestCase;
+use app\common\library\Auth;
+
+class AuthServiceTest extends TestCase
+{
+    public function testLogin()
+    {
+        $auth = new Auth();
+        $result = $auth->login('admin', 'password');
+        $this->assertTrue($result);
+    }
+}
+```
+
+#### 3. API 测试
+
+```php
+<?php
+namespace tests\Feature;
+
+use tests\TestCase;
+
+class UserApiTest extends TestCase
+{
+    public function testUserList()
+    {
+        $response = $this->get('/api/user/index');
+        $response->assertSuccessful();
+        $this->assertArrayHasKey('data', $response->json());
+    }
+}
+```
+
+### API 文档生成
+
+系统提供自动化的 API 文档生成功能:
+
+```php
+// 在控制器中添加文档注释
+/**
+ * @title 获取用户列表
+ * @description 获取分页的用户列表数据
+ * @auth true
+ * @method GET
+ * @param page int 页码
+ * @param limit int 每页数量
+ * @return array {
+ *   "code": 1,
+ *   "message": "success",
+ *   "data": {
+ *     "list": [],
+ *     "total": 0
+ *   }
+ * }
+ */
+public function index()
+{
+    // 实现代码
+}
+```
+
+访问 `/admin/api-doc` 查看生成的 API 文档。
+
+### 健康检查
+
+系统提供了完整的健康检查接口:
+
+```bash
+# 基础健康检查
+curl http://localhost:8000/api/health/check
+
+# 详细系统信息
+curl http://localhost:8000/api/health/info
+
+# 响应示例
+{
+  "status": "healthy",
+  "timestamp": "2025-10-26T08:00:00+08:00",
+  "services": {
+    "database": "ok",
+    "cache": "ok",
+    "filesystem": "ok"
+  },
+  "system": {
+    "php_version": "8.1.0",
+    "memory_usage": "15.2MB",
+    "disk_usage": "45%"
+  }
+}
+```
+
+### CI/CD 配置
+
+项目内置了 GitHub Actions 配置,支持自动化测试和部署:
+
+```yaml
+# .github/workflows/ci-cd.yml
+name: CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+      - name: Run Tests
+        run: ./vendor/bin/phpunit
 ```
 
 ### 调试技巧

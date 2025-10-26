@@ -23,13 +23,8 @@ export default defineConfig({
         coverage: {
             provider: 'v8',
             reporter: ['text', 'json', 'html'],
-            exclude: [
-                'node_modules/',
-                'src/utils/build.ts',
-                '**/*.d.ts',
-                'src/assets/',
-                'src/styles/',
-            ],
+            exclude: ['node_modules/', 'src/utils/build.ts', '**/*.d.ts', 'src/assets/', 'src/styles/'],
         },
+        watch: false,
     },
 })
