@@ -200,7 +200,7 @@ fantastic-admin.tar.gz
 ### CI/CD 日志检查
 
 查找以下日志输出：
-```
+```bash
 Prepare frontend files for deployment
 Copying frontend build to public directory...
 Frontend files prepared successfully:
@@ -208,6 +208,11 @@ total 1.2M
 -rw-r--r-- 1 runner 14K index.html
 drwxr-xr-x 2 runner  8K assets
 ```
+
+**日志说明**:
+- `-rw-r--r--`: 文件权限（普通文件）
+- `drwxr-xr-x`: 目录权限（d=directory，表示这是一个目录）
+- `14K`, `8K`: 文件/目录大小
 
 ### 本地模拟验证
 
