@@ -1,7 +1,7 @@
-import { ref, reactive, computed } from 'vue'
+import { reactive, computed } from 'vue'
 import { createAxios } from '/@/utils/axios'
 import { handleApiError, showSuccess } from './useError'
-import { withLoading, useFormSubmit, useLocalLoading } from './useLoading'
+import { useLocalLoading } from './useLoading'
 
 /**
  * API请求状态
@@ -34,7 +34,7 @@ export interface ApiOptions {
  * @returns API状态和方法
  */
 export function useApi<T = any>(url: string, options: ApiOptions = {}) {
-    const { immediate = false, loadingKey, globalLoading = false, loadingText, successMessage, errorMessage, onSuccess, onError } = options
+    const { immediate = false, loadingKey, successMessage, errorMessage, onSuccess, onError } = options
 
     // 状态管理
     const state = reactive<ApiState<T>>({
@@ -161,15 +161,7 @@ export function useApi<T = any>(url: string, options: ApiOptions = {}) {
  * @returns 表单提交状态和方法
  */
 export function useFormApi<T = any>(url: string, options: ApiOptions = {}) {
-    const {
-        loadingKey,
-        globalLoading = true,
-        loadingText = 'Submitting...',
-        successMessage = 'Submitted successfully',
-        errorMessage,
-        onSuccess,
-        onError,
-    } = options
+    const { loadingKey, successMessage = 'Submitted successfully', errorMessage, onSuccess, onError } = options
 
     // 状态管理
     const state = reactive<ApiState<T>>({
@@ -270,15 +262,7 @@ export function useFormApi<T = any>(url: string, options: ApiOptions = {}) {
  * @returns 上传状态和方法
  */
 export function useUploadApi(url: string, options: ApiOptions = {}) {
-    const {
-        loadingKey,
-        globalLoading = true,
-        loadingText = 'Uploading...',
-        successMessage = 'Uploaded successfully',
-        errorMessage,
-        onSuccess,
-        onError,
-    } = options
+    const { loadingKey, successMessage = 'Uploaded successfully', errorMessage, onSuccess, onError } = options
 
     // 状态管理
     const state = reactive<ApiState & { progress: number }>({

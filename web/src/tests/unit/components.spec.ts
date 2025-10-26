@@ -1,14 +1,10 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { createApp } from 'vue'
-import ElementPlus from 'element-plus'
+import { ElButton } from 'element-plus'
 
 describe('Element Plus 组件测试', () => {
     it('应该正确渲染ElButton组件', () => {
-        const app = createApp({})
-        app.use(ElementPlus)
-
-        const wrapper = mount(ElementPlus.ElButton, {
+        const wrapper = mount(ElButton, {
             props: {
                 type: 'primary',
             },
@@ -23,10 +19,7 @@ describe('Element Plus 组件测试', () => {
     })
 
     it('应该正确响应点击事件', async () => {
-        const app = createApp({})
-        app.use(ElementPlus)
-
-        const wrapper = mount(ElementPlus.ElButton, {
+        const wrapper = mount(ElButton, {
             props: {
                 type: 'primary',
             },

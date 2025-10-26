@@ -127,11 +127,7 @@ const state: {
     adminInfo: anyObj
     formKey: string
     buttonLoading: boolean
-    log: {
-        title: string
-        create_time: string
-        url: string
-    }[]
+    log: TableRow[]
     logFilter: anyObj
     logCurrentPage: number
     logPageSize: number

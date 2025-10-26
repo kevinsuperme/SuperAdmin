@@ -87,7 +87,7 @@ describe('FormItem 组件基本测试', () => {
                 },
             })
 
-            expect(wrapper.props('field').type).toBe(type)
+            expect(wrapper.props('field')?.type).toBe(type)
             expect(wrapper.exists()).toBe(true)
         })
     })
@@ -97,7 +97,7 @@ describe('FormItem 组件基本测试', () => {
             name: 'custom',
             title: '自定义组件',
             type: 'custom',
-            component: 'ElInput',
+            render: null, // 自定义渲染函数
         }
 
         const wrapper = mount(FormItem, {
@@ -107,8 +107,7 @@ describe('FormItem 组件基本测试', () => {
             },
         })
 
-        expect(wrapper.props('field').type).toBe('custom')
-        expect(wrapper.props('field').component).toBe('ElInput')
+        expect(wrapper.props('field')?.type).toBe('custom')
         expect(wrapper.exists()).toBe(true)
     })
 
@@ -117,7 +116,7 @@ describe('FormItem 组件基本测试', () => {
             name: 'required',
             title: '必填项',
             type: 'string',
-            rule: [{ required: true, message: '此项必填', trigger: 'blur' }],
+            rules: [{ required: true, message: '此项必填', trigger: 'blur' }],
         }
 
         const wrapper = mount(FormItem, {
@@ -127,7 +126,7 @@ describe('FormItem 组件基本测试', () => {
             },
         })
 
-        expect(wrapper.props('field').rule).toEqual([{ required: true, message: '此项必填', trigger: 'blur' }])
+        expect(wrapper.props('field')?.rules).toEqual([{ required: true, message: '此项必填', trigger: 'blur' }])
         expect(wrapper.exists()).toBe(true)
     })
 
@@ -136,7 +135,9 @@ describe('FormItem 组件基本测试', () => {
             name: 'tip',
             title: '带提示',
             type: 'string',
-            tip: '这是一个提示信息',
+            attr: {
+                placeholder: '这是一个提示信息',
+            },
         }
 
         const wrapper = mount(FormItem, {
@@ -146,7 +147,7 @@ describe('FormItem 组件基本测试', () => {
             },
         })
 
-        expect(wrapper.props('field').tip).toBe('这是一个提示信息')
+        expect(wrapper.props('field')?.attr?.placeholder).toBe('这是一个提示信息')
         expect(wrapper.exists()).toBe(true)
     })
 })
