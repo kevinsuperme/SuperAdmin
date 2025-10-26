@@ -2,6 +2,9 @@
   "version": "0.2",
   "language": "en,zh-CN",
   "words": [
+    "alertmanager",
+    "alertmanagers",
+    "bcmath",
     "buildinfo",
     "clover",
     "codecov",
@@ -9,9 +12,17 @@
     "devops",
     "drwxr",
     "eslintcache",
+    "exif",
+    "fastcgi",
+    "libonig",
+    "LNMP",
     "mbstring",
     "Mbstring",
     "mysqladmin",
+    "oniguruma",
+    "pcache",
+    "Pcache",
+    "pcntl",
     "phar",
     "Phinx",
     "phpcs",
@@ -25,7 +36,8 @@
     "tsbuildinfo",
     "vite",
     "vitest",
-    "Workerman"
+    "Workerman",
+    "yourdomain"
   ],
   "ignorePaths": [
     "node_modules",
