@@ -84,10 +84,12 @@ export default [
             '@typescript-eslint/no-non-null-assertion': 'off',
             '@typescript-eslint/no-unused-expressions': 'off',
             '@typescript-eslint/no-unused-vars': [
-                'warn',
+                'error',
                 {
                     argsIgnorePattern: '^_',
                     varsIgnorePattern: '^_',
+                    ignoreRestSiblings: true,
+                    destructuredArrayIgnorePattern: '^_',
                 },
             ],
         },
