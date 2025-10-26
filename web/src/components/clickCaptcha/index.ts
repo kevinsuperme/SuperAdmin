@@ -23,18 +23,23 @@ interface ClickCaptchaOptions {
  */
 const clickCaptcha = (uuid: string, callback?: (captchaInfo: string) => void, options: ClickCaptchaOptions = {}) => {
     const container = document.createElement('div')
+    const destroy = () => {
+        render(null, container)
+        if (container.parentNode) {
+            container.parentNode.removeChild(container)
+        }
+    }
     const vnode = createVNode(clickCaptchaConstructor, {
         uuid,
         callback,
         ...options,
         key: shortUuid(),
-        onDestroy: () => {
-            render(null, container)
-        },
+        onDestroy: destroy,
     })
-    const element = render(vnode, container)
-    if (element) {
-        document.body.appendChild(element)
+    render(vnode, container)
+    const root = container.firstElementChild
+    if (root) {
+        document.body.appendChild(root)
     }
 }
 

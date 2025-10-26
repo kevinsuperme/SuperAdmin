@@ -88,9 +88,10 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import useApi from '@/api'
+import createAxios from '/@/utils/axios'
 
-const api = useApi()
+// 创建API实例
+const api = createAxios
 
 // 响应式数据
 const loading = ref(false)
@@ -111,7 +112,10 @@ const apiTags = ref([])
 const getDocInfo = async () => {
     loading.value = true
     try {
-        const response = await api.get('/admin/api_doc/index')
+        const response = await api({
+            url: '/admin/api_doc/index',
+            method: 'get',
+        })
         if (response.code === 1) {
             Object.assign(docInfo, response.data)
             swaggerUIUrl.value = response.data.ui
@@ -127,7 +131,10 @@ const getDocInfo = async () => {
 const getApiDoc = async () => {
     loading.value = true
     try {
-        const response = await api.get('/admin/api_doc/json')
+        const response = await api({
+            url: '/admin/api_doc/json',
+            method: 'get',
+        })
         if (response) {
             parseApiDoc(response)
         }
@@ -217,7 +224,10 @@ const refreshDoc = () => {
 // 下载JSON
 const downloadJson = async () => {
     try {
-        const response = await api.get('/admin/api_doc/json')
+        const response = await api({
+            url: '/admin/api_doc/json',
+            method: 'get',
+        })
         const blob = new Blob([JSON.stringify(response, null, 2)], { type: 'application/json' })
         const url = URL.createObjectURL(blob)
         const link = document.createElement('a')
@@ -233,7 +243,10 @@ const downloadJson = async () => {
 // 下载YAML
 const downloadYaml = async () => {
     try {
-        const response = await api.get('/admin/api_doc/yaml')
+        const response = await api({
+            url: '/admin/api_doc/yaml',
+            method: 'get',
+        })
         const blob = new Blob([response], { type: 'text/yaml' })
         const url = URL.createObjectURL(blob)
         const link = document.createElement('a')

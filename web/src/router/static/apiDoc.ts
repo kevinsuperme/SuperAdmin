@@ -8,7 +8,7 @@ const pageTitle = (name: string): string => {
 const apiDocRoute: RouteRecordRaw = {
     path: adminBaseRoutePath + '/example/api-doc',
     name: 'adminApiDoc',
-    // component: () => import('/@/views/example/api-doc.vue'),
+    component: () => import('/@/views/example/api-doc.vue'),
     meta: {
         title: pageTitle('apiDoc'),
         breadcrumb: true,

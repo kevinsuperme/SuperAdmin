@@ -488,4 +488,10 @@ declare global {
             renderIndex: number
         }
     }
+
+    interface TableDefaultData {
+        list: TableRow[]
+        total: number
+        remark?: string | null
+    }
 }

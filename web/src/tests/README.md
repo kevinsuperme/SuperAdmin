@@ -59,10 +59,10 @@ describe('MyComponent', () => {
     it('应该正确渲染组件', () => {
         const wrapper = mount(MyComponent, {
             props: {
-                msg: 'Hello World'
-            }
+                msg: 'Hello World',
+            },
         })
-        
+
         expect(wrapper.find('h1').text()).toBe('Hello World')
     })
 })

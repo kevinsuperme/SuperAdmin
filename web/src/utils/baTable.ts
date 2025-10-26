@@ -105,65 +105,62 @@ export default class baTable {
      * 表格数据获取（请求表格对应控制器的查看方法）
      * @alias getIndex
      */
-    getData = () => {
+    getData = async () => {
         if (this.runBefore('getData') === false) return
         if (this.runBefore('getIndex') === false) return
         this.table.loading = true
-        return this.api
-            .index(this.table.filter)
-            .then((res) => {
-                this.table.data = res.data.list
-                this.table.total = res.data.total
-                this.table.remark = res.data.remark
-                this.runAfter('getData', { res })
-                this.runAfter('getIndex', { res })
-            })
-            .catch((err) => {
-                this.runAfter('getData', { err })
-                this.runAfter('getIndex', { err })
-            })
-            .finally(() => {
-                this.table.loading = false
-            })
+        try {
+            const res = await this.api.index(this.table.filter)
+            this.table.data = res.data.list
+            this.table.total = res.data.total
+            this.table.remark = res.data.remark
+            this.runAfter('getData', { res })
+            this.runAfter('getIndex', { res })
+        } catch (err) {
+            this.runAfter('getData', { err })
+            this.runAfter('getIndex', { err })
+        } finally {
+            this.table.loading = false
+        }
     }
 
     /**
      * 删除数据
      */
-    postDel = (ids: string[]) => {
+    postDel = async (ids: string[]) => {
         if (this.runBefore('postDel', { ids }) === false) return
-        this.api.del(ids).then((res) => {
+        try {
+            const res = await this.api.del(ids)
             this.onTableHeaderAction('refresh', {})
             this.runAfter('postDel', { res })
-        })
+        } catch (err) {
+            this.runAfter('postDel', { err })
+        }
     }
 
     /**
      * 获取被编辑行数据
      * @alias requestEdit
      */
-    getEditData = (id: string) => {
+    getEditData = async (id: string) => {
         if (this.runBefore('getEditData', { id }) === false) return
         if (this.runBefore('requestEdit', { id }) === false) return
         this.form.loading = true
         this.form.items = {}
-        return this.api
-            .edit({
+        try {
+            const res = await this.api.edit({
                 [this.table.pk!]: id,
             })
-            .then((res) => {
-                this.form.items = res.data.row
-                this.runAfter('getEditData', { res })
-                this.runAfter('requestEdit', { res })
-            })
-            .catch((err) => {
-                this.toggleForm()
-                this.runAfter('getEditData', { err })
-                this.runAfter('requestEdit', { err })
-            })
-            .finally(() => {
-                this.form.loading = false
-            })
+            this.form.items = res.data.row
+            this.runAfter('getEditData', { res })
+            this.runAfter('requestEdit', { res })
+        } catch (err) {
+            this.toggleForm()
+            this.runAfter('getEditData', { err })
+            this.runAfter('requestEdit', { err })
+        } finally {
+            this.form.loading = false
+        }
     }
 
     /**
@@ -210,23 +207,23 @@ export default class baTable {
         if (this.runBefore('onSubmit', { formEl: formEl, operate: operate, items: this.form.items! }) === false) return
 
         // 表单验证通过后执行的 api 请求操作
-        const submitCallback = () => {
+        const submitCallback = async () => {
             this.form.submitLoading = true
-            this.api
-                .postData(operate, this.form.items!)
-                .then((res) => {
-                    this.onTableHeaderAction('refresh', {})
-                    this.form.operateIds?.shift()
-                    if (this.form.operateIds!.length > 0) {
-                        this.toggleForm('Edit', this.form.operateIds)
-                    } else {
-                        this.toggleForm()
-                    }
-                    this.runAfter('onSubmit', { res })
-                })
-                .finally(() => {
-                    this.form.submitLoading = false
-                })
+            try {
+                const res = await this.api.postData(operate, this.form.items!)
+                this.onTableHeaderAction('refresh', {})
+                this.form.operateIds?.shift()
+                if (this.form.operateIds!.length > 0) {
+                    this.toggleForm('Edit', this.form.operateIds)
+                } else {
+                    this.toggleForm()
+                }
+                this.runAfter('onSubmit', { res })
+            } catch (err) {
+                this.runAfter('onSubmit', { err })
+            } finally {
+                this.form.submitLoading = false
+            }
         }
 
         if (formEl) {

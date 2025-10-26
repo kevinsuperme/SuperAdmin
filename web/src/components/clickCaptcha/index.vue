@@ -50,7 +50,6 @@ const props = withDefaults(defineProps<Props>(), {
     callback: () => {},
     class: '',
     unset: false,
-    error: i18n.global.t('validate.The correct area is not clicked, please try again!'),
     success: i18n.global.t('validate.Verification is successful!'),
     apiBaseURL: '',
 })
@@ -83,35 +82,39 @@ const emits = defineEmits<{
     (e: 'destroy'): void
 }>()
 
-const load = () => {
+const load = async () => {
     state.loading = true
-    getCaptchaData(props.uuid).then((res) => {
+    try {
+        const res = await getCaptchaData(props.uuid, props.apiBaseURL)
         state.xy = []
         state.tip = ''
         state.loading = false
         state.captcha = res.data
-    })
+    } catch (error) {
+        state.loading = false
+        state.tip = props.error || i18n.global.t('validate.The correct area is not clicked, please try again!')
+        console.error('Failed to load captcha:', error)
+    }
 }
 
-const onRecord = (event: MouseEvent) => {
+const onRecord = async (event: MouseEvent) => {
     if (state.xy.length < state.captcha.text.length) {
         state.xy.push(event.offsetX + ',' + event.offsetY)
         if (state.xy.length == state.captcha.text.length) {
             const captchaInfo = [state.xy.join('-'), (event.target as HTMLImageElement).width, (event.target as HTMLImageElement).height].join(';')
-            checkClickCaptcha(props.uuid, captchaInfo, props.unset)
-                .then(() => {
-                    state.tip = props.success
-                    setTimeout(() => {
-                        props.callback?.(captchaInfo)
-                        onClose()
-                    }, 1500)
-                })
-                .catch(() => {
-                    state.tip = props.error
-                    setTimeout(() => {
-                        load()
-                    }, 1500)
-                })
+            try {
+                await checkClickCaptcha(props.uuid, captchaInfo, props.unset, props.apiBaseURL)
+                state.tip = props.success
+                setTimeout(() => {
+                    props.callback?.(captchaInfo)
+                    onClose()
+                }, 1500)
+            } catch (error) {
+                state.tip = props.error || i18n.global.t('validate.The correct area is not clicked, please try again!')
+                setTimeout(() => {
+                    load()
+                }, 1500)
+            }
         }
     }
 }

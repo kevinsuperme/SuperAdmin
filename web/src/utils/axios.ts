@@ -11,6 +11,7 @@ import { useConfig } from '/@/stores/config'
 import { SYSTEM_ZINDEX } from '/@/stores/constant/common'
 import { useUserInfo } from '/@/stores/userInfo'
 import { isAdminApp } from '/@/utils/common'
+import { handleApiError, showSuccess } from '/@/composables/useError'
 
 window.requests = []
 window.tokenRefreshing = false
@@ -115,7 +116,7 @@ function createAxios<Data = any, T = ApiPromise<Data>>(axiosConfig: AxiosRequest
                         if (!window.tokenRefreshing) {
                             window.tokenRefreshing = true
                             return refreshToken()
-                                .then((res) => {
+                                .then(async (res) => {
                                     if (res.data.type == 'admin-refresh') {
                                         adminInfo.setToken(res.data.token, 'auth')
                                         response.headers.batoken = `${res.data.token}`
@@ -128,7 +129,7 @@ function createAxios<Data = any, T = ApiPromise<Data>>(axiosConfig: AxiosRequest
                                     window.requests = []
                                     return Axios(response.config)
                                 })
-                                .catch((err) => {
+                                .catch(async (err) => {
                                     if (isAdminApp()) {
                                         adminInfo.removeToken()
                                         if (router.currentRoute.value.name != 'adminLogin') {
@@ -199,11 +200,9 @@ function createAxios<Data = any, T = ApiPromise<Data>>(axiosConfig: AxiosRequest
                     // code不等于1, 页面then内的具体逻辑就不执行了
                     return Promise.reject(response.data)
                 } else if (options.showSuccessMessage && response.data && response.data.code == 1) {
-                    ElNotification({
-                        message: response.data.msg ? response.data.msg : i18n.global.t('axios.Operation successful'),
-                        type: 'success',
-                        zIndex: SYSTEM_ZINDEX,
-                    })
+                    if (options.showSuccessMessage) {
+                        showSuccess(response.data.msg ? response.data.msg : i18n.global.t('axios.Operation successful'))
+                    }
                 }
             }
 
@@ -212,7 +211,7 @@ function createAxios<Data = any, T = ApiPromise<Data>>(axiosConfig: AxiosRequest
         (error) => {
             error.config && removePending(error.config)
             options.loading && closeLoading(options) // 关闭loading
-            options.showErrorMessage && httpErrorStatusHandle(error) // 处理错误状态码
+            options.showErrorMessage && handleApiError(error) // 使用新的错误处理函数
             return Promise.reject(error) // 错误继续返回给到具体页面
         }
     )
@@ -220,71 +219,6 @@ function createAxios<Data = any, T = ApiPromise<Data>>(axiosConfig: AxiosRequest
 }
 
 export default createAxios
-
-/**
- * 处理异常
- * @param {*} error
- */
-function httpErrorStatusHandle(error: any) {
-    // 处理被取消的请求
-    if (axios.isCancel(error)) return console.error(i18n.global.t('axios.Automatic cancellation due to duplicate request:') + error.message)
-    let message = ''
-    if (error && error.response) {
-        switch (error.response.status) {
-            case 302:
-                message = i18n.global.t('axios.Interface redirected!')
-                break
-            case 400:
-                message = i18n.global.t('axios.Incorrect parameter!')
-                break
-            case 401:
-                message = i18n.global.t('axios.You do not have permission to operate!')
-                break
-            case 403:
-                message = i18n.global.t('axios.You do not have permission to operate!')
-                break
-            case 404:
-                message = i18n.global.t('axios.Error requesting address:') + error.response.config.url
-                break
-            case 408:
-                message = i18n.global.t('axios.Request timed out!')
-                break
-            case 409:
-                message = i18n.global.t('axios.The same data already exists in the system!')
-                break
-            case 500:
-                message = i18n.global.t('axios.Server internal error!')
-                break
-            case 501:
-                message = i18n.global.t('axios.Service not implemented!')
-                break
-            case 502:
-                message = i18n.global.t('axios.Gateway error!')
-                break
-            case 503:
-                message = i18n.global.t('axios.Service unavailable!')
-                break
-            case 504:
-                message = i18n.global.t('axios.The service is temporarily unavailable Please try again later!')
-                break
-            case 505:
-                message = i18n.global.t('axios.HTTP version is not supported!')
-                break
-            default:
-                message = i18n.global.t('axios.Abnormal problem, please contact the website administrator!')
-                break
-        }
-    }
-    if (error.message.includes('timeout')) message = i18n.global.t('axios.Network request timeout!')
-    if (error.message.includes('Network'))
-        message = window.navigator.onLine ? i18n.global.t('axios.Server exception!') : i18n.global.t('axios.You are disconnected!')
-
-    ElNotification({
-        type: 'error',
-        message,
-        zIndex: SYSTEM_ZINDEX,
-    })
-}
 
 /**
  * 关闭Loading层实例

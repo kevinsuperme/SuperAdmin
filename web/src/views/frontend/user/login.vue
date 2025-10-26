@@ -271,9 +271,10 @@ import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 import loginMounted from '/@/components/mixins/loginMounted'
 import LoginFooterMixin from '/@/components/mixins/loginFooter.vue'
-import type { FormItemRule, FormInstance } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 import clickCaptcha from '/@/components/clickCaptcha'
-let timer: number
+import { useFormApi } from '/@/composables/useApi'
+import { useError } from '/@/composables/useError'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -283,6 +284,13 @@ const siteConfig = useSiteConfig()
 const memberCenter = useMemberCenter()
 const formRef = useTemplateRef('formRef')
 const retrieveFormRef = useTemplateRef('retrieveFormRef')
+
+// 使用新的错误处理和API请求composables
+const { handleApiError, showSuccess } = useError()
+const { execute: loginExecute } = useFormApi(checkIn)
+const { execute: retrieveExecute } = useFormApi(retrievePassword)
+const { execute: sendEmsExecute } = useFormApi(sendEms)
+const { execute: sendSmsExecute } = useFormApi(sendSms)
 
 interface State {
     form: {
@@ -345,7 +353,7 @@ const state: State = reactive({
     to: route.query.to as string,
 })
 
-const rules: Partial<Record<string, FormItemRule[]>> = reactive({
+const rules = reactive({
     email: [
         buildValidatorData({ name: 'required', title: t('user.login.email') }),
         buildValidatorData({ name: 'email', title: t('user.login.email') }),
@@ -368,7 +376,7 @@ const rules: Partial<Record<string, FormItemRule[]>> = reactive({
     captcha: [buildValidatorData({ name: 'required', title: t('user.login.Verification Code') })],
 })
 
-const retrieveRules: Partial<Record<string, FormItemRule[]>> = reactive({
+const retrieveRules = reactive({
     account: [buildValidatorData({ name: 'required', title: t('user.login.Account name') })],
     captcha: [buildValidatorData({ name: 'required', title: t('user.login.Verification Code') })],
     password: [buildValidatorData({ name: 'required', title: t('user.login.password') }), buildValidatorData({ name: 'password' })],
@@ -400,11 +408,16 @@ const onSubmitPre = () => {
 const onSubmit = (captchaInfo = '') => {
     state.formLoading = true
     state.form.captchaInfo = captchaInfo
-    checkIn('post', state.form)
+
+    loginExecute('post', state.form)
         .then((res) => {
             userInfo.dataFill(res.data.userInfo, false)
+            showSuccess(t('user.login.Login successful'))
             if (state.to) return (location.href = state.to)
             router.push({ path: res.data.routePath })
+        })
+        .catch((error) => {
+            handleApiError(error)
         })
         .finally(() => {
             state.formLoading = false
@@ -415,16 +428,19 @@ const onSubmitRetrieve = () => {
     retrieveFormRef.value.validate((valid) => {
         if (valid) {
             state.submitRetrieveLoading = true
-            retrievePassword(state.retrievePasswordForm)
+            retrieveExecute(state.retrievePasswordForm)
                 .then((res) => {
-                    state.submitRetrieveLoading = false
                     if (res.code == 1) {
+                        showSuccess(t('user.login.Password reset successful'))
                         state.showRetrievePasswordDialog = false
                         endTiming()
                         onResetForm(retrieveFormRef.value)
                     }
                 })
-                .catch(() => {
+                .catch((error) => {
+                    handleApiError(error)
+                })
+                .finally(() => {
                     state.submitRetrieveLoading = false
                 })
         }
@@ -440,13 +456,19 @@ const sendRegisterCaptchaPre = () => {
 }
 const sendRegisterCaptcha = (captchaInfo: string) => {
     state.sendCaptchaLoading = true
-    const func = state.form.registerType == 'email' ? sendEms : sendSms
+    const func = state.form.registerType == 'email' ? sendEmsExecute : sendSmsExecute
     func(state.form[state.form.registerType], 'user_register', {
         captchaInfo,
         captchaId: state.form.captchaId,
     })
         .then((res) => {
-            if (res.code == 1) startTiming(60)
+            if (res.code == 1) {
+                showSuccess(t('user.login.Verification code sent successfully'))
+                startTiming(60)
+            }
+        })
+        .catch((error) => {
+            handleApiError(error)
         })
         .finally(() => {
             state.sendCaptchaLoading = false
@@ -462,13 +484,19 @@ const sendRetrieveCaptchaPre = () => {
 }
 const sendRetrieveCaptcha = (captchaInfo: string) => {
     state.sendCaptchaLoading = true
-    const func = state.retrievePasswordForm.type == 'email' ? sendEms : sendSms
+    const func = state.retrievePasswordForm.type == 'email' ? sendEmsExecute : sendSmsExecute
     func(state.retrievePasswordForm.account, 'user_retrieve_pwd', {
         captchaInfo,
         captchaId: state.form.captchaId,
     })
         .then((res) => {
-            if (res.code == 1) startTiming(60)
+            if (res.code == 1) {
+                showSuccess(t('user.login.Verification code sent successfully'))
+                startTiming(60)
+            }
+        })
+        .catch((error) => {
+            handleApiError(error)
         })
         .finally(() => {
             state.sendCaptchaLoading = false
@@ -501,11 +529,15 @@ onMounted(async () => {
     resize()
     useEventListener(window, 'resize', resize)
 
-    checkIn('get').then((res) => {
-        state.userLoginCaptchaSwitch = res.data.userLoginCaptchaSwitch
-        state.accountVerificationType = res.data.accountVerificationType
-        state.retrievePasswordForm.type = res.data.accountVerificationType.length > 0 ? res.data.accountVerificationType[0] : ''
-    })
+    loginExecute('get')
+        .then((res) => {
+            state.userLoginCaptchaSwitch = res.data.userLoginCaptchaSwitch
+            state.accountVerificationType = res.data.accountVerificationType
+            state.retrievePasswordForm.type = res.data.accountVerificationType.length > 0 ? res.data.accountVerificationType[0] : ''
+        })
+        .catch((error) => {
+            handleApiError(error)
+        })
 
     if (route.query.type == 'register') state.form.tab = 'register'
 })
