@@ -1,0 +1,127 @@
+name: 自动更新 README.md
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'web/package.json'
+      - 'web/src/**'
+      - '.github/workflows/update-readme.yml'
+
+  workflow_dispatch:  # 允许手动触发
+
+  schedule:
+    # 每周一早上 8:00 (UTC 0:00) 自动运行
+    - cron: '0 0 * * 1'
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # 需要写入权限以提交更改
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 完整历史记录
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'web/package-lock.json'
+
+      - name: 安装依赖
+        run: |
+          cd web
+          npm ci
+
+      - name: 运行项目结构分析
+        run: |
+          node scripts/analyze-project-structure.js
+
+      - name: 运行技术栈检测
+        run: |
+          node scripts/detect-tech-stack.js
+
+      - name: 更新 README.md
+        run: |
+          node scripts/update-readme.js
+
+      - name: 检查文件变更
+        id: check_changes
+        run: |
+          if git diff --quiet README.md; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "📝 README.md 无需更新"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "✅ README.md 已更新"
+          fi
+
+      - name: 提交更改
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # 添加更新的文件
+          git add README.md
+          git add project-structure.json tech-stack.json readme-update-report.json
+
+          # 提交
+          git commit -m "docs: 自动更新 README.md
+
+          - 🔄 更新项目版本和技术栈信息
+          - 📊 更新项目结构统计
+          - 🤖 由 GitHub Actions 自动生成
+
+          Co-Authored-By: GitHub Actions <github-actions[bot]@users.noreply.github.com>"
+
+          # 推送
+          git push
+
+      - name: 上传分析报告为构建产物
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: readme-update-reports
+          path: |
+            project-structure.json
+            tech-stack.json
+            readme-update-report.json
+          retention-days: 30
+
+      - name: 创建更新摘要
+        if: always()
+        run: |
+          echo "## 📊 README 更新摘要" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f readme-update-report.json ]; then
+            echo "### ✅ 更新完成" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**更新时间**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            # 提取版本信息
+            VERSION=$(node -p "require('./web/package.json').version")
+            echo "**项目版本**: v$VERSION" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            echo "### 📦 更新内容" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ 标题版本号" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ 技术栈 Badges" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ 项目概述" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ 技术栈表格" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ 项目结构" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ❌ 更新失败" >> $GITHUB_STEP_SUMMARY
+            echo "请查看构建日志获取详细错误信息" >> $GITHUB_STEP_SUMMARY
+          fi
