@@ -1,0 +1,43 @@
+{
+  "version": "0.2",
+  "language": "en,zh-CN",
+  "words": [
+    "buildinfo",
+    "clover",
+    "codecov",
+    "ctype",
+    "devops",
+    "drwxr",
+    "eslintcache",
+    "mbstring",
+    "Mbstring",
+    "mysqladmin",
+    "phar",
+    "Phinx",
+    "phpcs",
+    "phpstan",
+    "phpunit",
+    "pnpm",
+    "shivammathur",
+    "superadmin",
+    "testuser",
+    "thinkphp",
+    "tsbuildinfo",
+    "vite",
+    "vitest",
+    "Workerman"
+  ],
+  "ignorePaths": [
+    "node_modules",
+    "vendor",
+    "dist",
+    "build",
+    ".git",
+    ".vscode",
+    "*.min.js",
+    "*.min.css",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "composer.lock"
+  ]
+}
