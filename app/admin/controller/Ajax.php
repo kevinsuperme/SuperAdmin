@@ -189,7 +189,7 @@ class Ajax extends Backend
         if (Terminal::changeTerminalConfig()) {
             $this->success();
         } else {
-            $this->error(__('Failed to modify the terminal configuration. Please modify the configuration file manually:%s', ['/config/buildadmin.php']));
+            $this->error(__('Failed to modify the terminal configuration. Please modify the configuration file manually:%s', ['/config/superadmin.php']));
         }
     }
 

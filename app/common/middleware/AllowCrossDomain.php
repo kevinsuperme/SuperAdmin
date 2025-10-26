@@ -47,7 +47,7 @@ class AllowCrossDomain
             $info = parse_url($origin);
 
             // 获取跨域配置
-            $corsDomain   = explode(',', Config::get('buildadmin.cors_request_domain'));
+            $corsDomain   = explode(',', Config::get('superadmin.cors_request_domain'));
             $corsDomain[] = $request->host(true);
 
             if (in_array("*", $corsDomain) || in_array($origin, $corsDomain) || (isset($info['host']) && in_array($info['host'], $corsDomain))) {

@@ -100,10 +100,10 @@ class Token
     protected function getConfig(string $name = null, $default = null): array|string
     {
         if (!is_null($name)) {
-            return Config::get('buildadmin.token.' . $name, $default);
+            return Config::get('superadmin.token.' . $name, $default);
         }
 
-        return Config::get('buildadmin.token');
+        return Config::get('superadmin.token');
     }
 
     /**

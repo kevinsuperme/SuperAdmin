@@ -37,7 +37,7 @@ class User extends Validate
         $fields = ['username', 'password'];
 
         // 根据系统配置的登录验证码开关调整验证场景的字段
-        $userLoginCaptchaSwitch = Config::get('buildadmin.user_login_captcha');
+        $userLoginCaptchaSwitch = Config::get('superadmin.user_login_captcha');
         if ($userLoginCaptchaSwitch) {
             $fields[] = 'captchaId';
             $fields[] = 'captchaInfo';

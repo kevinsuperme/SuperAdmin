@@ -37,10 +37,10 @@ class Index extends Backend
             'siteConfig' => [
                 'siteName'     => get_sys_config('site_name'),
                 'version'      => get_sys_config('version'),
-                'apiUrl'       => Config::get('buildadmin.api_url'),
+                'apiUrl'       => Config::get('superadmin.api_url'),
                 'upload'       => keys_to_camel_case(get_upload_config(), ['max_size', 'save_name', 'allowed_suffixes', 'allowed_mime_types']),
                 'cdnUrl'       => full_url(),
-                'cdnUrlParams' => Config::get('buildadmin.cdn_url_params'),
+                'cdnUrlParams' => Config::get('superadmin.cdn_url_params'),
             ],
             'terminal'   => [
                 'phpDevelopmentServer' => str_contains($_SERVER['SERVER_SOFTWARE'], 'Development Server'),
@@ -63,7 +63,7 @@ class Index extends Backend
             ], $this->auth::LOGIN_RESPONSE_CODE);
         }
 
-        $captchaSwitch = Config::get('buildadmin.admin_login_captcha');
+        $captchaSwitch = Config::get('superadmin.admin_login_captcha');
 
         // 检查提交
         if ($this->request->isPost()) {

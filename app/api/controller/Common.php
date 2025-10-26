@@ -76,12 +76,12 @@ class Common extends Api
 
         // 管理员token刷新
         if ($refreshToken['type'] == AdminAuth::TOKEN_TYPE . '-refresh') {
-            Token::set($newToken, AdminAuth::TOKEN_TYPE, $refreshToken['user_id'], (int)Config::get('buildadmin.admin_token_keep_time'));
+            Token::set($newToken, AdminAuth::TOKEN_TYPE, $refreshToken['user_id'], (int)Config::get('superadmin.admin_token_keep_time'));
         }
 
         // 会员token刷新
         if ($refreshToken['type'] == UserAuth::TOKEN_TYPE . '-refresh') {
-            Token::set($newToken, UserAuth::TOKEN_TYPE, $refreshToken['user_id'], (int)Config::get('buildadmin.user_token_keep_time'));
+            Token::set($newToken, UserAuth::TOKEN_TYPE, $refreshToken['user_id'], (int)Config::get('superadmin.user_token_keep_time'));
         }
 
         $this->success('', [

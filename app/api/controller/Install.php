@@ -39,7 +39,7 @@ class Install extends Api
      * 配置文件
      */
     static string $dbConfigFileName    = 'database.php';
-    static string $buildConfigFileName = 'buildadmin.php';
+    static string $buildConfigFileName = 'superadmin.php';
 
     /**
      * 自动构建的前端文件的 outDir 相对于根目录
@@ -101,7 +101,7 @@ class Install extends Api
                 'manager' => $newPackageManager
             ]);
         } else {
-            $this->error(__('Failed to switch package manager. Please modify the configuration file manually:%s', ['根目录/config/buildadmin.php']));
+            $this->error(__('Failed to switch package manager. Please modify the configuration file manually:%s', ['根目录/config/superadmin.php']));
         }
     }
 
@@ -477,7 +477,7 @@ class Install extends Api
         }
 
         // 设置新的Token随机密钥key
-        $oldTokenKey        = Config::get('buildadmin.token.key');
+        $oldTokenKey        = Config::get('superadmin.token.key');
         $newTokenKey        = Random::build('alnum', 32);
         $buildConfigFile    = config_path() . self::$buildConfigFileName;
         $buildConfigContent = @file_get_contents($buildConfigFile);

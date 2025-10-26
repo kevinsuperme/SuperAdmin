@@ -22,7 +22,7 @@ class Module extends Backend
     public function index(): void
     {
         $this->success('', [
-            'sysVersion' => Config::get('buildadmin.version'),
+            'sysVersion' => Config::get('superadmin.version'),
             'installed'  => Server::installedList(root_path() . 'modules' . DIRECTORY_SEPARATOR),
         ]);
     }

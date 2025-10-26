@@ -19,7 +19,7 @@ if (!function_exists('get_ba_client')) {
     function get_ba_client(): Client
     {
         return new Client([
-            'base_uri'        => config('buildadmin.api_url'),
+            'base_uri'        => config('superadmin.api_url'),
             'timeout'         => 30,
             'connect_timeout' => 30,
             'verify'          => false,

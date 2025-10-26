@@ -72,7 +72,7 @@ class Auth extends \ba\Auth
 
     /**
      * 令牌默认有效期
-     * 可在 config/buildadmin.php 内修改默认值
+     * 可在 config/superadmin.php 内修改默认值
      * @var int
      */
     protected int $keepTime = 86400;
@@ -92,7 +92,7 @@ class Auth extends \ba\Auth
     public function __construct(array $config = [])
     {
         parent::__construct($config);
-        $this->setKeepTime((int)Config::get('buildadmin.admin_token_keep_time'));
+        $this->setKeepTime((int)Config::get('superadmin.admin_token_keep_time'));
     }
 
     /**
@@ -179,7 +179,7 @@ class Auth extends \ba\Auth
 
         // 登录失败重试检查
         $lastLoginTime   = $this->model->getData('last_login_time');
-        $adminLoginRetry = Config::get('buildadmin.admin_login_retry');
+        $adminLoginRetry = Config::get('superadmin.admin_login_retry');
         if ($adminLoginRetry && $lastLoginTime) {
             // 重置失败次数
             if ($this->model->login_failure > 0 && time() - $lastLoginTime >= 86400) {
@@ -204,7 +204,7 @@ class Auth extends \ba\Auth
         }
 
         // 清理 token
-        if (Config::get('buildadmin.admin_sso')) {
+        if (Config::get('superadmin.admin_sso')) {
             Token::clear(self::TOKEN_TYPE, $this->model->id);
             Token::clear(self::TOKEN_TYPE . '-refresh', $this->model->id);
         }
@@ -519,7 +519,7 @@ class Auth extends \ba\Auth
         $this->model        = null;
         $this->refreshToken = '';
         $this->setError('');
-        $this->setKeepTime((int)Config::get('buildadmin.admin_token_keep_time'));
+        $this->setKeepTime((int)Config::get('superadmin.admin_token_keep_time'));
         return true;
     }
 }

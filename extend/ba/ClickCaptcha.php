@@ -81,7 +81,7 @@ class ClickCaptcha
      */
     public function __construct(array $config = [])
     {
-        $clickConfig  = Config::get('buildadmin.click_captcha');
+        $clickConfig  = Config::get('superadmin.click_captcha');
         $this->config = array_merge($clickConfig, $this->config, $config);
 
         // 清理过期的验证码

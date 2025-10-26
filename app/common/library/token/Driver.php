@@ -77,7 +77,7 @@ abstract class Driver
      */
     protected function getEncryptedToken(string $token): string
     {
-        $config = Config::get('buildadmin.token');
+        $config = Config::get('superadmin.token');
         return hash_hmac($config['algo'], $token, $config['key']);
     }
 

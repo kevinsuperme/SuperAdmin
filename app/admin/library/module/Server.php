@@ -567,7 +567,7 @@ class Server
 
         file_put_contents($runtimeFilePath, json_encode([
             'files' => $filePaths,
-            'pure'  => Config::get('buildadmin.module_pure_install'),
+            'pure'  => Config::get('superadmin.module_pure_install'),
         ]));
     }
 

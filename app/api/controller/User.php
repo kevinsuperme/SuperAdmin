@@ -25,7 +25,7 @@ class User extends Frontend
      */
     public function checkIn(): void
     {
-        $openMemberCenter = Config::get('buildadmin.open_member_center');
+        $openMemberCenter = Config::get('superadmin.open_member_center');
         if (!$openMemberCenter) {
             $this->error(__('Member center disabled'));
         }
@@ -37,7 +37,7 @@ class User extends Frontend
             ], $this->auth::LOGIN_RESPONSE_CODE);
         }
 
-        $userLoginCaptchaSwitch = Config::get('buildadmin.user_login_captcha');
+        $userLoginCaptchaSwitch = Config::get('superadmin.user_login_captcha');
 
         if ($this->request->isPost()) {
             $params = $this->request->post(['tab', 'email', 'mobile', 'username', 'password', 'keep', 'captcha', 'captchaId', 'captchaInfo', 'registerType']);

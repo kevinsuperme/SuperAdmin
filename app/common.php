@@ -146,7 +146,7 @@ if (!function_exists('get_route_remark')) {
 if (!function_exists('full_url')) {
 
     /**
-     * 获取资源完整url地址；若安装了云存储或 config/buildadmin.php 配置了CdnUrl，则自动使用对应的CdnUrl
+     * 获取资源完整url地址；若安装了云存储或 config/superadmin.php 配置了CdnUrl，则自动使用对应的CdnUrl
      * @param string      $relativeUrl 资源相对地址 不传入则获取域名
      * @param string|bool $domain      是否携带域名 或者直接传入域名
      * @param string      $default     默认值
@@ -157,7 +157,7 @@ if (!function_exists('full_url')) {
         // 存储/上传资料配置
         Event::trigger('uploadConfigInit', App::getInstance());
 
-        $cdnUrl = Config::get('buildadmin.cdn_url');
+        $cdnUrl = Config::get('superadmin.cdn_url');
         if (!$cdnUrl) {
             $cdnUrl = request()->upload['cdn'] ?? '//' . request()->host();
         }
@@ -177,7 +177,7 @@ if (!function_exists('full_url')) {
         }
 
         $url          = $domain . $relativeUrl;
-        $cdnUrlParams = Config::get('buildadmin.cdn_url_params');
+        $cdnUrlParams = Config::get('superadmin.cdn_url_params');
         if ($domain === $cdnUrl && $cdnUrlParams) {
             $separator = str_contains($url, '?') ? '&' : '?';
             $url       .= $separator . $cdnUrlParams;

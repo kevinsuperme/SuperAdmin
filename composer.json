@@ -1,17 +1,17 @@
 {
-    "name": "wonderful-code/buildadmin",
-    "description": "Build your admin framework",
+    "name": "wonderful-code/superadmin",
+    "description": "Build your super admin framework",
     "type": "project",
     "keywords": [
-        "buildadmin",
+        "superadmin",
         "thinkphp"
     ],
-    "homepage": "https://uni.buildadmin.com",
+    "homepage": "https://uni.superadmin.com",
     "license": "Apache-2.0",
     "authors": [
         {
             "name": "妙码生花",
-            "email": "hi@buildadmin.com"
+            "email": "hi@superadmin.com"
         }
     ],
     "require": {
