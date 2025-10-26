@@ -3,8 +3,9 @@
 本文档提供项目所有文档的快速导航和说明。
 
 **最后更新**: 2025-10-26
-**文档总数**: 15个
-**状态**: ✅ 已整理优化
+**文档总数**: 20个（活跃14个，含归档7个）
+**状态**: ✅ 企业级规范管理
+**文档规范**: 遵循扁平化管理 + 编号中文命名标准
 
 ---
 
@@ -66,7 +67,7 @@
 **受众**: DevOps、后端开发者
 **更新频率**: 按需
 
-### 9. [docs/04-GitHub Actions CI-CD配置指南.md](docs/04-GitHub%20Actions%20CI-CD配置指南.md) - GitHub Actions 指南 🤖
+### 9. [docs/01-持续集成与部署__CICD-Configuration-Guide.md](docs/01-持续集成与部署__CICD-Configuration-Guide.md) - GitHub Actions 指南 🤖
 **大小**: 12K
 **用途**: GitHub Actions 工作流配置详解
 **受众**: DevOps、CI/CD 维护者
@@ -76,25 +77,31 @@
 
 ## 💻 开发指南
 
-### 10. [docs/QUICK_START_GUIDE.md](docs/QUICK_START_GUIDE.md) - 快速开始指南 🚀
+### 10. [docs/00-文档管理规范__Documentation-Management-Standard.md](docs/00-文档管理规范__Documentation-Management-Standard.md) - 文档管理规范 📋
+**大小**: 待统计
+**用途**: 文档命名、组织、维护、归档规范
+**受众**: 所有文档维护者、技术委员会
+**更新频率**: 低
+
+### 11. [docs/08-快速开始指南__Quick-Start-Guide.md](docs/08-快速开始指南__Quick-Start-Guide.md) - 快速开始指南 🚀
 **大小**: 13K
 **用途**: 环境搭建、快速上手、常见问题
 **受众**: 新成员、前端/后端开发者
 **更新频率**: 中等
 
-### 11. [docs/05-Service层架构说明.md](docs/05-Service层架构说明.md) - Service 层架构 📦
+### 12. [docs/02-服务层架构__Service-Layer-Architecture.md](docs/02-服务层架构__Service-Layer-Architecture.md) - Service 层架构 📦
 **大小**: 11K
 **用途**: Service 层设计理念、最佳实践
 **受众**: 后端开发者
 **更新频率**: 低
 
-### 12. [docs/06-Service层实现指南.md](docs/06-Service层实现指南.md) - Service 层实现 🛠️
+### 13. [docs/03-服务层实现指南__Service-Layer-Implementation.md](docs/03-服务层实现指南__Service-Layer-Implementation.md) - Service 层实现 🛠️
 **大小**: 12K
 **用途**: Service 层具体实现方法、代码示例
 **受众**: 后端开发者
 **更新频率**: 中等
 
-### 13. [docs/07-Service层快速入门.md](docs/07-Service层快速入门.md) - Service 层快速入门 ⚡
+### 14. [docs/04-服务层快速入门__Service-Layer-Quick-Start.md](docs/04-服务层快速入门__Service-Layer-Quick-Start.md) - Service 层快速入门 ⚡
 **大小**: 13K
 **用途**: Service 层快速上手教程
 **受众**: 新加入的后端开发者
@@ -104,7 +111,7 @@
 
 ## 🧪 测试与质量
 
-### 14. [docs/FINAL_TEST_SUMMARY.md](docs/FINAL_TEST_SUMMARY.md) - 测试总结 ✅
+### 15. [docs/06-测试总结报告__Testing-Summary-Report.md](docs/06-测试总结报告__Testing-Summary-Report.md) - 测试总结 ✅
 **大小**: 16K
 **用途**: 测试覆盖率报告、测试策略、质量评估
 **受众**: QA、开发团队
@@ -114,11 +121,39 @@
 
 ## 📋 版本与特性
 
-### 15. [docs/09-V2.4.0功能特性.md](docs/09-V2.4.0功能特性.md) - V2.4.0 功能特性 ✨
+### 16. [docs/05-版本功能特性__V2.4.0-Features.md](docs/05-版本功能特性__V2.4.0-Features.md) - V2.4.0 功能特性 ✨
 **大小**: 8.1K
 **用途**: V2.4.0 版本新功能介绍
 **受众**: 产品、开发团队
 **更新频率**: 特定版本
+
+---
+
+## 🔧 问题追踪与修复
+
+### 17. [docs/10-已知问题__Known-Issues.md](docs/10-已知问题__Known-Issues.md) - 已知问题 ⚠️
+**大小**: 待统计
+**用途**: TypeScript baseUrl 弃用警告等已知问题记录
+**受众**: 前端开发者、问题追踪
+**更新频率**: 实时
+
+### 18. [docs/11-错误修复总结__Fix-Summary.md](docs/11-错误修复总结__Fix-Summary.md) - 错误修复总结 🔨
+**大小**: 待统计
+**用途**: TypeScript 错误修复总结（113个错误 → 0个）
+**受众**: 前端开发者
+**更新频率**: 按需
+
+### 19. [docs/12-TypeScript基础路径迁移__TypeScript-BaseUrl-Migration.md](docs/12-TypeScript基础路径迁移__TypeScript-BaseUrl-Migration.md) - TS 迁移指南 🔄
+**大小**: 4.3K
+**用途**: TypeScript baseUrl 迁移详细指南
+**受众**: 前端开发者、配置维护者
+**更新频率**: 低
+
+### 20. [docs/13-文档迁移总结报告__Documentation-Migration-Summary-Report.md](docs/13-文档迁移总结报告__Documentation-Migration-Summary-Report.md) - 文档迁移报告 📋
+**大小**: 10K
+**用途**: 记录 2025-10-26 文档迁移的完整过程和结果
+**受众**: 技术委员会、文档维护者
+**更新频率**: 一次性（历史记录）
 
 ---
 
@@ -129,10 +164,12 @@
 | 核心文档 | 3 | 137K |
 | 架构与设计 | 3 | 136K |
 | CI/CD 与运维 | 3 | 28.6K |
-| 开发指南 | 4 | 49K |
+| 开发指南 | 6 | ~72K |
 | 测试与质量 | 1 | 16K |
 | 版本与特性 | 1 | 8.1K |
-| **总计** | **15** | **374.7K** |
+| 问题追踪与修复 | 3 | ~13K |
+| **活跃文档总计** | **20** | **~410K** |
+| **归档文档** | **7** | **~100K** |
 
 ---
 
@@ -141,66 +178,95 @@
 ### 按角色查找
 
 **新成员**:
-1. README.md - 了解项目
-2. QUICK_START_GUIDE.md - 环境搭建
-3. PROJECT_OVERVIEW.md - 项目概览
+1. [README.md](README.md) - 了解项目
+2. [08-快速开始指南](docs/08-快速开始指南__Quick-Start-Guide.md) - 环境搭建
+3. [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) - 项目概览
 
 **前端开发者**:
-1. QUICK_START_GUIDE.md
-2. README.md
-3. TECHNICAL_ARCHITECTURE_ASSESSMENT.md
+1. [08-快速开始指南](docs/08-快速开始指南__Quick-Start-Guide.md)
+2. [10-已知问题](docs/10-已知问题__Known-Issues.md) - TypeScript 问题
+3. [12-TypeScript迁移指南](docs/12-TypeScript基础路径迁移__TypeScript-BaseUrl-Migration.md)
+4. [ARCHITECTURE.md](ARCHITECTURE.md)
 
 **后端开发者**:
-1. QUICK_START_GUIDE.md
-2. Service层架构说明.md
-3. Service层实现指南.md
-4. ARCHITECTURE.md
+1. [08-快速开始指南](docs/08-快速开始指南__Quick-Start-Guide.md)
+2. [02-服务层架构](docs/02-服务层架构__Service-Layer-Architecture.md)
+3. [03-服务层实现指南](docs/03-服务层实现指南__Service-Layer-Implementation.md)
+4. [ARCHITECTURE.md](ARCHITECTURE.md)
 
 **DevOps / 运维**:
-1. CI-CD-IMPROVEMENTS.md
-2. HOTFIX-DEPLOYMENT-PACKAGE.md
-3. GitHub Actions CI-CD配置指南.md
+1. [CI-CD-IMPROVEMENTS.md](CI-CD-IMPROVEMENTS.md)
+2. [HOTFIX-DEPLOYMENT-PACKAGE.md](HOTFIX-DEPLOYMENT-PACKAGE.md)
+3. [01-持续集成与部署](docs/01-持续集成与部署__CICD-Configuration-Guide.md)
 
 **架构师 / 技术负责人**:
-1. ARCHITECTURE.md
-2. TECHNICAL_ARCHITECTURE_ASSESSMENT.md
-3. IMPLEMENTATION_ROADMAP.md
+1. [ARCHITECTURE.md](ARCHITECTURE.md)
+2. [09-技术架构评估](docs/09-技术架构评估__Architecture-Assessment-Report.md)
+3. [07-项目实施路线图](docs/07-项目实施路线图__Project-Implementation-Roadmap.md)
+
+**文档维护者**:
+1. [00-文档管理规范](docs/00-文档管理规范__Documentation-Management-Standard.md) - 必读
+2. [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) - 本文档
 
 ### 按任务查找
 
-**环境搭建**: QUICK_START_GUIDE.md
-**了解架构**: ARCHITECTURE.md
-**查看变更**: CHANGELOG.md
-**CI/CD配置**: CI-CD-IMPROVEMENTS.md
-**Service开发**: Service层实现指南.md
-**版本规划**: IMPLEMENTATION_ROADMAP.md
+**环境搭建**: [08-快速开始指南](docs/08-快速开始指南__Quick-Start-Guide.md)
+**了解架构**: [ARCHITECTURE.md](ARCHITECTURE.md)
+**查看变更**: [CHANGELOG.md](CHANGELOG.md)
+**CI/CD配置**: [01-持续集成与部署](docs/01-持续集成与部署__CICD-Configuration-Guide.md)
+**Service开发**: [03-服务层实现指南](docs/03-服务层实现指南__Service-Layer-Implementation.md)
+**版本规划**: [07-项目实施路线图](docs/07-项目实施路线图__Project-Implementation-Roadmap.md)
+**文档规范**: [00-文档管理规范](docs/00-文档管理规范__Documentation-Management-Standard.md)
+**问题排查**: [10-已知问题](docs/10-已知问题__Known-Issues.md)
 
 ---
 
 ## 📝 文档维护规范
 
-### 命名规范
-- 核心文档：大写字母，使用连字符 (如 `README.md`, `CHANGELOG.md`)
-- 详细文档：放在 `docs/` 目录下
-- 临时文档：使用日期前缀 (如 `2025-10-26-临时分析.md`)
+**完整规范请参阅**: [00-文档管理规范](docs/00-文档管理规范__Documentation-Management-Standard.md)
+
+### 命名规范（企业级标准）
+- **核心文档**: 大写字母，使用连字符 (如 `README.md`, `CHANGELOG.md`)
+- **详细文档**: 放在 `docs/` 目录，采用 `编号-中文描述__English-Description.md` 格式
+- **示例**: `01-持续集成与部署__CICD-Configuration-Guide.md`
 
 ### 更新规范
-1. 文档修改需更新"最后更新"时间
+1. 文档修改需更新"最后更新"时间和版本号
 2. 重大变更需在 CHANGELOG.md 中记录
 3. 过时文档应及时归档或删除
+4. 每份文档必须包含：版本、日期、维护者、状态
 
 ### 归档规范
-- 过时文档移至 `docs/archive/` 目录
+- 过时文档移至 `docs/archive/YYYY-MM-DD/` 目录
 - 归档文档保留至少一个版本周期（3个月）
+- 归档日期使用当前日期命名
+
+### 质量标准
+- [ ] 遵循命名规范和模板
+- [ ] 包含必备要素（版本、日期、维护者）
+- [ ] 所有内部链接可访问
+- [ ] 代码示例经过验证
 
 ---
 
 ## 🗂️ 已归档文档
 
-无（所有冗余文档已在 2025-10-26 清理中删除）
+### 归档目录：docs/archive/2025-10-26/
+
+**临时清理报告（7份）**：
+1. CICD_REVIEW_AND_IMPROVEMENTS_2025-10-26.md
+2. CLEANUP_SUMMARY_REPORT_2025-10-26.md
+3. CODE_CLEANUP_REPORT_2025-10-26_EXTENDED.md
+4. FINAL_CLEANUP_EXECUTION_REPORT_2025-10-26.md
+5. FINAL_COMPREHENSIVE_CLEANUP_REPORT_2025-10-26.md
+6. P2_CLEANUP_PROGRESS_REPORT_2025-10-26.md
+7. PROJECT_CLEANUP_REPORT.md
+
+**归档原因**: 临时性清理工作报告，任务完成后归档保留历史记录
 
 ---
 
-**维护者**: DevOps Team
+**维护者**: 技术委员会
 **创建时间**: 2025-10-26
-**版本**: v1.0
+**最后审查**: 2025-10-26
+**版本**: v2.0 (企业级规范管理)

@@ -1,4 +1,4 @@
-# SuperAdmin v2.4.0 - 企业级后台管理系统
+# SuperAdmin v2.3.3 - 企业级后台管理系统
 
 <div align="center">
     <img src="https://doc.superadmin.com/images/logo.png" alt="SuperAdmin Logo" width="120" />
@@ -18,7 +18,7 @@
         <img src="https://img.shields.io/badge/ThinkPHP-%3E8.1-brightgreen?color=91aac3&labelColor=439EFD" alt="ThinkPHP">
     </a>
     <a href="https://v3.vuejs.org/" target="_blank">
-        <img src="https://img.shields.io/badge/Vue-3.5.22-brightgreen?color=91aac3&labelColor=439EFD" alt="Vue">
+        <img src="https://img.shields.io/badge/Vue-3.5.21-brightgreen?color=91aac3&labelColor=439EFD" alt="Vue">
     </a>
     <a href="https://element-plus.org/zh-CN/guide/changelog.html" target="_blank">
         <img src="https://img.shields.io/badge/Element--Plus-%3E2.9-brightgreen?color=91aac3&labelColor=439EFD" alt="Element Plus">
@@ -66,7 +66,7 @@
 
 ## 📋 项目概述
 
-SuperAdmin 是一个基于 Vue 3.5.22 + ThinkPHP8 + TypeScript + Vite + Pinia + Element Plus 等流行技术栈的现代化后台管理系统。它支持常驻内存运行、可视化CRUD代码生成、自带WEB终端、自适应多端，同时提供Web、WebNuxt、Server端等多种部署方式。系统内置全局数据回收站和字段级数据修改保护、自动注册路由、无限子级权限管理等特性，无需授权即可免费商用。
+SuperAdmin 是一个基于 Vue 3.5.21 + ThinkPHP8 + TypeScript + Vite + Pinia + Element Plus 等流行技术栈的现代化后台管理系统。它支持常驻内存运行、可视化CRUD代码生成、自带WEB终端、自适应多端，同时提供Web、WebNuxt、Server端等多种部署方式。系统内置全局数据回收站和字段级数据修改保护、自动注册路由、无限子级权限管理等特性，无需授权即可免费商用。
 
 ### 🎯 项目定位
 
@@ -221,7 +221,7 @@ app/
 
 ### 👍 现代化技术栈
 - 基于ThinkPHP 8前后端分离架构
-- Vue 3.5.22 + Composition API
+- Vue 3.5.21 + Composition API
 - TypeScript提供类型安全
 - Pinia状态管理
 - Vite构建工具
@@ -307,7 +307,7 @@ app/
 
 | 技术 | 版本 | 说明 |
 |-----|------|------|
-| **框架** | Vue 3.5.22 | 渐进式JavaScript框架 |
+| **框架** | Vue 3.5.21 | 渐进式JavaScript框架 |
 | **语言** | TypeScript 5.x+ | JavaScript超集 |
 | **构建工具** | Vite 6.x+ | 下一代前端构建工具 |
 | **UI框架** | Element Plus 2.x+ | Vue 3组件库 |
@@ -1952,7 +1952,12 @@ http {
 
 ## 📚 版本历史
 
-### v2.4.0 (当前开发版本)
+### v2.3.3 (当前版本)
+- 🔧 修复已知问题
+- 📦 更新依赖包版本
+- 🐛 修复安全漏洞
+- 🌐 优化多语言支持
+- 📱 改进移动端适配
 - 🚀 新增完整的CI/CD流程支持
 - 🧪 引入全面的测试框架
 - 📊 新增API文档自动生成功能
@@ -1961,13 +1966,6 @@ http {
 - 📈 优化系统性能和稳定性
 - 🎨 改进UI/UX设计
 - 📝 完善项目文档
-
-### v2.3.3 (稳定版本)
-- 🔧 修复已知问题
-- 📦 更新依赖包版本
-- 🐛 修复安全漏洞
-- 🌐 优化多语言支持
-- 📱 改进移动端适配
 
 ### v2.3.2
 - 🎨 优化主题系统
