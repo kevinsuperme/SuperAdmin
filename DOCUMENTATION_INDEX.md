@@ -3,7 +3,7 @@
 本文档提供项目所有文档的快速导航和说明。
 
 **最后更新**: 2025-10-26
-**文档总数**: 22个（活跃16个，含归档7个）
+**文档总数**: 23个（活跃17个，含归档7个）
 **状态**: ✅ 企业级规范管理 + 版本信息已同步 + 自动化更新就绪
 **文档规范**: 遵循扁平化管理 + 编号中文命名标准
 
@@ -129,39 +129,49 @@
 
 ---
 
+## 🚀 部署指南
+
+### 17. [docs/12-CentOS7宝塔环境部署教程__CentOS7-BT-Panel-Deployment-Guide.md](docs/12-CentOS7宝塔环境部署教程__CentOS7-BT-Panel-Deployment-Guide.md) - CentOS 7 宝塔部署 🖥️
+**大小**: 待统计
+**用途**: CentOS 7 宝塔面板环境搭建、项目部署详细教程
+**受众**: 运维工程师、系统管理员
+**更新频率**: 低
+
+---
+
 ## 🔧 问题追踪与修复
 
-### 17. [docs/10-已知问题__Known-Issues.md](docs/10-已知问题__Known-Issues.md) - 已知问题 ⚠️
+### 18. [docs/10-已知问题__Known-Issues.md](docs/10-已知问题__Known-Issues.md) - 已知问题 ⚠️
 **大小**: 待统计
 **用途**: TypeScript baseUrl 弃用警告等已知问题记录
 **受众**: 前端开发者、问题追踪
 **更新频率**: 实时
 
-### 18. [docs/11-错误修复总结__Fix-Summary.md](docs/11-错误修复总结__Fix-Summary.md) - 错误修复总结 🔨
+### 19. [docs/11-错误修复总结__Fix-Summary.md](docs/11-错误修复总结__Fix-Summary.md) - 错误修复总结 🔨
 **大小**: 待统计
 **用途**: TypeScript 错误修复总结（113个错误 → 0个）
 **受众**: 前端开发者
 **更新频率**: 按需
 
-### 19. [docs/12-TypeScript基础路径迁移__TypeScript-BaseUrl-Migration.md](docs/12-TypeScript基础路径迁移__TypeScript-BaseUrl-Migration.md) - TS 迁移指南 🔄
+### 20. [docs/12-TypeScript基础路径迁移__TypeScript-BaseUrl-Migration.md](docs/12-TypeScript基础路径迁移__TypeScript-BaseUrl-Migration.md) - TS 迁移指南 🔄
 **大小**: 4.3K
 **用途**: TypeScript baseUrl 迁移详细指南
 **受众**: 前端开发者、配置维护者
 **更新频率**: 低
 
-### 20. [docs/13-文档迁移总结报告__Documentation-Migration-Summary-Report.md](docs/13-文档迁移总结报告__Documentation-Migration-Summary-Report.md) - 文档迁移报告 📋
+### 21. [docs/13-文档迁移总结报告__Documentation-Migration-Summary-Report.md](docs/13-文档迁移总结报告__Documentation-Migration-Summary-Report.md) - 文档迁移报告 📋
 **大小**: 10K
 **用途**: 记录 2025-10-26 文档迁移的完整过程和结果
 **受众**: 技术委员会、文档维护者
 **更新频率**: 一次性（历史记录）
 
-### 21. [docs/14-文档版本同步更新报告__Documentation-Sync-Update-Report.md](docs/14-文档版本同步更新报告__Documentation-Sync-Update-Report.md) - 版本同步报告 🔄
+### 22. [docs/14-文档版本同步更新报告__Documentation-Sync-Update-Report.md](docs/14-文档版本同步更新报告__Documentation-Sync-Update-Report.md) - 版本同步报告 🔄
 **大小**: 待统计
 **用途**: 记录文档内容与项目实际信息同步更新的完整过程
 **受众**: 技术委员会、文档维护者、开发团队
 **更新频率**: 一次性（历史记录）
 
-### 22. [docs/15-README自动更新系统__README-Auto-Update-System.md](docs/15-README自动更新系统__README-Auto-Update-System.md) - 自动更新系统 🤖
+### 23. [docs/15-README自动更新系统__README-Auto-Update-System.md](docs/15-README自动更新系统__README-Auto-Update-System.md) - 自动更新系统 🤖
 **大小**: 待统计
 **用途**: README.md 自动更新系统完整说明，包括架构、使用指南、故障排查
 **受众**: DevOps、开发团队、文档维护者
@@ -179,8 +189,9 @@
 | 开发指南 | 8 | ~92K |
 | 测试与质量 | 1 | 16K |
 | 版本与特性 | 1 | 8.1K |
+| 部署指南 | 1 | 待统计 |
 | 问题追踪与修复 | 3 | ~13K |
-| **活跃文档总计** | **22** | **~430K** |
+| **活跃文档总计** | **23** | **~430K** |
 | **归档文档** | **7** | **~100K** |
 
 ---
